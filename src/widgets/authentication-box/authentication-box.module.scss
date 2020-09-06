@@ -1,0 +1,33 @@
+@import '../../base';
+
+.logged-wrapper {
+    display: flex;
+    font-size: 14px;
+
+    a {
+        margin-left: 10px;
+    }
+}
+
+.regular-link {
+    color: $color-green;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.regular-link:hover {
+    color: $color-green;
+    text-decoration: underline;
+}
+
+.not-logged-wrapper {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    font-size: 14px;
+
+    a:first-of-type {
+        margin-right: 10px;
+    }
+}

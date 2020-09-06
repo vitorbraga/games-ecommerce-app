@@ -1,0 +1,21 @@
+@import '../../base';
+
+.primary {
+    background-color: $color-red;
+    border-color: $color-red;
+
+    &:hover, &:active, &:focus {
+        background-color: #b13535 !important;
+        border-color: #b13535 !important;
+    }
+}
+
+.secondary {
+    background-color: $color-green;
+    border-color: $color-green;
+
+    &:hover, &:active, &:focus {
+        background-color: #5ebab6 !important;
+        border-color: #5ebab6 !important;
+    }
+}
