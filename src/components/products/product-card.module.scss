@@ -1,0 +1,38 @@
+.product-card {
+    display: flex;
+    width: 220px;
+    height: 330px;
+    margin-right: 30px;
+    margin-bottom: 30px;
+
+    .image {
+        max-width: 130px;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    .custom-card-body {
+        display: flex;
+        flex-direction: column;
+        height: 100px;
+        padding: 10px;
+
+        .title {
+            font-size: 14px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .description {
+            height: 40px;
+            font-size: 13px;
+            flex: 1;
+        }
+
+        .add-to-cart-button {
+            width: 100%;
+        }
+    }
+}
+

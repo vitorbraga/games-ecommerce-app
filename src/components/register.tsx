@@ -56,10 +56,10 @@ export class Register extends React.PureComponent<{}, RegisterState> {
             .required('This field is required')
     });
 
-    private handleSubmit = async (fields: FormData) => {
+    private handleSubmit = async (formData: FormData) => {
         this.setState({ submitStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const userOrFieldsWithErrors = await registerUser(fields);
+                const userOrFieldsWithErrors = await registerUser(formData);
                 if ('id' in userOrFieldsWithErrors) {
                     Router.push('/register-success');
                 } else {

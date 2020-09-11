@@ -27,3 +27,7 @@ export function headersBuilder() {
 
     return builder;
 }
+
+export function generatePictureURL(fileName: string) {
+    return `${serverBaseUrl}/public/product-pictures/${fileName}`;
+}
