@@ -13,6 +13,17 @@ export const searchProducts = async (searchTerm: string): Promise<Model.Product[
     }
 };
 
+export const getFeaturedProducts = async (): Promise<Model.Product[]> => {
+    const response: Response = await fetch(`${serverBaseUrl}/products/featured`);
+    const productsResponse: Model.FeaturedProductsResponse = await response.json();
+
+    if (productsResponse.success) {
+        return productsResponse.products;
+    } else {
+        throw new Error(errorMapper[productsResponse.error]);
+    }
+};
+
 export const getProduct = async (productId: string): Promise<Model.Product> => {
     const response: Response = await fetch(`${serverBaseUrl}/products/${productId}`);
     const productResponse: Model.GetProductResponse = await response.json();

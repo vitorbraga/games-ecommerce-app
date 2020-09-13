@@ -3,7 +3,7 @@ import { Layout } from '../components/layout';
 
 // import styles from './register-success.module.scss';
 
-const RegisterPage: React.FunctionComponent = () => {
+const RegisterPage: React.FC<{}> = () => {
     return (
         <Layout title="Register" showNav={false}>
             <div>

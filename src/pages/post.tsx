@@ -1,11 +1,11 @@
 import { withRouter } from 'next/router';
 import { Layout } from '../components/layout';
 
-interface PostProps {
+interface Props {
     router?: any;
 }
 
-const Post: React.FunctionComponent<PostProps> = ({ router }) => {
+const Post: React.FunctionComponent<Props> = ({ router }) => {
     return (
         <Layout showNav={true}>
             <h1>{router.query.title}</h1>

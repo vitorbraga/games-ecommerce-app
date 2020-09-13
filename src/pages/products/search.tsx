@@ -1,16 +1,20 @@
-import React from 'react';
-import { Layout } from '../components/layout';
-import Router from 'next/router';
+import * as React from 'react';
+import { NextRouter, useRouter } from 'next/router';
+import { Layout } from '../../components/layout';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Spinner from 'react-bootstrap/Spinner';
-import * as ProductApi from '../modules/products/api';
-import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
-import { Product } from '../modules/products/model';
-import { ProductList } from '../components/products/product-list';
+import { FetchStatusEnum, FetchStatus } from '../../utils/api-helper';
+import { Product } from '../../modules/products/model';
+import { ProductList } from '../../components/products/product-list';
+import * as ProductApi from '../../modules/products/api';
 
-import styles from './index.module.scss';
+import styles from './search.module.scss';
+
+interface Props {
+    router: NextRouter;
+}
 
 interface State {
     searchTerm: string;
@@ -18,41 +22,31 @@ interface State {
     products: Product[];
 }
 
-export default class Index extends React.PureComponent<{}, State> {
+class Search extends React.PureComponent<Props, State> {
     public state: State = {
-        searchTerm: '',
+        searchTerm: this.getInitialQuery(),
         searchStatus: FetchStatusEnum.initial,
         products: []
     };
 
+    private getInitialQuery() {
+        if (this.props.router.query.q) {
+            return this.props.router.query.q as string;
+        }
+
+        return '';
+    }
+
     public componentDidMount() {
         this.setState({ searchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const products = await ProductApi.getFeaturedProducts();
+                const products = await ProductApi.searchProducts(this.state.searchTerm);
                 this.setState({ searchStatus: FetchStatusEnum.success, products });
             } catch (error) {
                 this.setState({ searchStatus: FetchStatusEnum.failure });
             }
         });
     }
-
-    private handleChangeSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({ searchTerm: event.target.value });
-    };
-
-    private redirectToSearchPage() {
-        Router.push(`/products/search?q=${this.state.searchTerm}`);
-    }
-
-    private handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            this.redirectToSearchPage();
-        }
-    };
-
-    private handleClickSearch = () => {
-        this.redirectToSearchPage();
-    };
 
     private renderSearchStatus() {
         const { searchStatus } = this.state;
@@ -64,16 +58,37 @@ export default class Index extends React.PureComponent<{}, State> {
         return null;
     }
 
+    private async updateUrlAndReload() {
+        const { router } = this.props;
+        await router.push(`/products/search?q=${this.state.searchTerm}`);
+        router.reload();
+    }
+
+    private handleClickSearch = async () => {
+        this.updateUrlAndReload();
+    };
+
+    private handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            this.updateUrlAndReload();
+        }
+    };
+
+    private handleChangeSearchTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ searchTerm: event.target.value });
+    };
+
     public render() {
         return (
             <Layout title="Home" showNav={true} customContentClass={styles['custom-content']}>
-                <div className={styles['index-container']}>
+                <div className={styles['search-container']}>
                     <div className={styles['search-bar']}>
                         <InputGroup className={styles['search-bar-input']}>
                             <FormControl
-                                placeholder="What are you looking for?"
                                 onChange={this.handleChangeSearchTerm}
                                 onKeyUp={this.handleKeyUp}
+                                value={this.state.searchTerm}
+                                placeholder="What are you looking for?"
                             />
                             <InputGroup.Append>
                                 <Button variant="outline-secondary" onClick={this.handleClickSearch}>Search</Button>
@@ -92,3 +107,16 @@ export default class Index extends React.PureComponent<{}, State> {
         );
     }
 };
+
+const SearchWithRouter = () => {
+    const router = useRouter();
+    return <Search router={router} />;
+};
+
+export async function getServerSideProps() {
+    return {
+        props: {}
+    };
+}
+
+export default SearchWithRouter;

@@ -47,3 +47,5 @@ export type SearchProductsResponse = {
     success: false;
     error: string;
 };
+
+export type FeaturedProductsResponse = SearchProductsResponse;
