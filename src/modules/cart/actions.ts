@@ -1,23 +1,16 @@
 import { Product } from '../products/model';
-import { ADD_PRODUCT, DECREASE_PRODUCT, ActionTypes, SET_ADDED_PRODUCT, CartItem, REMOVE_ITEM } from './model';
+import { ADD_CART_ITEM, ActionTypes, REPLACE_CART_ITEM, CartItem, REMOVE_ITEM } from './model';
 
-export function addProduct(product: Product): ActionTypes {
+export function addCartItem(cartItem: CartItem): ActionTypes {
     return {
-        type: ADD_PRODUCT,
-        payload: product
+        type: ADD_CART_ITEM,
+        payload: cartItem
     };
 }
 
-export function decreaseProduct(product: Product): ActionTypes {
+export function replaceCartItem(cartItem: CartItem): ActionTypes {
     return {
-        type: DECREASE_PRODUCT,
-        payload: product
-    };
-}
-
-export function setAddedProduct(cartItem: CartItem): ActionTypes {
-    return {
-        type: SET_ADDED_PRODUCT,
+        type: REPLACE_CART_ITEM,
         payload: cartItem
     };
 }

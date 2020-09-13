@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DECREASE_PRODUCT, SET_ADDED_PRODUCT, REMOVE_ITEM, ActionTypes, CartState, CartItem } from './model';
+import { ADD_CART_ITEM, REPLACE_CART_ITEM, REMOVE_ITEM, ActionTypes, CartState, CartItem } from './model';
 
 const initialState: CartState = {
     items: [],
@@ -11,45 +11,27 @@ function tallyOfAllItems(items: CartItem[]): number {
 
 export function cartReducer(state = initialState, action: ActionTypes): CartState {
     switch (action.type) {
-        case ADD_PRODUCT: {
+        case ADD_CART_ITEM: {
             const stateCopy = { ...state };
 
-            const newProduct = action.payload;
-            const productAlreadyAdded = stateCopy.items.find((item) => item.product.id === newProduct.id);
-            if (productAlreadyAdded) {
-                productAlreadyAdded.quantity = productAlreadyAdded.quantity + 1;
+            const newCartItem = action.payload;
+            const cartItemAlreadyAdded = stateCopy.items.find((item) => item.product.id === newCartItem.product.id);
+            if (cartItemAlreadyAdded) {
+                cartItemAlreadyAdded.quantity = cartItemAlreadyAdded.quantity + newCartItem.quantity;
                 return {
                     ...stateCopy,
                     totalItems: tallyOfAllItems(stateCopy.items)
                 };
             } else {
-                const addedProducts = [...stateCopy.items, { product: newProduct, quantity: 1 }];
+                const cartItems = [...stateCopy.items, newCartItem];
                 return {
                     ...stateCopy,
-                    items: addedProducts,
-                    totalItems: tallyOfAllItems(addedProducts)
+                    items: cartItems,
+                    totalItems: tallyOfAllItems(cartItems)
                 };
             }
         }
-        case DECREASE_PRODUCT: {
-            let stateCopy = { ...state };
-            const productToBeRemoved = action.payload;
-            const productAdded = stateCopy.items.find((item) => item.product.id === productToBeRemoved.id);
-
-            if (productAdded) {
-                if (productAdded.quantity === 0) {
-                    stateCopy = {
-                        ...stateCopy,
-                        items: [...stateCopy.items.filter((item) => item.product.id === productToBeRemoved.id)]
-                    };
-                } else {
-                    productAdded.quantity = productAdded.quantity - 1;
-                }
-            }
-
-            return stateCopy;
-        }
-        case SET_ADDED_PRODUCT: {
+        case REPLACE_CART_ITEM: {
             const stateCopy = { ...state };
             const { product, quantity } = action.payload;
             const productAlreadyAdded = stateCopy.items.find((item) => item.product.id === product.id);
@@ -61,11 +43,11 @@ export function cartReducer(state = initialState, action: ActionTypes): CartStat
                     totalItems: tallyOfAllItems(stateCopy.items)
                 };
             } else {
-                const addedProducts = [...stateCopy.items, { product, quantity }];
+                const cartItems = [...stateCopy.items, { product, quantity }];
                 return {
                     ...stateCopy,
-                    items: addedProducts,
-                    totalItems: tallyOfAllItems(addedProducts)
+                    items: cartItems,
+                    totalItems: tallyOfAllItems(cartItems)
                 };
             }
         }

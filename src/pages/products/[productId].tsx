@@ -5,17 +5,20 @@ import Router from 'next/router';
 import classNames from 'classnames';
 import Carousel from 'react-bootstrap/Carousel';
 import Spinner from 'react-bootstrap/Spinner';
+import Badge from 'react-bootstrap/Badge';
+import FormControl from 'react-bootstrap/FormControl';
+import Image from 'react-bootstrap/Image';
+import Toast from 'react-bootstrap/Toast';
 import { Layout } from '../../components/layout';
 import * as ProductApi from '../../modules/products/api';
 import { Product } from '../../modules/products/model';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
 import { formatPrice } from '../../utils/common-helper';
-import { Badge, FormControl, Image } from 'react-bootstrap';
-import Toast from 'react-bootstrap/Toast';
 import { CustomButton } from '../../widgets/custom-buttom/custom-button';
 import { AppState } from '../../store';
 import { getTotalItems } from '../../modules/cart/selector';
-import { addProduct } from '../../modules/cart/actions';
+import { addCartItem } from '../../modules/cart/actions';
+import { CartItem } from '../../modules/cart/model';
 
 import styles from './[productId].module.scss';
 
@@ -24,13 +27,14 @@ interface Props {
         productId: string;
     };
     totalItems: number;
-    addProduct: (product: Product) => void;
+    onAddCartItem: (cartItem: CartItem) => void;
     count: () => void;
 }
 
 interface State {
     fetchStatus: FetchStatus;
     product: Product | null;
+    quantity: number;
     activeCarouselItem: number;
     showAddedToCartToast: boolean;
 }
@@ -39,8 +43,9 @@ class ProductDetails extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
         product: null,
+        quantity: 1,
         activeCarouselItem: 0,
-        showAddedToCartToast: true
+        showAddedToCartToast: false
     };
 
     public componentDidMount() {
@@ -60,15 +65,19 @@ class ProductDetails extends React.PureComponent<Props, State> {
     };
 
     private handleClickAddProduct = () => {
-        if (this.state.product) {
-            this.props.addProduct(this.state.product);
+        const { product, quantity } = this.state;
+        if (product) {
+            this.props.onAddCartItem({ product, quantity });
             this.handleShowToast();
-            // TODO show Toast with cart info
         }
     };
 
+    private handleChangeQuantity = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ quantity: parseInt(event.target.value, 10) });
+    };
+
     private renderProductContent() {
-        const { product, fetchStatus, activeCarouselItem } = this.state;
+        const { product, fetchStatus, activeCarouselItem, quantity } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {
             return <Spinner animation="border" variant="info" />;
@@ -104,13 +113,21 @@ class ProductDetails extends React.PureComponent<Props, State> {
                             })}
                         </div>
                         <FormControl
-                            style={{ width: '100%', marginTop: '20px' }}
+                            className={styles['quantity-input']}
                             type="number"
                             min="1"
                             max={product.quantityInStock}
+                            value={quantity}
+                            onChange={this.handleChangeQuantity}
                             placeholder="Quantity"
                         />
-                        <CustomButton variant="primary" onClick={this.handleClickAddProduct}>Add to cart</CustomButton>
+                        <CustomButton
+                            className={styles['add-product-button']}
+                            variant="primary"
+                            onClick={this.handleClickAddProduct}
+                        >
+                            Add to cart
+                        </CustomButton>
                     </div>
                 </div>
             );
@@ -130,8 +147,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
     };
 
     private renderAddedToCartToast() {
-        // TODO update "Qty"
-        const { product } = this.state;
+        const { product, quantity } = this.state;
 
         if (product) {
             const picturePath = generatePictureURL(product.pictures[0].filename);
@@ -152,7 +168,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
                                 <div className={styles['product-title']}>
                                     {product.title}
                                 </div>
-                                <div className={styles.quantity}>Qty: 1</div>
+                                <div className={styles.quantity}>Qty: {quantity}</div>
                             </div>
                             <CustomButton
                                 variant="secondary"
@@ -192,7 +208,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    addProduct: (product: Product) => dispatch(addProduct(product))
+    onAddCartItem: (cartItem: CartItem) => dispatch(addCartItem(cartItem))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetails);

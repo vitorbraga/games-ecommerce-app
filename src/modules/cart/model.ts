@@ -1,14 +1,11 @@
 import { Product } from '../products/model';
 
-// FIXME Find a better name than AddedProduct
-export const ADD_PRODUCT = 'ADD_PRODUCT';
-export const DECREASE_PRODUCT = 'DECREASE_PRODUCT';
-export const SET_ADDED_PRODUCT = 'SET_ADDED_PRODUCT';
+export const ADD_CART_ITEM = 'ADD_CART_ITEM';
+export const REPLACE_CART_ITEM = 'REPLACE_CART_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 
-interface AddProductAction { type: typeof ADD_PRODUCT, payload: Product }
-interface DecreaseProductAction { type: typeof DECREASE_PRODUCT, payload: Product }
-interface SetAddedProductAction { type: typeof SET_ADDED_PRODUCT, payload: CartItem }
+interface AddProductAction { type: typeof ADD_CART_ITEM, payload: CartItem }
+interface ReplaceCartItemAction { type: typeof REPLACE_CART_ITEM, payload: CartItem }
 interface RemoveItemAction { type: typeof REMOVE_ITEM, payload: Product }
 
 export interface CartItem {
@@ -21,4 +18,4 @@ export interface CartState {
     totalItems: number;
 }
 
-export type ActionTypes = AddProductAction | DecreaseProductAction | SetAddedProductAction | RemoveItemAction;
+export type ActionTypes = AddProductAction | ReplaceCartItemAction | RemoveItemAction;

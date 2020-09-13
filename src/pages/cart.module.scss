@@ -22,6 +22,20 @@
             padding: 20px
         }
 
+        th {
+            text-align: end;
+            width: 120px;
+        }
+        
+        .th-product, .td-product {
+            text-align: start;
+            width: 640px;
+        }
+
+        .aligned-end {
+            text-align: end;
+        }
+
         .product-info {
             display: flex;
         
@@ -33,6 +47,12 @@
                 display: flex;
                 flex-direction: column;
             }
+        }
+
+        .quantity-input {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
         }
     }
 

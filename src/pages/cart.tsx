@@ -1,15 +1,17 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import Dinero from 'dinero.js';
+import FormControl from 'react-bootstrap/FormControl';
+import Image from 'react-bootstrap/Image';
 import { Layout } from '../components/layout';
 import { CartItem } from '../modules/cart/model';
 import { AppState } from '../store';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
-import { FormControl, Image } from 'react-bootstrap';
 import { generatePictureURL } from '../utils/api-helper';
 import { formatPrice } from '../utils/common-helper';
 import { Product } from '../modules/products/model';
-import { removeItem, setAddedProduct } from '../modules/cart/actions';
+import { removeItem, replaceCartItem } from '../modules/cart/actions';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
 
 import styles from './cart.module.scss';
@@ -18,7 +20,7 @@ interface Props {
     cartItems: CartItem[];
     totalItems: number;
     onRemoveProduct: (product: Product) => void;
-    onSetAddedProduct: (addedProduct: CartItem) => void;
+    onReplaceCartItem: (cartItem: CartItem) => void;
 }
 
 interface State {
@@ -30,15 +32,14 @@ class CartPage extends React.PureComponent<Props, State> {
         justRemoved: null
     };
 
-    private calculateAddedProductTotal(addedProduct: CartItem): number {
-        // TODO use dinero
-        return addedProduct.product.price * addedProduct.quantity;
+    private calculateCartItemTotal({ product, quantity }: CartItem): number {
+        return Dinero({ amount: product.price }).multiply(quantity).getAmount();
     }
 
-    private calculateAllAddedProductsTotal(addedProducts: CartItem[]): number {
-        // TODO use dinero
-        return addedProducts.reduce((prev, cur) => prev + (cur.product.price * cur.quantity), 0);
-        // return addedProduct.product.price * addedProduct.quantity;
+    private calculateAllCartItemsTotal(cartItems: CartItem[]): number {
+        return cartItems.reduce((prev, cur) => {
+            return Dinero({ amount: cur.product.price }).multiply(cur.quantity).add(Dinero({ amount: prev })).getAmount();
+        }, 0);
     }
 
     private handleChangeQuantity = (product: Product) => (event: React.FocusEvent<HTMLInputElement>) => {
@@ -49,7 +50,9 @@ class CartPage extends React.PureComponent<Props, State> {
                     this.props.onRemoveProduct(product);
                 });
             } else {
-                this.props.onSetAddedProduct({ product, quantity: quantity || 0 });
+                this.setState({ justRemoved: null }, () => {
+                    this.props.onReplaceCartItem({ product, quantity: quantity || 0 });
+                });
             }
         }
     };
@@ -58,7 +61,6 @@ class CartPage extends React.PureComponent<Props, State> {
         this.setState({ justRemoved: product }, () => {
             this.props.onRemoveProduct(product);
         });
-        // TODO like in https://www.drysteppers.com/, when remove show item you just removed above the table
     };
 
     private renderProductsTable() {
@@ -73,30 +75,29 @@ class CartPage extends React.PureComponent<Props, State> {
 
         return (
             <table className={styles['products-table']}>
-                {/* FIXME improve style, create CSS classes */}
                 <thead>
                     <tr>
-                        <th style={{ width: '800px' }}>Product</th>
-                        <th style={{ textAlign: 'end' }}>Price</th>
-                        <th style={{ textAlign: 'end' }}>Quantity</th>
-                        <th style={{ textAlign: 'end' }}>Total</th>
+                        <th className={styles['th-product']}>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     {justRemoved
                         && <tr>
                             <td colSpan={4}>
-                                <div>You just removed: <a href={`/products/${justRemoved.id}`}>{justRemoved.title}</a></div>
+                                <div>Removed: <a href={`/products/${justRemoved.id}`}>{justRemoved.title}</a> from your cart.</div>
                             </td>
                         </tr>
                     }
                     {cartItems.map(({ product, quantity }, index) => {
                         const imagePath = generatePictureURL(product.pictures[0].filename);
-                        const addedProductTotal = this.calculateAddedProductTotal({ product, quantity });
+                        const cartItemTotal = this.calculateCartItemTotal({ product, quantity });
 
                         return (
                             <tr key={`product-row-${index}`}>
-                                <td>
+                                <td className={styles['td-product']}>
                                     <div className={styles['product-info']}>
                                         <Image className={styles['product-picture']} src={imagePath} />
                                         <div className={styles['product-title']}>
@@ -105,21 +106,24 @@ class CartPage extends React.PureComponent<Props, State> {
                                         </div>
                                     </div>
                                 </td>
-                                <td style={{ textAlign: 'end' }}>{formatPrice(product.price)}</td>
-                                <td style={{ textAlign: 'end' }}>
-                                    <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
+                                <td className={styles['aligned-end']}>
+                                    {formatPrice(product.price)}
+                                </td>
+                                <td className={styles['aligned-end']}>
+                                    <div className={styles['quantity-input']}>
                                         <FormControl
                                             style={{ width: '70px' }}
                                             type="number"
                                             min="0"
                                             value={quantity}
-
                                             max={product.quantityInStock}
                                             onChange={this.handleChangeQuantity(product)}
                                         />
                                     </div>
                                 </td>
-                                <td style={{ textAlign: 'end' }}>{formatPrice(addedProductTotal)}</td>
+                                <td className={styles['aligned-end']}>
+                                    {formatPrice(cartItemTotal)}
+                                </td>
                             </tr>
                         );
                     })}
@@ -130,7 +134,7 @@ class CartPage extends React.PureComponent<Props, State> {
 
     private renderSummaryAndCheckout() {
         const { totalItems } = this.props;
-        const subtotal = this.calculateAllAddedProductsTotal(this.props.cartItems);
+        const subtotal = this.calculateAllCartItemsTotal(this.props.cartItems);
 
         if (totalItems > 0) {
             return (
@@ -168,7 +172,7 @@ const mapStateToProps = (state: AppState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     onRemoveProduct: (product: Product) => dispatch(removeItem(product)),
-    onSetAddedProduct: (addedProduct: CartItem) => dispatch(setAddedProduct(addedProduct))
+    onReplaceCartItem: (cartItem: CartItem) => dispatch(replaceCartItem(cartItem))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
