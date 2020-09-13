@@ -41,7 +41,7 @@ export default class Index extends React.PureComponent<{}, State> {
     };
 
     private redirectToSearchPage() {
-        Router.push(`/products/search?q=${this.state.searchTerm}`);
+        Router.push(`/products/search?term=${this.state.searchTerm}`);
     }
 
     private handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
