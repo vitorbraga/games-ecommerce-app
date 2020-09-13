@@ -7,10 +7,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import { createWrapper } from 'next-redux-wrapper';
+import { cartReducer } from './modules/cart/reducer';
 
 const appReducer = combineReducers({
     authentication: authenticationReducer,
-    user: userReducer
+    user: userReducer,
+    cart: cartReducer
 });
 
 const rootReducer = (state: any, action: Action) => {
@@ -41,7 +43,7 @@ const makeStore = ({ isServer }: any) => {
 
         const persistConfig = {
             key: 'nextjs',
-            whitelist: ['authentication', 'user'], // fields to be persisted
+            whitelist: ['authentication', 'user', 'cart'], // fields to be persisted
             storage // if needed, use a safer storage
         };
 

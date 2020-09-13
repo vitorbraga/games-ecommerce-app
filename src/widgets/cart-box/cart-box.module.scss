@@ -1,0 +1,19 @@
+.cart-box {
+    position: relative;
+    cursor: pointer;
+    
+    .cart-icon {
+        margin-left: 16px; 
+        width: 24px;
+        height: 24px;
+    }
+    
+    .total-badge {
+        position: absolute;
+        display: block;
+        font-size: 10px;
+        top: -4px;
+        right: -8px;
+    }
+}
+

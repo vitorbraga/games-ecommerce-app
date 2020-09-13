@@ -13,8 +13,10 @@
   "dependencies": {
     "bootstrap": "^4.5.2",
     "classnames": "^2.2.6",
+    "dinero.js": "^1.8.1",
     "formik": "^2.1.5",
     "jwt-decode": "^2.2.0",
+    "lodash.debounce": "^4.0.8",
     "next": "^9.5.3",
     "next-redux-wrapper": "^6.0.2",
     "react": "^16.13.1",
@@ -29,7 +31,9 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@types/dinero.js": "^1.6.5",
     "@types/jwt-decode": "^2.2.1",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/react-bootstrap": "^0.32.22",
     "@types/react-redux": "^7.1.9",
     "@types/node": "^14.6.3",

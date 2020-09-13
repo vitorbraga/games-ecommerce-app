@@ -10,9 +10,9 @@ import * as AuthenticationApi from '../modules/authentication/api';
 import { JwtAuthToken } from '../modules/authentication/helpers';
 import { User } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
+import { CustomButton } from '../widgets/custom-buttom/custom-button';
 
 import styles from './login.module.scss';
-import { CustomButton } from '../widgets/custom-buttom/custom-button';
 
 interface LoginProps {
     authToken: string | null;

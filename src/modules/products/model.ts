@@ -32,6 +32,14 @@ export interface Picture {
     filename: string;
 }
 
+export type GetProductResponse = {
+    success: true;
+    product: Product;
+} | {
+    success: false;
+    error: string;
+};
+
 export type SearchProductsResponse = {
     success: true;
     products: Product[];

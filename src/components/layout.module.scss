@@ -21,6 +21,13 @@
             .logo {
                 width: 280px;
                 height: 49px;
+                cursor: pointer;
+            }
+
+            .right-box {
+                display: flex;
+                align-items: center;
+                margin-right: 8px;
             }
         }
     }

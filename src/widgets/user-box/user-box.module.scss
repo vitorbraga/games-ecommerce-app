@@ -1,12 +1,25 @@
 @import '../../base';
 
+.tooltip-arrow {
+    display: none !important;
+}
+
 .logged-wrapper {
     display: flex;
-    font-size: 14px;
+    align-items: center;;
+    font-size: 13px;
 
-    a {
-        margin-left: 10px;
+    .name-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: 10px;
     }
+}
+
+.custom-list-item {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, .125);
 }
 
 .regular-link {
@@ -30,4 +43,10 @@
     a:first-of-type {
         margin-right: 10px;
     }
+}
+
+.user-icon {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
 }

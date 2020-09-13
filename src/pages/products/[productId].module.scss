@@ -1,0 +1,103 @@
+@import '../../base';
+
+.product-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    width: 100%;
+
+    .product {
+        display: flex;
+        width: $container-size;
+
+        .product-view {
+            display: flex;
+            box-sizing: border-box;
+            justify-content: center;
+            padding: 10px; 
+            width: 850px;
+            border: 1px solid #eee;
+
+            .image {
+                max-width: 800px;
+            }
+        }
+    
+        .product-info {
+            display: flex;
+            width: 350px;
+            box-sizing: border-box;
+            flex-direction: column;
+            border: 1px solid #eee;
+            padding: 20px;
+
+            .title {
+                font-size: 24px;
+            }
+
+            .price {
+                margin-top: 16px;
+                font-size: 18px;
+            }
+
+            .description {
+                margin-top: 16px;
+                font-size: 14px;
+            }
+
+            .tags-wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: 16px;
+
+                .tag {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}
+
+.added-to-cart-toast {
+    width: 320px;
+    position: absolute;
+    top: 0;
+    right: 0; 
+    opacity: 1;
+
+    .toast-header {
+        padding: 16px;
+        border-bottom: 1px solid #ebebeb; // TODO find a color, and put on base.scss
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .toast-body {
+        background-color: white;
+        padding: 16px;
+
+        .last-added-product {
+            display: flex;
+            align-items: center;
+    
+            .product-picture {
+                max-width: 50px; 
+            }
+    
+            .product-title {
+                flex: 1;
+            }
+    
+            .quantity {
+                text-align: end;
+            }
+        }
+    }
+
+    .view-cart-button {
+        margin-top: 16px;
+        width: 100%;
+    }
+}

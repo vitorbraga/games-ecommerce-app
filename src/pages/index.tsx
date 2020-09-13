@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Spinner from 'react-bootstrap/Spinner';
-import { searchProducts } from '../modules/products/api';
+import * as ProductApi from '../modules/products/api';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { Product } from '../modules/products/model';
 import { ProductList } from '../components/products/product-list';
@@ -31,7 +31,7 @@ export default class Index extends React.PureComponent<{}, State> {
     private handleClickSearch = () => {
         this.setState({ searchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const products = await searchProducts(this.state.searchTerm);
+                const products = await ProductApi.searchProducts(this.state.searchTerm);
                 this.setState({ searchStatus: FetchStatusEnum.success, products });
             } catch (error) {
                 this.setState({ searchStatus: FetchStatusEnum.failure });

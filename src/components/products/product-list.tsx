@@ -17,9 +17,9 @@ export class ProductList extends React.PureComponent<Props, never> {
 
         return (
             <div className={styles['product-list']}>
-                {products.map((product) => {
+                {products.map((product, index) => {
                     return (
-                        <ProductCard product={product} />
+                        <ProductCard product={product} key={`product-card-${index}`} />
                     );
                 })}
             </div>
