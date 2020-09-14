@@ -1,0 +1,20 @@
+@import '../../base';
+
+.base-structure-page {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+
+    .base-container {
+        display: flex;
+        width: $container-size;
+        border: 1px solid #dedede;
+
+        .right-wrapper {
+            border: 1px solid #dedede;
+            flex: 1;
+        }
+    }
+}
+

@@ -92,17 +92,23 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
             <div className={styles['login-container']}>
                 <div className={styles['login-box']}>
                     <div className={styles['logo-wrapper']}>
-                        <Image src="/logo-1.PNG" className={styles.logo} />
+                        <Image src="/g-icon.png" className={styles.logo} />
                     </div>
                     {this.renderStatus()}
                     <Form>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Control type="text" placeholder="Email address" onChange={this.handleInputChange('email')} />
+                            <Form.Control
+                                type="text"
+                                placeholder="Email address"
+                                className={styles['text-input']}
+                                onChange={this.handleInputChange('email')}
+                            />
                         </Form.Group>
                         <Form.Group controlId="formBasicEmail" style={{ marginBottom: '5px' }}>
                             <Form.Control
                                 type="password"
                                 placeholder="Password"
+                                className={styles['text-input']}
                                 onChange={this.handleInputChange('password')}
                                 onKeyUp={this.handleKeyUp}
                             />

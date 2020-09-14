@@ -1,9 +1,6 @@
 import * as React from 'react';
 import Router from 'next/router';
 import { Layout } from '../../components/layout';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Spinner from 'react-bootstrap/Spinner';
 import { FetchStatusEnum } from '../../utils/api-helper';
 import { Product } from '../../modules/products/model';
@@ -12,6 +9,7 @@ import * as ProductApi from '../../modules/products/api';
 import { ParsedUrlQuery } from 'querystring';
 
 import styles from './search.module.scss';
+import { SearchBar } from '../../widgets/search-bar/search-bar';
 
 interface Props {
     query: ParsedUrlQuery;
@@ -24,6 +22,7 @@ function SearchPage({ query: { term } }: Props) {
     React.useEffect(() => {
         async function update() {
             setProductsFetch({ products: [], searchStatus: FetchStatusEnum.loading });
+            setSearchTerm(term as string);
             try {
                 const products = await ProductApi.searchProducts(term as string);
                 setProductsFetch({ products, searchStatus: FetchStatusEnum.success });
@@ -64,19 +63,12 @@ function SearchPage({ query: { term } }: Props) {
     return (
         <Layout title="Home" showNav={true} customContentClass={styles['custom-content']}>
             <div className={styles['search-container']}>
-                <div className={styles['search-bar']}>
-                    <InputGroup className={styles['search-bar-input']}>
-                        <FormControl
-                            onChange={handleChangeSearchTerm}
-                            onKeyUp={handleKeyUp}
-                            value={searchTerm}
-                            placeholder="What are you looking for?"
-                        />
-                        <InputGroup.Append>
-                            <Button variant="outline-secondary" onClick={handleClickSearch}>Search</Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </div>
+                <SearchBar
+                    onChange={handleChangeSearchTerm}
+                    onKeyUp={handleKeyUp}
+                    onClickSearch={handleClickSearch}
+                    value={searchTerm}
+                />
                 <div className={styles['products-container']}>
                     <div className={styles.sidebar}></div>
                     <div className={styles.products}>

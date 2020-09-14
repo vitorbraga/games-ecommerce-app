@@ -1,0 +1,23 @@
+@import '../../base';
+
+.side-menu {
+    width: 270px;
+    border: 1px solid #dedede;
+
+    .list-item {
+        display: flex;
+        align-items: center;
+        border-radius: 0px;
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        &.active {
+            background-color: $color-primary !important;
+            border-color: $color-primary !important;
+        }
+    }
+}

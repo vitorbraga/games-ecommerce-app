@@ -1,9 +1,6 @@
 import React from 'react';
 import { Layout } from '../components/layout';
 import Router from 'next/router';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
 import Spinner from 'react-bootstrap/Spinner';
 import * as ProductApi from '../modules/products/api';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
@@ -11,6 +8,7 @@ import { Product } from '../modules/products/model';
 import { ProductList } from '../components/products/product-list';
 
 import styles from './index.module.scss';
+import { SearchBar } from '../widgets/search-bar/search-bar';
 
 interface State {
     searchTerm: string;
@@ -67,19 +65,14 @@ export default class Index extends React.PureComponent<{}, State> {
     public render() {
         return (
             <Layout title="Home" showNav={true} customContentClass={styles['custom-content']}>
-                <div className={styles['index-container']}>
-                    <div className={styles['search-bar']}>
-                        <InputGroup className={styles['search-bar-input']}>
-                            <FormControl
-                                placeholder="What are you looking for?"
-                                onChange={this.handleChangeSearchTerm}
-                                onKeyUp={this.handleKeyUp}
-                            />
-                            <InputGroup.Append>
-                                <Button variant="outline-secondary" onClick={this.handleClickSearch}>Search</Button>
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </div>
+                <div className={styles['index-page']}>
+                    {/* TODO Create component for search bar */}
+                    <SearchBar
+                        onChange={this.handleChangeSearchTerm}
+                        onKeyUp={this.handleKeyUp}
+                        onClickSearch={this.handleClickSearch}
+                        value={this.state.searchTerm}
+                    />
                     <div className={styles['products-container']}>
                         <div className={styles.sidebar}></div>
                         <div className={styles.products}>

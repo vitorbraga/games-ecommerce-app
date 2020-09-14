@@ -6,7 +6,7 @@
     align-items: center;
     min-height: 100%;
     width: 100%;
-    background-color: rgb(255, 239, 239);
+    @include font-standard;
 
     .search-bar {
         display: flex;
@@ -14,7 +14,7 @@
         justify-content: center;
         width: $container-size;
         height: 100px;
-        border: 1px solid #dedede;
+        border-bottom: 1px solid $color-border;
 
         .search-bar-input {
             width: 500px;
@@ -25,18 +25,16 @@
         display: flex;
         width: $container-size;
         height: 100%;
-        border: 1px solid #dedede;
 
         .sidebar {
             width: 270px;
             height: 100%;
-            border: 1px solid #dedede;
         }
 
         .products {
             flex: 1;
             height: 100%;
-            border: 1px solid #dedede;
+            border-left: 1px solid $color-border;
         }
     }
 }

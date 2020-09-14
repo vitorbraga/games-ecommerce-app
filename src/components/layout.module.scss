@@ -15,12 +15,11 @@
             justify-content: space-between;
             align-items: center;
             width: $container-size;
-            height: 50px;
-            border: 1px solid #dedede;
+            height: 60px;
+            border-bottom: 1px solid $color-border;
 
             .logo {
-                width: 280px;
-                height: 49px;
+                width: 360px;
                 cursor: pointer;
             }
 

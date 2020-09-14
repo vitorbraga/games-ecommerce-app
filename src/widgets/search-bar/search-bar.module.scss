@@ -1,0 +1,30 @@
+@import '../../base';
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $container-size;
+    height: 100px;
+    border-bottom: 1px solid $color-border;
+
+    .search-bar-input-group {
+        width: 500px;
+        border-right: 0;
+        border-color: $color-primary;
+
+        .text-input {
+            border-color: $color-primary;
+            border-radius: 0px;
+            border-right: 0;
+        }
+
+        .search-button {
+            border-radius: 0px;
+
+            &:hover {
+                background-color: $color-primary;
+            }
+        }
+    }
+}

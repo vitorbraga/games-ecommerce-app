@@ -69,7 +69,7 @@ class CartPage extends React.PureComponent<Props, State> {
 
         if (totalItems === 0) {
             return (
-                <div>Your cart is currently empty.</div>
+                <div className={styles['empty-state']}>Your cart is currently empty.</div>
             );
         }
 
@@ -156,7 +156,7 @@ class CartPage extends React.PureComponent<Props, State> {
         return (
             <Layout title="Shopping cart" showNav={true}>
                 <div className={styles['cart-container']}>
-                    <h1 style={{ textAlign: 'center', marginTop: '30px' }}>Your cart</h1>
+                    <h1 className={styles['page-title']}>Your cart</h1>
                     {this.renderProductsTable()}
                     {this.renderSummaryAndCheckout()}
                 </div>

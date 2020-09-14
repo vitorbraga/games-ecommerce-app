@@ -1,4 +1,8 @@
+@import '../../base';
+
 .product-list {
     display: flex;
     flex-wrap: wrap;
+
+    @include font-standard;
 }

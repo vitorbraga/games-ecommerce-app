@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import Router from 'next/router';
 import Link from 'next/link';
 import * as Yup from 'yup';
@@ -103,22 +104,42 @@ export class Register extends React.PureComponent<{}, RegisterState> {
                                 <Form>
                                     <div className="form-group">
                                         <label htmlFor="firstName">First Name</label>
-                                        <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
+                                        <Field
+                                            name="firstName"
+                                            placeholder="John"
+                                            type="text"
+                                            className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.firstName && touched.firstName })}
+                                        />
                                         <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="lastName">Last Name</label>
-                                        <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
+                                        <Field
+                                            name="lastName"
+                                            placeholder="Doe"
+                                            type="text"
+                                            className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.lastName && touched.lastName })}
+                                        />
                                         <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="email">Email</label>
-                                        <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
+                                        <Field
+                                            name="email"
+                                            type="text"
+                                            placeholder="john.doe@gmail.com"
+                                            className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.email && touched.email })}
+                                        />
                                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="password">Password</label>
-                                        <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
+                                        <Field
+                                            name="password"
+                                            type="password"
+                                            placeholder="At least 6 characters"
+                                            className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.password && touched.password })}
+                                        />
                                         <ErrorMessage name="password" component="div" className="invalid-feedback" />
                                     </div>
                                     <div className="form-group form-check">

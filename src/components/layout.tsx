@@ -30,7 +30,7 @@ export const Layout: React.FunctionComponent<Props> = ({ children, title, showNa
             {showNav
             && <div className={styles['top-bar']}>
                 <div className={styles['top-bar-wrapper']}>
-                    <Image src="/logo-2.PNG" className={styles.logo} onClick={handleLogoClick} />
+                    <Image src="/logo.png" className={styles.logo} onClick={handleLogoClick} />
                     <div className={styles['right-box']}>
                         <UserBoxContainer />
                         <CartBoxContainer />

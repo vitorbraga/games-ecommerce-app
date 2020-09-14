@@ -1,3 +1,4 @@
+@import '../base';
 
 .register-container {
     display: flex;
@@ -6,8 +7,7 @@
     width: 380px;
     margin-top: -40px;
     font-size: 13px;
-    border: 1px solid gray;
-    border-radius: 4px;
+    border: 1px solid $color-border;
 
     .register-box {
         padding: 20px;

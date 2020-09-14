@@ -7,6 +7,7 @@ import { useStore } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../base.scss';
 
 function MyApp({ Component, pageProps }) {
     const store = useStore((state) => state);

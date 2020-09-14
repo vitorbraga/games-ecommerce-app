@@ -31,7 +31,7 @@ export class UserBox extends React.PureComponent<Props, never> {
                         <ListGroup.Item action onClick={this.handleRedirectTo('/account')} style={{ border: 'none' }}>Account overview</ListGroup.Item>
                         <ListGroup.Item
                             action
-                            onClick={this.handleRedirectTo('/orders')}
+                            onClick={this.handleRedirectTo('/account/orders')}
                             style={{ border: 'none', borderBottom: '1px solid rgba(0, 0, 0, .125)', borderTop: '1px solid rgba(0, 0, 0, .125)' }}
                         >
                             My orders
@@ -57,10 +57,10 @@ export class UserBox extends React.PureComponent<Props, never> {
         return (
             <div className={styles['not-logged-wrapper']}>
                 <Link href="/login">
-                    <a className={styles['regular-link']}>Login</a>
+                    <a className={styles.link}>Login</a>
                 </Link>
                 <Link href="/register">
-                    <a className={styles['regular-link']}>Register</a>
+                    <a className={styles.link}>Register</a>
                 </Link>
             </div>
         );

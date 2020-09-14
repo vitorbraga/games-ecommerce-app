@@ -1,18 +1,26 @@
 $container-size: 1200px;
 
-$color-red: #C94B4C;
-$color-light-blue: #B4C7DE;
-$color-dark-white: #F3F2EC;
-$color-green: #82CAC6;
-$color-dark-grey: #2E3238;
-// C94B4C B4C7DE F3F2EC 82CAC6 2E3238
+$color-primary: #3a3a3a;
+$color-border: #ebebeb;
+$color-primary-lighter: #747474;
 
 .link {
-    color: blue; // FIXME
-    text-decoration: none;
+    font-family: "Trebuchet MS";
+    color: $color-primary; // FIXME
+    text-decoration: underline;
     cursor: pointer;
 }
 
 .link:hover {
-    text-decoration: underline;
+    color: $color-primary-lighter;
+}
+
+.text-input {
+    border-radius: 0px;
+    border-color: $color-primary;
+}
+
+@mixin font-standard {
+    font-family: "Trebuchet MS";
+    color: $color-primary;
 }
