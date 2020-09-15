@@ -43,6 +43,12 @@
                 font-size: 14px;
                 padding: 10px;
                 border-bottom: 1px solid $color-border;
+
+                .select-input {
+                    border-radius: 0px;
+                    font-size: 14px;
+                    width: 150px;
+                }
             }
         }
     }

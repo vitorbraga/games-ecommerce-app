@@ -3,6 +3,7 @@ import shallowEqual from 'shallowequal';
 import Router from 'next/router';
 import { Layout } from '../../components/layout';
 import Spinner from 'react-bootstrap/Spinner';
+import Form from 'react-bootstrap/Form';
 import { FetchStatusEnum } from '../../utils/api-helper';
 import { Product } from '../../modules/products/model';
 import { ProductList } from '../../components/products/product-list';
@@ -17,16 +18,23 @@ interface Props {
     query: ParsedUrlQuery;
 }
 
-function SearchPage({ query: { term, categories } }: Props) {
+enum SearchSortType {
+    NONE = 'NONE',
+    PRICE_LOW_HIGH = 'PRICE_LOW_HIGH',
+    PRICE_HIGH_LOW = 'PRICE_HIGH_LOW'
+}
+
+function SearchPage({ query: { term, categories, sortType } }: Props) {
     const [searchTerm, setSearchTerm] = React.useState('');
     const [selectedCategories, setSelectedCategories] = React.useState([] as string[]);
+    const [selectedSortType, setSelectedSortType] = React.useState('');
     const [productsFetch, setProductsFetch] = React.useState({ products: [] as Product[], searchStatus: FetchStatusEnum.initial });
 
     async function makeSearch() {
         setProductsFetch({ products: [], searchStatus: FetchStatusEnum.loading });
         try {
             const categoriesParam = categories ? (categories as string) : '';
-            const products = await ProductApi.searchProducts(term as string, categoriesParam);
+            const products = await ProductApi.searchProducts(term as string, categoriesParam, sortType as string);
             setProductsFetch({ products, searchStatus: FetchStatusEnum.success });
         } catch (error) {
             setProductsFetch({ products: [], searchStatus: FetchStatusEnum.failure });
@@ -34,12 +42,14 @@ function SearchPage({ query: { term, categories } }: Props) {
     }
 
     React.useEffect(() => {
+        console.log('useEffect');
         setSearchTerm(term as string);
         const newCategories = categories ? categories.toString().split(',') : [];
         setSelectedCategories(newCategories);
+        setSelectedSortType(sortType as string);
 
         makeSearch();
-    }, [term, categories]);
+    }, [term, categories, sortType]);
 
     const renderSearchStatus = () => {
         if (productsFetch.searchStatus === FetchStatusEnum.loading) {
@@ -49,18 +59,23 @@ function SearchPage({ query: { term, categories } }: Props) {
         return null;
     };
 
-    const updateUrl = (categories?: string[]) => {
+    const updateUrl = (categories?: string[], sortType?: string) => {
+        console.log('updateUrl', sortType);
         Router.push({
             pathname: '/products/search',
             query: {
                 term: searchTerm || '',
-                categories: categories && categories.length > 0 ? categories.join(',') : ''
+                categories: categories && categories.length > 0 ? categories.join(',') : '',
+                sortType: sortType || 'NONE'
             }
         });
     };
 
     const handleSearch = () => {
-        if (searchTerm === term && shallowEqual(selectedCategories, categories)) {
+        if (searchTerm === term
+            && shallowEqual(selectedCategories, categories)
+            && selectedSortType === sortType
+        ) {
             makeSearch();
         } else {
             updateUrl();
@@ -89,6 +104,11 @@ function SearchPage({ query: { term, categories } }: Props) {
         updateUrl(newCategories);
     };
 
+    const handleSelectSortType = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const sortType = event.target.value;
+        updateUrl(undefined, sortType);
+    };
+
     return (
         <Layout title="Search products" showNav={true} customContentClass={styles['custom-content']}>
             <div className={styles['search-container']}>
@@ -106,7 +126,11 @@ function SearchPage({ query: { term, categories } }: Props) {
                         {renderSearchStatus()}
                         <div className={styles['results-info']}>
                             <div>{productsFetch.products.length} results</div>
-                            <div>Sort by</div>
+                            <Form.Control as="select" className={styles['select-input']} onChange={handleSelectSortType} value={selectedSortType}>
+                                <option value={SearchSortType.NONE}>Sort by</option>
+                                <option value={SearchSortType.PRICE_LOW_HIGH}>Price low - high</option>
+                                <option value={SearchSortType.PRICE_HIGH_LOW}>Price high - low</option>
+                            </Form.Control>
                         </div>
                         <ProductList products={productsFetch.products} />
                     </div>

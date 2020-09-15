@@ -2,8 +2,8 @@ import { serverBaseUrl } from '../../utils/api-helper';
 import { errorMapper } from '../../utils/messages-mapper';
 import * as Model from './model';
 
-export const searchProducts = async (searchTerm: string, categories: string): Promise<Model.Product[]> => {
-    const response: Response = await fetch(`${serverBaseUrl}/products/search?searchTerm=${searchTerm}&categories=${categories}`);
+export const searchProducts = async (searchTerm: string, categories: string, sortType: string): Promise<Model.Product[]> => {
+    const response: Response = await fetch(`${serverBaseUrl}/products/search?searchTerm=${searchTerm}&categories=${categories}&sortType=${sortType}`);
     const productsResponse: Model.SearchProductsResponse = await response.json();
 
     if (productsResponse.success) {
