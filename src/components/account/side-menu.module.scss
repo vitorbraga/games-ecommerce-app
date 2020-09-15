@@ -2,12 +2,14 @@
 
 .side-menu {
     width: 270px;
-    border: 1px solid #dedede;
 
     .list-item {
         display: flex;
         align-items: center;
         border-radius: 0px;
+        font-size: 15px;
+        border: 1px solid $color-border;
+        border-bottom: 0;
 
         .icon {
             width: 24px;
@@ -16,8 +18,17 @@
         }
 
         &.active {
-            background-color: $color-primary !important;
-            border-color: $color-primary !important;
+            background-color: $color-border !important;
+            border-color: $color-border !important;
+            color: $color-primary !important;
         }
+    }
+
+    .list-item:first-of-type {
+        border-top: 0;
+    }
+
+    .list-item:last-of-type {
+        border-bottom: 1px solid $color-border;
     }
 }

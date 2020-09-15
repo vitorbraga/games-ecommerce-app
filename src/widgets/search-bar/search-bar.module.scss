@@ -5,7 +5,8 @@
     align-items: center;
     justify-content: center;
     width: $container-size;
-    height: 100px;
+    height: 90px;
+    min-height: 90px;
     border-bottom: 1px solid $color-border;
 
     .search-bar-input-group {

@@ -10,18 +10,13 @@
 
     .products-container {
         display: flex;
+        justify-content: center;
         width: $container-size;
         height: 100%;
-
-        .sidebar {
-            width: 270px;
-            height: 100%;
-        }
+        padding-top: 20px;
 
         .products {
-            flex: 1;
             height: 100%;
-            border-left: 1px solid $color-border;
         }
     }
 }

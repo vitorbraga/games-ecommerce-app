@@ -6,9 +6,9 @@ import * as ProductApi from '../modules/products/api';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { Product } from '../modules/products/model';
 import { ProductList } from '../components/products/product-list';
+import { SearchBar } from '../widgets/search-bar/search-bar';
 
 import styles from './index.module.scss';
-import { SearchBar } from '../widgets/search-bar/search-bar';
 
 interface State {
     searchTerm: string;
@@ -66,7 +66,6 @@ export default class Index extends React.PureComponent<{}, State> {
         return (
             <Layout title="Home" showNav={true} customContentClass={styles['custom-content']}>
                 <div className={styles['index-page']}>
-                    {/* TODO Create component for search bar */}
                     <SearchBar
                         onChange={this.handleChangeSearchTerm}
                         onKeyUp={this.handleKeyUp}
@@ -74,7 +73,6 @@ export default class Index extends React.PureComponent<{}, State> {
                         value={this.state.searchTerm}
                     />
                     <div className={styles['products-container']}>
-                        <div className={styles.sidebar}></div>
                         <div className={styles.products}>
                             {this.renderSearchStatus()}
                             <ProductList products={this.state.products} />

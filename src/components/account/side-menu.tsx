@@ -20,10 +20,10 @@ interface Props {
 
 export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
     const menuRouteMapper = {
-        account: { path: '/account', icon: '/account_circle.svg', iconWhite: '/account_circle_white.svg', label: 'Account overview' },
-        orders: { path: '/account/orders', icon: '/list_bulleted.svg', iconWhite: '/list_bulleted_white.svg', label: 'My orders' },
-        reviews: { path: '/account/reviews', icon: '/feedback.svg', iconWhite: '/feedback_white.svg', label: 'My reviews' },
-        changePassword: { path: '/account/change-password', icon: '/lock.svg', iconWhite: '/lock_white.svg', label: 'Change password' }
+        account: { path: '/account', icon: '/account_circle.svg', label: 'Account overview' },
+        orders: { path: '/account/orders', icon: '/list_bulleted.svg', label: 'My orders' },
+        reviews: { path: '/account/reviews', icon: '/feedback.svg', label: 'My reviews' },
+        changePassword: { path: '/account/change-password', icon: '/lock.svg', label: 'Change password' }
     };
 
     const activeKey = menuRouteMapper[activeMenuItem];
@@ -34,7 +34,6 @@ export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
                 {(Object.keys(SideMenuItemEnum) as SideMenuItemName[]).map((item) => {
                     const menuInfo = menuRouteMapper[item];
                     const isActive = activeKey.path === menuInfo.path;
-                    const icon = isActive ? menuInfo.iconWhite : menuInfo.icon;
 
                     return (
                         <ListGroup.Item
@@ -43,7 +42,7 @@ export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
                             className={classNames(styles['list-item'], { [styles.active]: isActive })}
                             key={`item-${item}`}
                         >
-                            <Image src={icon} className={styles.icon} />
+                            <Image src={menuInfo.icon} className={styles.icon} />
                             {menuInfo.label}
                         </ListGroup.Item>
                     );

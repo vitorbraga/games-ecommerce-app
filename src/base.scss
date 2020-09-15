@@ -24,3 +24,7 @@ $color-primary-lighter: #747474;
     font-family: "Trebuchet MS";
     color: $color-primary;
 }
+
+#__next {
+    overflow-x: hidden;
+}

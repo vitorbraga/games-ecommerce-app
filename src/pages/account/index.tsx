@@ -18,7 +18,7 @@ interface Props {
 class AccountPage extends React.PureComponent<Props, never> {
     public render() {
         return (
-            <Layout title="Login" showNav={true} customContentClass={styles['custom-layout-content']}>
+            <Layout title="Account overview" showNav={true} customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.account}>
                     <h1>Account overview</h1>
                 </BaseStructure>

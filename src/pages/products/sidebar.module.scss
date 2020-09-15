@@ -1,0 +1,29 @@
+@import '../../base';
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    @include font-standard;
+
+    .category-wrapper {
+        border-bottom: 1px solid $color-border;
+        padding: 10px;
+
+        .subtitle {
+            font-size: 15px;
+            line-height: 1.5;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+    
+        .form-item {
+            margin-top: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+
+            input, label {
+                cursor: pointer;
+            }
+        }
+    }
+}

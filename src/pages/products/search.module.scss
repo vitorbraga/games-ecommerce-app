@@ -27,7 +27,7 @@
         height: 100%;
 
         .sidebar {
-            width: 270px;
+            width: 240px;
             height: 100%;
         }
 
@@ -35,6 +35,15 @@
             flex: 1;
             height: 100%;
             border-left: 1px solid $color-border;
+
+            .results-info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 14px;
+                padding: 10px;
+                border-bottom: 1px solid $color-border;
+            }
         }
     }
 }

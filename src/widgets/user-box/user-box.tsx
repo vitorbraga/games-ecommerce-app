@@ -14,7 +14,8 @@ interface Props {
 }
 
 export class UserBox extends React.PureComponent<Props, never> {
-    private handleClickLogout = () => {
+    private handleClickLogout = async () => {
+        await Router.push('/');
         this.props.userLogout();
     };
 
@@ -26,17 +27,32 @@ export class UserBox extends React.PureComponent<Props, never> {
         const { user } = this.props;
         if (user) {
             const popover = (
-                <Popover id="popover-logged-user">
+                <Popover id="popover-logged-user" style={{ borderRadius: '0' }}>
                     <ListGroup>
-                        <ListGroup.Item action onClick={this.handleRedirectTo('/account')} style={{ border: 'none' }}>Account overview</ListGroup.Item>
+                        <ListGroup.Item
+                            action
+                            onClick={this.handleRedirectTo('/account')}
+                            className={styles['list-item']}
+                            style={{ border: 'none' }}
+                        >
+                            Account overview
+                        </ListGroup.Item>
                         <ListGroup.Item
                             action
                             onClick={this.handleRedirectTo('/account/orders')}
+                            className={styles['list-item']}
                             style={{ border: 'none', borderBottom: '1px solid rgba(0, 0, 0, .125)', borderTop: '1px solid rgba(0, 0, 0, .125)' }}
                         >
                             My orders
                         </ListGroup.Item>
-                        <ListGroup.Item style={{ border: 'none' }} action onClick={this.handleClickLogout}>Logout</ListGroup.Item>
+                        <ListGroup.Item
+                            action
+                            onClick={this.handleClickLogout}
+                            className={styles['list-item']}
+                            style={{ border: 'none' }}
+                        >
+                            Logout
+                        </ListGroup.Item>
                     </ListGroup>
                 </Popover>
             );

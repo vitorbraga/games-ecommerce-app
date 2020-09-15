@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;;
     font-size: 13px;
+    @include font-standard;
 
     .name-wrapper {
         display: flex;
@@ -17,9 +18,8 @@
     }
 }
 
-.custom-list-item {
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, .125);
+.list-item:focus {
+    outline: none;
 }
 
 .not-logged-wrapper {

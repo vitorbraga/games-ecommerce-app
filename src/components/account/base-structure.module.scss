@@ -9,10 +9,8 @@
     .base-container {
         display: flex;
         width: $container-size;
-        border: 1px solid #dedede;
 
         .right-wrapper {
-            border: 1px solid #dedede;
             flex: 1;
         }
     }
