@@ -1,0 +1,34 @@
+.custom-layout-content {
+    min-height: 100%;
+}
+
+.addresses-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .current-addresses-wrapper {
+        display: flex;
+        margin-top: 16px;
+
+        .address-card {
+            width: 250px;
+            margin-right: 20px;
+
+            .card-title {
+                font-size: 15px;
+            }
+
+            .card-body {
+                font-size: 14px;
+                height: 110px;
+            }
+
+            .card-actions {
+                display: flex;
+                justify-content: space-between;
+                font-size: 13px;
+            }
+        }
+    }
+}

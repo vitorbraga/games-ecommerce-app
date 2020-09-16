@@ -9,6 +9,7 @@ export enum SideMenuItemEnum {
     account = 'account',
     orders = 'orders',
     reviews = 'reviews',
+    addresses = 'addresses',
     changePassword = 'changePassword'
 }
 
@@ -23,6 +24,7 @@ export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
         account: { path: '/account', icon: '/account_circle.svg', label: 'Account overview' },
         orders: { path: '/account/orders', icon: '/list_bulleted.svg', label: 'My orders' },
         reviews: { path: '/account/reviews', icon: '/feedback.svg', label: 'My reviews' },
+        addresses: { path: '/account/addresses', icon: '/house.svg', label: 'My addresses' },
         changePassword: { path: '/account/change-password', icon: '/lock.svg', label: 'Change password' }
     };
 

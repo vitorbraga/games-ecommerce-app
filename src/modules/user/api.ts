@@ -1,5 +1,5 @@
-import { UserRegister, UserRegisterResponse, GetUserResponse, UserUpdate, UserUpdateResponse, User, FieldWithError } from './model';
-import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
+import { UserRegister, UserRegisterResponse, GetUserResponse, UserUpdate, UserUpdateResponse, User } from './model';
+import { FieldWithError, headersBuilder, serverBaseUrl } from '../../utils/api-helper';
 import { errorMapper } from '../../utils/messages-mapper';
 
 export const registerUser = async (user: UserRegister): Promise<User | FieldWithError[]> => {

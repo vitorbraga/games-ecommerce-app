@@ -1,3 +1,5 @@
+import { FieldWithError } from '../../utils/api-helper';
+
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_USER_NAME = 'SET_USER_NAME';
 export const SET_USER = 'SET_USER';
@@ -15,20 +17,13 @@ export interface UserUpdate {
 }
 
 export interface User {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
     role: string;
     createdAt: string;
     updatedAt: string;
-}
-
-export interface FieldWithError {
-    field: string;
-    constraints: {
-        [type: string]: string;
-    };
 }
 
 export type UserRegisterResponse = {

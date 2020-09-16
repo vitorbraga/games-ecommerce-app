@@ -31,3 +31,10 @@ export function headersBuilder() {
 export function generatePictureURL(fileName: string) {
     return `${serverBaseUrl}/public/product-pictures/${fileName}`;
 }
+
+export interface FieldWithError {
+    field: string;
+    constraints: {
+        [type: string]: string;
+    };
+}
