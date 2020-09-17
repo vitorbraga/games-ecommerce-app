@@ -26,6 +26,10 @@
             margin-right: 20px;
             margin-bottom: 20px;
             border-radius: 0px;
+            
+            &.main-address {
+                border: 2px solid #3a3a3a;
+            }
 
             .card-title {
                 font-size: 15px;
@@ -40,6 +44,10 @@
                 display: flex;
                 justify-content: space-between;
                 font-size: 13px;
+
+                .main-address {
+                    font-weight: bold;
+                }
             }
         }
     }

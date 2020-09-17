@@ -1,4 +1,5 @@
 import { FieldWithError } from '../../utils/api-helper';
+import { Address } from '../address/model';
 
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_USER_NAME = 'SET_USER_NAME';
@@ -24,6 +25,16 @@ export interface User {
     role: string;
     createdAt: string;
     updatedAt: string;
+    mainAddress?: Address;
+    addresses?: Address[];
+    passwordResets?: PasswordReset[];
+}
+
+export interface PasswordReset {
+    id: string;
+    token: string;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export type UserRegisterResponse = {

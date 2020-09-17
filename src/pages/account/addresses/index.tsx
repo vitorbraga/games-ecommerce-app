@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'next/router';
+import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
@@ -8,15 +9,16 @@ import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
 import { Layout } from '../../../components/layout';
 import * as AddressApi from '../../../modules/address/api';
+import * as UserApi from '../../../modules/user/api';
 import { Address } from '../../../modules/address/model';
 import { User } from '../../../modules/user/model';
 import { getUser } from '../../../modules/user/selector';
 import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
+import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
 
 import styles from './index.module.scss';
-import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
 
 interface Props {
     authToken: string;
@@ -27,20 +29,27 @@ interface State {
     fetchStatus: FetchStatus;
     addresses: Address[];
     removeStatus: FetchStatus;
+    setMainAddressStatus: FetchStatus;
+    user: User | null;
 }
 
 class AddressesPage extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
         addresses: [],
-        removeStatus: FetchStatusEnum.initial
+        removeStatus: FetchStatusEnum.initial,
+        setMainAddressStatus: FetchStatusEnum.initial,
+        user: null
     };
 
     public componentDidMount() {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const addresses = await AddressApi.getUserAddresses(this.props.user.id, this.props.authToken);
-                this.setState({ fetchStatus: FetchStatusEnum.success, addresses });
+                const { user: { id: userId }, authToken } = this.props;
+
+                const user = await UserApi.getUserFullData(userId, authToken);
+                const addresses = await AddressApi.getUserAddresses(userId, authToken);
+                this.setState({ fetchStatus: FetchStatusEnum.success, user, addresses });
             } catch (error) {
                 this.setState({ fetchStatus: FetchStatusEnum.failure });
             }
@@ -58,8 +67,19 @@ class AddressesPage extends React.PureComponent<Props, State> {
         });
     };
 
+    private handleClickSetMainAddress = (addressId: string) => () => {
+        this.setState({ setMainAddressStatus: FetchStatusEnum.loading }, async () => {
+            try {
+                await AddressApi.setMainAddress(this.props.user.id, addressId, this.props.authToken);
+                Router.reload();
+            } catch (error) {
+                this.setState({ setMainAddressStatus: FetchStatusEnum.failure });
+            }
+        });
+    };
+
     private renderUserAddresses() {
-        const { addresses } = this.state;
+        const { addresses, user } = this.state;
 
         if (addresses.length === 0) {
             return <div className={styles['empty-state']}>You don't have registered addresses. Click here to add one.</div>;
@@ -68,8 +88,13 @@ class AddressesPage extends React.PureComponent<Props, State> {
         return (
             <div className={styles['current-addresses-wrapper']}>
                 {addresses.map((address, index) => {
+                    const isMainAddress = address.id === user?.mainAddress?.id;
+
                     return (
-                        <Card className={styles['address-card']} key={`address-${index}`}>
+                        <Card
+                            className={classNames(styles['address-card'], { [styles['main-address']]: isMainAddress })}
+                            key={`address-${index}`}
+                        >
                             <Card.Body>
                                 <Card.Title className={styles['card-title']}>{address.fullName}</Card.Title>
                                 <div className={styles['card-body']}>
@@ -84,7 +109,10 @@ class AddressesPage extends React.PureComponent<Props, State> {
                             </Card.Body>
                             <Card.Footer>
                                 <div className={styles['card-actions']}>
-                                    <Card.Link className={styles.link}>Set as main address</Card.Link>
+                                    {isMainAddress
+                                        ? <div className={styles['main-address']}>Main address</div>
+                                        : <Card.Link className={styles.link} onClick={this.handleClickSetMainAddress(address.id)}>Set as main address</Card.Link>
+                                    }
                                     <Card.Link className={styles.link} onClick={this.handleClickRemoveAddress(address.id)}>Remove</Card.Link>
                                 </div>
                             </Card.Footer>
@@ -119,6 +147,18 @@ class AddressesPage extends React.PureComponent<Props, State> {
         return null;
     }
 
+    private renderSetMainAddressStatus() {
+        const { setMainAddressStatus } = this.state;
+
+        if (setMainAddressStatus === FetchStatusEnum.loading) {
+            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+        } else if (setMainAddressStatus === FetchStatusEnum.failure) {
+            return <Alert variant="danger">Failed setting main address.</Alert>;
+        }
+
+        return null;
+    }
+
     private handleClickAddNewAddress = () => {
         Router.push('/account/addresses/new');
     };
@@ -132,6 +172,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
                             <h4>My addresses</h4>
                             {this.renderFetchStatus()}
                             {this.renderRemoveStatus()}
+                            {this.renderSetMainAddressStatus()}
                             {this.renderUserAddresses()}
                         </div>
                         <div>
