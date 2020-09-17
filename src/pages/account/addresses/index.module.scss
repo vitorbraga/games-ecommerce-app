@@ -1,3 +1,5 @@
+@import '../../../base';
+
 .custom-layout-content {
     min-height: 100%;
 }
@@ -6,14 +8,24 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
+    @include font-standard;
+
+    .empty-state {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
 
     .current-addresses-wrapper {
         display: flex;
+        flex-wrap: wrap;
         margin-top: 16px;
 
         .address-card {
             width: 250px;
             margin-right: 20px;
+            margin-bottom: 20px;
+            border-radius: 0px;
 
             .card-title {
                 font-size: 15px;

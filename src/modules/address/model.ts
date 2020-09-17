@@ -43,7 +43,7 @@ export type SetUserMainAddressResponse = {
 
 export type CreateAddressResponse = {
     success: true;
-    addresses: Address[];
+    user: User;
 } | {
     success: false;
     fields: FieldWithError[];
@@ -51,3 +51,5 @@ export type CreateAddressResponse = {
     success: false;
     error: string;
 };
+
+export type RemoveAddressResponse = SetUserMainAddressResponse;

@@ -1,0 +1,11 @@
+@import '../../../base';
+
+.custom-layout-content {
+    min-height: 100%;
+}
+
+.form-wrapper {
+    display: flex;
+    width: 400px;
+    padding: 20px;
+}

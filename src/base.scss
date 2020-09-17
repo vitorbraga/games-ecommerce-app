@@ -20,6 +20,16 @@ $color-primary-lighter: #747474;
     border-color: $color-primary;
 }
 
+.text-input::placeholder {
+    opacity: 0.5;
+}
+
+.dropdown-input {
+    border-radius: 0px;
+    border-color: $color-primary;
+    cursor: pointer;
+}
+
 @mixin font-standard {
     font-family: "Trebuchet MS";
     color: $color-primary;

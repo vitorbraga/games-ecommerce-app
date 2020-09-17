@@ -38,7 +38,7 @@ export const setMainAddress = async (userId: string, addressId: string, authToke
     }
 };
 
-export const createAddress = async (userId: string, address: Model.CreateAddressBody, authToken: string): Promise<Model.Address[] | FieldWithError[]> => {
+export const createAddress = async (userId: string, address: Model.CreateAddressBody, authToken: string): Promise<User | FieldWithError[]> => {
     const options = {
         headers: headersBuilder()
             .with('Content-Type', 'application/json')
@@ -53,10 +53,30 @@ export const createAddress = async (userId: string, address: Model.CreateAddress
     const createAddressResponse: Model.CreateAddressResponse = await response.json();
 
     if (createAddressResponse.success) {
-        return createAddressResponse.addresses;
+        return createAddressResponse.user;
     } else if ('fields' in createAddressResponse) {
         return createAddressResponse.fields;
     } else {
         throw new Error(errorMapper[createAddressResponse.error]);
+    }
+};
+
+export const removeAddress = async (userId: string, addressId: string, authToken: string): Promise<User> => {
+    const options = {
+        headers: headersBuilder()
+            .with('Content-Type', 'application/json')
+            .with('Accept', 'application/json')
+            .withJwt(authToken)
+            .build(),
+        method: 'DELETE'
+    };
+
+    const response: Response = await fetch(`${serverBaseUrl}/users/${userId}/addresses/${addressId}`, options);
+    const removeAddressResponse: Model.RemoveAddressResponse = await response.json();
+
+    if (removeAddressResponse.success) {
+        return removeAddressResponse.user;
+    } else {
+        throw new Error(errorMapper[removeAddressResponse.error]);
     }
 };
