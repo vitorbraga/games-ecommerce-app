@@ -1,0 +1,25 @@
+@import '../../base';
+
+.address-card {
+    width: 250px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-radius: 0px;
+
+    &.full-width {
+        width: 100%;
+    }
+    
+    &.selected {
+        border: 2px solid #3a3a3a;
+    }
+
+    .card-title {
+        font-size: 15px;
+    }
+
+    .card-body {
+        font-size: 14px;
+        height: 110px;
+    }
+}

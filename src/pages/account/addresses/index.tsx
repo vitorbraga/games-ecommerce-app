@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'next/router';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
@@ -19,6 +18,7 @@ import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
 import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
 
 import styles from './index.module.scss';
+import { AddressCard } from '../../../widgets/address-card/address-card';
 
 interface Props {
     authToken: string;
@@ -89,34 +89,22 @@ class AddressesPage extends React.PureComponent<Props, State> {
             <div className={styles['current-addresses-wrapper']}>
                 {addresses.map((address, index) => {
                     const isMainAddress = address.id === user?.mainAddress?.id;
+                    const footer = (
+                        <div className={styles['card-actions']}>
+                            {isMainAddress
+                                ? <div className={styles['main-address']}>Main address</div>
+                                : <Card.Link className={styles.link} onClick={this.handleClickSetMainAddress(address.id)}>Set as main address</Card.Link>
+                            }
+                            <Card.Link className={styles.link} onClick={this.handleClickRemoveAddress(address.id)}>Remove</Card.Link>
+                        </div>);
 
                     return (
-                        <Card
-                            className={classNames(styles['address-card'], { [styles['main-address']]: isMainAddress })}
+                        <AddressCard
+                            address={address}
                             key={`address-${index}`}
-                        >
-                            <Card.Body>
-                                <Card.Title className={styles['card-title']}>{address.fullName}</Card.Title>
-                                <div className={styles['card-body']}>
-                                    <div>
-                                        <div>{address.line1}</div>
-                                        <div>{address.line2}</div>
-                                        <div>{`${address.city}, ${address.country.name}`}</div>
-                                        <div>{address.zipCode}</div>
-                                        <div><i>{address.info}</i></div>
-                                    </div>
-                                </div>
-                            </Card.Body>
-                            <Card.Footer>
-                                <div className={styles['card-actions']}>
-                                    {isMainAddress
-                                        ? <div className={styles['main-address']}>Main address</div>
-                                        : <Card.Link className={styles.link} onClick={this.handleClickSetMainAddress(address.id)}>Set as main address</Card.Link>
-                                    }
-                                    <Card.Link className={styles.link} onClick={this.handleClickRemoveAddress(address.id)}>Remove</Card.Link>
-                                </div>
-                            </Card.Footer>
-                        </Card>
+                            isSelected={isMainAddress}
+                            footer={footer}
+                        />
                     );
                 })}
             </div>

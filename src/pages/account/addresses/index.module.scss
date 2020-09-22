@@ -20,35 +20,15 @@
         display: flex;
         flex-wrap: wrap;
         margin-top: 16px;
+    }
 
-        .address-card {
-            width: 250px;
-            margin-right: 20px;
-            margin-bottom: 20px;
-            border-radius: 0px;
-            
-            &.main-address {
-                border: 2px solid #3a3a3a;
-            }
+    .card-actions {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
 
-            .card-title {
-                font-size: 15px;
-            }
-
-            .card-body {
-                font-size: 14px;
-                height: 110px;
-            }
-
-            .card-actions {
-                display: flex;
-                justify-content: space-between;
-                font-size: 13px;
-
-                .main-address {
-                    font-weight: bold;
-                }
-            }
+        .selected {
+            font-weight: bold;
         }
     }
 }

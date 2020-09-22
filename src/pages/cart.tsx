@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import Dinero from 'dinero.js';
+import Router from 'next/router';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
 import { Layout } from '../components/layout';
@@ -9,7 +9,7 @@ import { CartItem } from '../modules/cart/model';
 import { AppState } from '../store';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
 import { generatePictureURL } from '../utils/api-helper';
-import { formatPrice } from '../utils/common-helper';
+import * as CommonHelpers from '../utils/common-helper';
 import { Product } from '../modules/products/model';
 import { removeItem, replaceCartItem } from '../modules/cart/actions';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
@@ -31,16 +31,6 @@ class CartPage extends React.PureComponent<Props, State> {
     public state: State = {
         justRemoved: null
     };
-
-    private calculateCartItemTotal({ product, quantity }: CartItem): number {
-        return Dinero({ amount: product.price }).multiply(quantity).getAmount();
-    }
-
-    private calculateAllCartItemsTotal(cartItems: CartItem[]): number {
-        return cartItems.reduce((prev, cur) => {
-            return Dinero({ amount: cur.product.price }).multiply(cur.quantity).add(Dinero({ amount: prev })).getAmount();
-        }, 0);
-    }
 
     private handleChangeQuantity = (product: Product) => (event: React.FocusEvent<HTMLInputElement>) => {
         const quantity = parseInt(event.target.value, 10);
@@ -93,7 +83,7 @@ class CartPage extends React.PureComponent<Props, State> {
                     }
                     {cartItems.map(({ product, quantity }, index) => {
                         const imagePath = generatePictureURL(product.pictures[0].filename);
-                        const cartItemTotal = this.calculateCartItemTotal({ product, quantity });
+                        const cartItemTotal = CommonHelpers.calculateCartItemTotal({ product, quantity });
 
                         return (
                             <tr key={`product-row-${index}`}>
@@ -107,7 +97,7 @@ class CartPage extends React.PureComponent<Props, State> {
                                     </div>
                                 </td>
                                 <td className={styles['aligned-end']}>
-                                    {formatPrice(product.price)}
+                                    {CommonHelpers.formatPrice(product.price)}
                                 </td>
                                 <td className={styles['aligned-end']}>
                                     <div className={styles['quantity-input']}>
@@ -122,7 +112,7 @@ class CartPage extends React.PureComponent<Props, State> {
                                     </div>
                                 </td>
                                 <td className={styles['aligned-end']}>
-                                    {formatPrice(cartItemTotal)}
+                                    {CommonHelpers.formatPrice(cartItemTotal)}
                                 </td>
                             </tr>
                         );
@@ -132,20 +122,24 @@ class CartPage extends React.PureComponent<Props, State> {
         );
     }
 
+    private handleClickGoToCheckout = () => {
+        Router.push('/checkout');
+    };
+
     private renderSummaryAndCheckout() {
         const { totalItems } = this.props;
-        const subtotal = this.calculateAllCartItemsTotal(this.props.cartItems);
+        const subtotal = CommonHelpers.calculateAllCartItemsTotal(this.props.cartItems);
 
         if (totalItems > 0) {
             return (
                 <div className={styles['summary-wrapper']}>
                     <div className={styles['subtotal-wrapper']}>
                         <div>Subtotal</div>
-                        <div className={styles.value}>{formatPrice(subtotal)}</div>
+                        <div className={styles.value}>{CommonHelpers.formatPrice(subtotal)}</div>
                     </div>
                     <div className={styles['shipping-info']}>Taxes and shipping calculated at checkout</div>
                     <div className={styles['checkout-wrapper']}>
-                        <CustomButton variant="primary">Proceed to Checkout</CustomButton>
+                        <CustomButton variant="primary" onClick={this.handleClickGoToCheckout}>Proceed to Checkout</CustomButton>
                     </div>
                 </div>
             );

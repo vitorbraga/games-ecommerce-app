@@ -109,7 +109,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
         if (submitStatus === FetchStatusEnum.loading) {
             return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
         } else if (submitStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed fetching user addresses.</Alert>;
+            return <Alert variant="danger">Failed registering new addresses.</Alert>;
         }
 
         return null;
@@ -131,9 +131,10 @@ class NewAddressPage extends React.PureComponent<Props, State> {
         return (
             <Layout title="My addresses" showNav={true} customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.addresses}>
-                    {this.renderSubmitStatus()}
-                    {this.renderFetchCountriesStatus()}
                     <div className={styles['form-wrapper']}>
+                        <h3>Register a new address</h3>
+                        {this.renderSubmitStatus()}
+                        {this.renderFetchCountriesStatus()}
                         <Formik
                             initialValues={this.formInitialValues}
                             validationSchema={this.validationSchema}
@@ -218,7 +219,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
                                             <ErrorMessage name="mainAddress" component="div" className="invalid-feedback" />
                                         </div>
                                         <div className="form-group">
-                                            <CustomButton type="submit" variant="primary" className={styles['submit-button']}>Create address</CustomButton>
+                                            <CustomButton type="submit" variant="primary" className={styles['submit-button']}>Register address</CustomButton>
                                         </div>
                                     </Form>
                                 );

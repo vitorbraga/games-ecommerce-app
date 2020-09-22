@@ -12,7 +12,7 @@ export class ProductList extends React.PureComponent<Props, never> {
     public render() {
         const { products } = this.props;
         if (products.length === 0) {
-            return <div>No products found</div>;
+            return <div style={{ padding: '20px' }}>No products found</div>;
         }
 
         return (

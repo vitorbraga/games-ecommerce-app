@@ -34,7 +34,7 @@ export const errorMapper: UserMessage = {
     CHANGE_PASSWORD_REQUIRED_FIELDS: 'Required fields.',
     CHANGE_PASSWORD_MISSING_PASSWORDS: 'Missing passwords.',
     CHANGE_PASSWORD_USER_NOT_FOUND: 'User not found.',
-    CHANGE_PASSWORD_INCORRECT_CURRENT_PASSWORD: 'Incorrect user password.',
+    CHANGE_PASSWORD_INCORRECT_CURRENT_PASSWORD: 'Current password is incorrect.',
     CHANGE_PASSWORD_PASSWORD_COMPLEXITY: 'Password must be at least 6 characters and it must contain numbers and letters.'
 };
 
