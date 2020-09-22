@@ -23,6 +23,8 @@ import { CustomModal } from '../widgets/custom-modal/custom-modal';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
 import { CartItem } from '../modules/cart/model';
 import * as CommonHelpers from '../utils/common-helper';
+import { MaskedField } from '../widgets/masked-field/masked-field';
+import * as CustomValidators from '../utils/validators';
 
 import styles from './checkout.module.scss';
 
@@ -70,8 +72,13 @@ class CheckoutPage extends React.PureComponent<Props, State> {
 
     private validationSchema = Yup.object().shape({
         name: Yup.string().required('Full name is required'),
-        cardNumber: Yup.string().required('Card is required'),
-        expirationDate: Yup.string().required('Expiration date is required'),
+        cardNumber: Yup.string()
+            .required('Card is required')
+            .test('test-credit-card-number', 'Invalid credit card number', CustomValidators.validateCreditCardNumber),
+        expirationDate: Yup.string()
+            .required('Expiration date is required')
+            .test('test-credit-card-expiration-date', 'Invalid Expiration Date has past', CustomValidators.validateCreditCartExpirationDate)
+            .test('test-credit-card-expiration-month', 'Invalid Expiration Month', CustomValidators.validateCreditCartExpirationMonth),
         securityCode: Yup.string().required('Security code is required')
     });
 
@@ -247,11 +254,10 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="cardNumber">Credit card number *</label>
-                                {/* TODO add mask here */}
-                                <Field
+                                <MaskedField
                                     name="cardNumber"
                                     placeholder="9999 9999 9999 9999"
-                                    type="text"
+                                    mask={CustomValidators.CREDIT_CARD_MASK}
                                     className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.cardNumber && touched.cardNumber })}
                                 />
                                 <ErrorMessage name="cardNumber" component="div" className="invalid-feedback" />
@@ -259,10 +265,10 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                             <div className={styles['double-fields-wrapper']}>
                                 <div className={classNames('form-group', styles['small-field'])}>
                                     <label htmlFor="expirationDate">Expiration date *</label>
-                                    <Field
+                                    <MaskedField
                                         name="expirationDate"
                                         placeholder="10/2025"
-                                        type="text"
+                                        mask={CustomValidators.EXPIRATION_DATE_MASK}
                                         className={classNames('form-control', styles['text-input'], { 'is-invalid': errors.expirationDate && touched.expirationDate })}
                                     />
                                     <ErrorMessage name="expirationDate" component="div" className="invalid-feedback" />
