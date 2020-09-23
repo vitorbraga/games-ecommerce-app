@@ -1,4 +1,4 @@
-import { ADD_CART_ITEM, REPLACE_CART_ITEM, REMOVE_ITEM, ActionTypes, CartState, CartItem } from './model';
+import { ADD_CART_ITEM, REPLACE_CART_ITEM, REMOVE_ITEM, ActionTypes, CartState, CartItem, EMPTY_CART } from './model';
 
 const initialState: CartState = {
     items: [],
@@ -57,6 +57,12 @@ export function cartReducer(state = initialState, action: ActionTypes): CartStat
                 ...state,
                 items: cartItems,
                 totalItems: tallyOfAllItems(cartItems)
+            };
+        }
+        case EMPTY_CART: {
+            return {
+                ...state,
+                ...initialState
             };
         }
         default:

@@ -18,6 +18,7 @@ export type BaseResponse = {
     error: string;
 };
 
+// TODO maybe try to create a common typescript type for these responses
 export type ChangePasswordResponse = {
     success: true;
     user: User;

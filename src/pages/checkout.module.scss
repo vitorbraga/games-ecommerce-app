@@ -7,10 +7,21 @@
     padding: 16px;
     @include font-standard;
 
-    .page-title {
-        text-align: center;
-        margin-top: 30px;
-        font-weight: bold;
+    .empty-state-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+
+        .page-title {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+    
+        .empty-state {
+            text-align: center;
+        }
     }
 
     .left-box {

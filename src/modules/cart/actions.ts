@@ -1,5 +1,5 @@
 import { Product } from '../products/model';
-import { ADD_CART_ITEM, ActionTypes, REPLACE_CART_ITEM, CartItem, REMOVE_ITEM } from './model';
+import { ADD_CART_ITEM, ActionTypes, REPLACE_CART_ITEM, CartItem, REMOVE_ITEM, EMPTY_CART } from './model';
 
 export function addCartItem(cartItem: CartItem): ActionTypes {
     return {
@@ -19,5 +19,11 @@ export function removeItem(product: Product): ActionTypes {
     return {
         type: REMOVE_ITEM,
         payload: product
+    };
+}
+
+export function emptyCart(): ActionTypes {
+    return {
+        type: EMPTY_CART
     };
 }

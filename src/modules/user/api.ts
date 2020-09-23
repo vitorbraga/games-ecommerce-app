@@ -1,8 +1,8 @@
-import { UserRegister, UserRegisterResponse, GetUserResponse, UserUpdate, UserUpdateResponse, User } from './model';
+import * as Model from './model';
 import { FieldWithError, headersBuilder, serverBaseUrl } from '../../utils/api-helper';
 import { errorMapper } from '../../utils/messages-mapper';
 
-export const registerUser = async (user: UserRegister): Promise<User | FieldWithError[]> => {
+export const registerUser = async (user: Model.UserRegister): Promise<Model.User | FieldWithError[]> => {
     const options = {
         headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').build(),
         method: 'POST',
@@ -10,7 +10,7 @@ export const registerUser = async (user: UserRegister): Promise<User | FieldWith
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/users`, options);
-    const userRegisterResponse: UserRegisterResponse = await response.json();
+    const userRegisterResponse: Model.UserRegisterResponse = await response.json();
 
     if (userRegisterResponse.success) {
         return userRegisterResponse.user;
@@ -21,7 +21,7 @@ export const registerUser = async (user: UserRegister): Promise<User | FieldWith
     }
 };
 
-export const updateUser = async (userId: number, user: UserUpdate, authToken: string): Promise<User | FieldWithError[]> => {
+export const updateUser = async (userId: number, user: Model.UserUpdate, authToken: string): Promise<Model.User | FieldWithError[]> => {
     const options = {
         headers: headersBuilder()
             .with('Content-Type', 'application/json')
@@ -33,7 +33,7 @@ export const updateUser = async (userId: number, user: UserUpdate, authToken: st
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/users/${userId}`, options);
-    const userUpdateResponse: UserUpdateResponse = await response.json();
+    const userUpdateResponse: Model.UserUpdateResponse = await response.json();
 
     if (userUpdateResponse.success) {
         return userUpdateResponse.user;
@@ -44,13 +44,13 @@ export const updateUser = async (userId: number, user: UserUpdate, authToken: st
     }
 };
 
-export const getUser = async (userId: string, authToken: string): Promise<User> => {
+export const getUser = async (userId: string, authToken: string): Promise<Model.User> => {
     const options = {
         headers: headersBuilder().withJwt(authToken).build()
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/users/${userId}`, options);
-    const userResponse: GetUserResponse = await response.json();
+    const userResponse: Model.GetUserResponse = await response.json();
 
     if (userResponse.success) {
         return userResponse.user;
@@ -59,13 +59,13 @@ export const getUser = async (userId: string, authToken: string): Promise<User> 
     }
 };
 
-export const getUserFullData = async (userId: string, authToken: string): Promise<User> => {
+export const getUserFullData = async (userId: string, authToken: string): Promise<Model.User> => {
     const options = {
         headers: headersBuilder().withJwt(authToken).build()
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/users/${userId}/full`, options);
-    const userResponse: GetUserResponse = await response.json();
+    const userResponse: Model.GetUserResponse = await response.json();
 
     if (userResponse.success) {
         return userResponse.user;

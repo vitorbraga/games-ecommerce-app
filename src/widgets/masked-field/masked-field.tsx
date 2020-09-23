@@ -14,7 +14,8 @@ export const MaskedField: React.FC<Props> = ({ mask, name, placeholder, classNam
         <Field
             name={name}
             type="text"
-            render={({ field }: any) => {
+        >
+            {({ field }: any) => {
                 return (
                     <MaskedInput
                         mask={mask}
@@ -24,6 +25,6 @@ export const MaskedField: React.FC<Props> = ({ mask, name, placeholder, classNam
                     />
                 );
             }}
-        />
+        </Field>
     );
 };

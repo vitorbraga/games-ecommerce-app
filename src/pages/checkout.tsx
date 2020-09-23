@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import classNames from 'classnames';
 import Dinero from 'dinero.js';
 import Alert from 'react-bootstrap/Alert';
@@ -8,6 +9,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import Router from 'next/router';
 import { Layout } from '../components/layout';
 import { User } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
@@ -15,6 +17,7 @@ import { withAuthenticationCheck } from '../utils/authentication-wrapper';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
 import * as UserApi from '../modules/user/api';
 import * as AddressApi from '../modules/address/api';
+import * as OrderApi from '../modules/orders/api';
 import { AppState } from '../store';
 import { getUser } from '../modules/user/selector';
 import { Address } from '../modules/address/model';
@@ -25,6 +28,8 @@ import { CartItem } from '../modules/cart/model';
 import * as CommonHelpers from '../utils/common-helper';
 import { MaskedField } from '../widgets/masked-field/masked-field';
 import * as CustomValidators from '../utils/validators';
+import { CreateOrderBody } from '../modules/orders/model';
+import { emptyCart } from '../modules/cart/actions';
 
 import styles from './checkout.module.scss';
 
@@ -33,11 +38,13 @@ interface Props {
     user: User; // TODO it will be only userId from localstorage
     cartItems: CartItem[];
     totalItems: number;
+    onEmptyCart: () => void;
 }
 
 interface State {
     fetchStatus: FetchStatus;
     fetchAddressesStatus: FetchStatus;
+    submitOrderStatus: FetchStatus;
     userFullData: User | null;
     selectedAddress: Address | null;
     addressModalOpen: boolean;
@@ -56,6 +63,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
         fetchAddressesStatus: FetchStatusEnum.initial,
+        submitOrderStatus: FetchStatusEnum.initial,
         userFullData: null,
         selectedAddress: null,
         addressModalOpen: false,
@@ -83,16 +91,20 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     });
 
     public componentDidMount() {
-        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
-            try {
-                const { user: { id: userId }, authToken } = this.props;
+        if (this.props.totalItems === 0) {
+            Router.push('/cart');
+        } else {
+            this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
+                try {
+                    const { user: { id: userId }, authToken } = this.props;
 
-                const userFullData = await UserApi.getUserFullData(userId, authToken);
-                this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, selectedAddress: userFullData.mainAddress || null });
-            } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure });
-            }
-        });
+                    const userFullData = await UserApi.getUserFullData(userId, authToken);
+                    this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, selectedAddress: userFullData.mainAddress || null });
+                } catch (error) {
+                    this.setState({ fetchStatus: FetchStatusEnum.failure });
+                }
+            });
+        }
     }
 
     private renderFetchStatus() {
@@ -162,7 +174,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
             try {
                 const { user: { id: userId }, authToken } = this.props;
                 const allAddresses = await AddressApi.getUserAddresses(userId, authToken);
-                this.setState({ addressModalOpen: true, allAddresses });
+                this.setState({ fetchAddressesStatus: FetchStatusEnum.success, addressModalOpen: true, allAddresses });
             } catch (error) {
                 this.setState({ fetchAddressesStatus: FetchStatusEnum.failure });
             }
@@ -291,17 +303,79 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         );
     }
 
+    private renderSubmitOrderStatus() {
+        // TODO maybe join all these status handlers into only one, and scroll to it when it appears
+        const { submitOrderStatus } = this.state;
+
+        if (submitOrderStatus === FetchStatusEnum.loading) {
+            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+        } else if (submitOrderStatus === FetchStatusEnum.failure) {
+            return <Alert variant="danger">Failed submitting order.</Alert>;
+        }
+
+        return null;
+    }
+
+    private buildCreateOrderBody(): CreateOrderBody {
+        const { selectedAddress, shippingCosts } = this.state;
+        const { cartItems } = this.props;
+
+        return {
+            addressId: selectedAddress!.id,
+            shippingCosts,
+            orderItems: cartItems.map((item) => ({ productId: item.product.id, quantity: item.quantity })),
+            paymentInfo: { // TODO find a way to get payment info
+                name: '',
+                cardNumber: '',
+                expirationDate: '',
+                securityCode: ''
+            }
+        };
+    }
+
     private handleClickCompleteOrder = () => {
+        const createOrderBody = this.buildCreateOrderBody();
+
+        this.setState({ submitOrderStatus: FetchStatusEnum.loading }, async () => {
+            try {
+                const { authToken, onEmptyCart } = this.props;
+                const order = await OrderApi.createOrder(createOrderBody, authToken);
+                console.log(order);
+                onEmptyCart();
+                Router.push(`/order-success?order=${order.id}`);
+            } catch (error) {
+                this.setState({ submitOrderStatus: FetchStatusEnum.failure });
+            }
+        });
         console.log('create order');
     };
 
+    private isCompleteButtonDisabled() {
+        // TODO improve this, taking payment into consideration
+        return this.state.selectedAddress === null;
+    }
+
     public render() {
+        if (this.props.totalItems === 0) {
+            return (
+                <Layout title="Checkout" showNav={true}>
+                    <div className={styles['checkout-container']}>
+                        <div className={styles['empty-state-wrapper']}>
+                            <h1 className={styles['page-title']}>Your cart</h1>
+                            <div className={styles['empty-state']}>Your cart is currently empty.</div>
+                        </div>
+                    </div>
+                </Layout>
+            );
+        }
+
         return (
             <Layout title="Checkout" showNav={true}>
                 <div className={styles['checkout-container']}>
                     <div className={styles['left-box']}>
                         {this.renderFetchStatus()}
                         {this.renderFetchingAddressesStatus()}
+                        {this.renderSubmitOrderStatus()}
                         <div className={styles['delivery-address-box']}>
                             <h4>Delivery address</h4>
                             {this.renderDeliveryAddress()}
@@ -312,7 +386,13 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                             {this.renderPaymentInfo()}
                         </div>
                         <div className={styles['complete-box']}>
-                            <CustomButton variant="primary" onClick={this.handleClickCompleteOrder}>Complete order</CustomButton>
+                            <CustomButton
+                                variant="primary"
+                                onClick={this.handleClickCompleteOrder}
+                                disabled={this.isCompleteButtonDisabled()}
+                            >
+                                Complete order
+                            </CustomButton>
                         </div>
                     </div>
                     <div className={styles['right-box']}>
@@ -331,4 +411,8 @@ const mapStateToProps = (state: AppState) => ({
     totalItems: getTotalItems(state.cart)
 });
 
-export default connect(mapStateToProps)(withAuthenticationCheck(CheckoutPage));
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    onEmptyCart: () => dispatch(emptyCart())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationCheck(CheckoutPage));
