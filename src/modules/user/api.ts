@@ -1,6 +1,6 @@
 import * as Model from './model';
 import { FieldWithError, headersBuilder, serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 
 export const registerUser = async (user: Model.UserRegister): Promise<Model.User | FieldWithError[]> => {
     const options = {
@@ -17,7 +17,7 @@ export const registerUser = async (user: Model.UserRegister): Promise<Model.User
     } else if ('fields' in userRegisterResponse) {
         return userRegisterResponse.fields;
     } else {
-        throw new Error(errorMapper[userRegisterResponse.error]);
+        throw new Error(getErrorMessage(userRegisterResponse.error));
     }
 };
 
@@ -40,7 +40,7 @@ export const updateUser = async (userId: number, user: Model.UserUpdate, authTok
     } else if ('fields' in userUpdateResponse) {
         return userUpdateResponse.fields;
     } else {
-        throw new Error(errorMapper[userUpdateResponse.error]);
+        throw new Error(getErrorMessage(userUpdateResponse.error));
     }
 };
 
@@ -55,7 +55,7 @@ export const getUser = async (userId: string, authToken: string): Promise<Model.
     if (userResponse.success) {
         return userResponse.user;
     } else {
-        throw new Error(errorMapper[userResponse.error]);
+        throw new Error(getErrorMessage(userResponse.error));
     }
 };
 
@@ -70,6 +70,6 @@ export const getUserFullData = async (userId: string, authToken: string): Promis
     if (userResponse.success) {
         return userResponse.user;
     } else {
-        throw new Error(errorMapper[userResponse.error]);
+        throw new Error(getErrorMessage(userResponse.error));
     }
 };

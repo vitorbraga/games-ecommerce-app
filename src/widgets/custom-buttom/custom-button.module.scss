@@ -12,7 +12,13 @@
         color: white !important;
     }
 
-    // TODO disabled style
+    &:disabled {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: white;
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
 }
 
 .secondary {
@@ -27,5 +33,11 @@
         color: $color-primary !important;
     }
 
-    // TODO disabled style
+    &:disabled {
+        background-color: white;
+        border-color: $color-primary;
+        color: $color-primary;
+        opacity: 0.3;
+        cursor: not-allowed;
+    }
 }

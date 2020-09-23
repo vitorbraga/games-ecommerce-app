@@ -1,5 +1,5 @@
 import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 import * as Model from './model';
 
 export const getAllCountries = async (): Promise<Model.Country[]> => {
@@ -13,6 +13,6 @@ export const getAllCountries = async (): Promise<Model.Country[]> => {
     if (countriesResponse.success) {
         return countriesResponse.countries;
     } else {
-        throw new Error(errorMapper[countriesResponse.error]);
+        throw new Error(getErrorMessage(countriesResponse.error));
     }
 };

@@ -1,5 +1,5 @@
 import { FieldWithError, headersBuilder, serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 import { User } from '../user/model';
 import * as Model from './model';
 
@@ -14,7 +14,7 @@ export const getUserAddresses = async (userId: string, authToken: string): Promi
     if (addressesResponse.success) {
         return addressesResponse.addresses;
     } else {
-        throw new Error(errorMapper[addressesResponse.error]);
+        throw new Error(getErrorMessage(addressesResponse.error));
     }
 };
 
@@ -34,7 +34,7 @@ export const setMainAddress = async (userId: string, addressId: string, authToke
     if (setMainAddressResponse.success) {
         return setMainAddressResponse.user;
     } else {
-        throw new Error(errorMapper[setMainAddressResponse.error]);
+        throw new Error(getErrorMessage(setMainAddressResponse.error));
     }
 };
 
@@ -57,7 +57,7 @@ export const createAddress = async (userId: string, address: Model.CreateAddress
     } else if ('fields' in createAddressResponse) {
         return createAddressResponse.fields;
     } else {
-        throw new Error(errorMapper[createAddressResponse.error]);
+        throw new Error(getErrorMessage(createAddressResponse.error));
     }
 };
 
@@ -77,6 +77,6 @@ export const removeAddress = async (userId: string, addressId: string, authToken
     if (removeAddressResponse.success) {
         return removeAddressResponse.user;
     } else {
-        throw new Error(errorMapper[removeAddressResponse.error]);
+        throw new Error(getErrorMessage(removeAddressResponse.error));
     }
 };

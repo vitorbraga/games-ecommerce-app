@@ -43,8 +43,7 @@ interface Props {
 
 interface State {
     fetchStatus: FetchStatus;
-    fetchAddressesStatus: FetchStatus;
-    submitOrderStatus: FetchStatus;
+    fetchError: string | null;
     userFullData: User | null;
     selectedAddress: Address | null;
     addressModalOpen: boolean;
@@ -62,8 +61,7 @@ interface FormData {
 class CheckoutPage extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
-        fetchAddressesStatus: FetchStatusEnum.initial,
-        submitOrderStatus: FetchStatusEnum.initial,
+        fetchError: null,
         userFullData: null,
         selectedAddress: null,
         addressModalOpen: false,
@@ -101,31 +99,19 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                     const userFullData = await UserApi.getUserFullData(userId, authToken);
                     this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, selectedAddress: userFullData.mainAddress || null });
                 } catch (error) {
-                    this.setState({ fetchStatus: FetchStatusEnum.failure });
+                    this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
                 }
             });
         }
     }
 
     private renderFetchStatus() {
-        const { fetchStatus } = this.state;
+        const { fetchStatus, fetchError } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {
             return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed fetching user data.</Alert>;
-        }
-
-        return null;
-    }
-
-    private renderFetchingAddressesStatus() {
-        const { fetchStatus } = this.state;
-
-        if (fetchStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed fetching user addresses.</Alert>;
+            return <Alert variant="danger">{fetchError}</Alert>;
         }
 
         return null;
@@ -141,6 +127,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
 
     private renderAddressModal() {
         const { allAddresses, selectedAddress } = this.state;
+
         return (
             <CustomModal
                 title="My addresses"
@@ -151,8 +138,8 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                     {allAddresses.map((address, index) => {
                         const isSelected = address.id === selectedAddress?.id;
                         const footer = isSelected
-                            ? <div>This is the selected address</div>
-                            : <div><a className={styles.link} onClick={this.handleSelectAddress(address)}>Use this address</a></div>;
+                            ? <div style={{ fontSize: '13px' }}>This is the selected address</div>
+                            : <div style={{ fontSize: '13px' }}><a className={styles.link} onClick={this.handleSelectAddress(address)}>Use this address</a></div>;
 
                         return (
                             <AddressCard
@@ -169,14 +156,14 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         );
     }
 
-    private handleOpenAddressModal = async () => {
-        this.setState({ fetchAddressesStatus: FetchStatusEnum.loading }, async () => {
+    private handleOpenAddressModal = () => {
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
                 const { user: { id: userId }, authToken } = this.props;
                 const allAddresses = await AddressApi.getUserAddresses(userId, authToken);
-                this.setState({ fetchAddressesStatus: FetchStatusEnum.success, addressModalOpen: true, allAddresses });
+                this.setState({ fetchStatus: FetchStatusEnum.success, addressModalOpen: true, allAddresses });
             } catch (error) {
-                this.setState({ fetchAddressesStatus: FetchStatusEnum.failure });
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     };
@@ -244,12 +231,27 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         );
     }
 
+    private handleSubmit = (paymentInfo: FormData) => {
+        const createOrderBody = this.buildCreateOrderBody(paymentInfo);
+
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
+            try {
+                const { authToken, onEmptyCart } = this.props;
+                const order = await OrderApi.createOrder(createOrderBody, authToken);
+                onEmptyCart();
+                Router.push(`/order-success?order=${order.id}`);
+            } catch (error) {
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+            }
+        });
+    };
+
     private renderPaymentInfo() {
         return (
             <Formik
                 initialValues={this.formInitialValues}
                 validationSchema={this.validationSchema}
-                onSubmit={() => undefined}
+                onSubmit={this.handleSubmit}
             >
                 {({ errors, touched }) => {
                     return (
@@ -296,6 +298,14 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                                     <ErrorMessage name="securityCode" component="div" className="invalid-feedback" />
                                 </div>
                             </div>
+                            <div className={classNames('form-group', styles['button-wrapper'])}>
+                                <CustomButton
+                                    variant="primary"
+                                    type="submit"
+                                >
+                                    Complete order
+                                </CustomButton>
+                            </div>
                         </Form>
                     );
                 }}
@@ -303,56 +313,16 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         );
     }
 
-    private renderSubmitOrderStatus() {
-        // TODO maybe join all these status handlers into only one, and scroll to it when it appears
-        const { submitOrderStatus } = this.state;
-
-        if (submitOrderStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (submitOrderStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed submitting order.</Alert>;
-        }
-
-        return null;
-    }
-
-    private buildCreateOrderBody(): CreateOrderBody {
+    private buildCreateOrderBody(paymentInfo: FormData): CreateOrderBody {
         const { selectedAddress, shippingCosts } = this.state;
         const { cartItems } = this.props;
 
         return {
-            addressId: selectedAddress!.id,
+            addressId: selectedAddress!.id + '22',
             shippingCosts,
             orderItems: cartItems.map((item) => ({ productId: item.product.id, quantity: item.quantity })),
-            paymentInfo: { // TODO find a way to get payment info
-                name: '',
-                cardNumber: '',
-                expirationDate: '',
-                securityCode: ''
-            }
+            paymentInfo
         };
-    }
-
-    private handleClickCompleteOrder = () => {
-        const createOrderBody = this.buildCreateOrderBody();
-
-        this.setState({ submitOrderStatus: FetchStatusEnum.loading }, async () => {
-            try {
-                const { authToken, onEmptyCart } = this.props;
-                const order = await OrderApi.createOrder(createOrderBody, authToken);
-                console.log(order);
-                onEmptyCart();
-                Router.push(`/order-success?order=${order.id}`);
-            } catch (error) {
-                this.setState({ submitOrderStatus: FetchStatusEnum.failure });
-            }
-        });
-        console.log('create order');
-    };
-
-    private isCompleteButtonDisabled() {
-        // TODO improve this, taking payment into consideration
-        return this.state.selectedAddress === null;
     }
 
     public render() {
@@ -374,8 +344,6 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                 <div className={styles['checkout-container']}>
                     <div className={styles['left-box']}>
                         {this.renderFetchStatus()}
-                        {this.renderFetchingAddressesStatus()}
-                        {this.renderSubmitOrderStatus()}
                         <div className={styles['delivery-address-box']}>
                             <h4>Delivery address</h4>
                             {this.renderDeliveryAddress()}
@@ -384,15 +352,6 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                         <div className={styles['payment-box']}>
                             <h4>Payment info</h4>
                             {this.renderPaymentInfo()}
-                        </div>
-                        <div className={styles['complete-box']}>
-                            <CustomButton
-                                variant="primary"
-                                onClick={this.handleClickCompleteOrder}
-                                disabled={this.isCompleteButtonDisabled()}
-                            >
-                                Complete order
-                            </CustomButton>
                         </div>
                     </div>
                     <div className={styles['right-box']}>

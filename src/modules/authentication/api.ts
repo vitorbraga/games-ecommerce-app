@@ -1,6 +1,6 @@
 import { LoginResponse, PasswordRecoveryResponse, CheckPasswordTokenResponse, ChangePasswordTokenResponse, ChangePasswordResponse } from './model';
 import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 import { User } from '../user/model';
 
 export const authenticate = async (username: string, password: string): Promise<string> => {
@@ -16,7 +16,7 @@ export const authenticate = async (username: string, password: string): Promise<
     if (loginResponse.success) {
         return loginResponse.jwt;
     } else {
-        throw new Error(errorMapper[loginResponse.error]);
+        throw new Error(getErrorMessage(loginResponse.error));
     }
 };
 
@@ -31,7 +31,7 @@ export const passwordRecovery = async (email: string): Promise<void> => {
     const passwordRecoveryResponse: PasswordRecoveryResponse = await response.json();
 
     if (!passwordRecoveryResponse.success) {
-        throw new Error(errorMapper[passwordRecoveryResponse.error]);
+        throw new Error(getErrorMessage(passwordRecoveryResponse.error));
     }
 };
 
@@ -46,7 +46,7 @@ export const changePasswordWithToken = async (newPassword: string, token: string
     const changePasswordResponse: ChangePasswordTokenResponse = await response.json();
 
     if (!changePasswordResponse.success) {
-        throw new Error(errorMapper[changePasswordResponse.error]);
+        throw new Error(getErrorMessage(changePasswordResponse.error));
     }
 };
 
@@ -67,7 +67,7 @@ export const changePassword = async (currentPassword: string, newPassword: strin
     if (changePasswordResponse.success) {
         return changePasswordResponse.user;
     } else {
-        throw new Error(errorMapper[changePasswordResponse.error]);
+        throw new Error(getErrorMessage(changePasswordResponse.error));
     }
 };
 
@@ -80,6 +80,6 @@ export const checkValidPasswordResetToken = async (token: string, userId: string
     const checkPasswordResponse: CheckPasswordTokenResponse = await response.json();
 
     if (!checkPasswordResponse.success) {
-        throw new Error(errorMapper[checkPasswordResponse.error]);
+        throw new Error(getErrorMessage(checkPasswordResponse.error));
     }
 };

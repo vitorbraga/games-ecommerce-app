@@ -1,5 +1,5 @@
 import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 import * as Model from './model';
 
 export const createOrder = async (createOrderBody: Model.CreateOrderBody, authToken: string): Promise<Model.Order> => {
@@ -19,6 +19,6 @@ export const createOrder = async (createOrderBody: Model.CreateOrderBody, authTo
     if (createOrderResponse.success) {
         return createOrderResponse.order;
     } else {
-        throw new Error(errorMapper[createOrderResponse.error]);
+        throw new Error(getErrorMessage(createOrderResponse.error));
     }
 };

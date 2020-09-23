@@ -1,8 +1,8 @@
-export interface UserMessage {
+interface UserMessage {
     [Key: string]: string;
 }
 
-export const errorMapper: UserMessage = {
+const errorMapper: UserMessage = {
     LOGIN_MISSING_CREDENTIALS: 'Missing credentials.',
     LOGIN_USER_NOT_FOUND: 'User not found.',
     LOGIN_UNMATCHED_EMAIL_PWD: 'Email and password do not match.',
@@ -35,10 +35,13 @@ export const errorMapper: UserMessage = {
     CHANGE_PASSWORD_MISSING_PASSWORDS: 'Missing passwords.',
     CHANGE_PASSWORD_USER_NOT_FOUND: 'User not found.',
     CHANGE_PASSWORD_INCORRECT_CURRENT_PASSWORD: 'Current password is incorrect.',
-    CHANGE_PASSWORD_PASSWORD_COMPLEXITY: 'Password must be at least 6 characters and it must contain numbers and letters.'
+    CHANGE_PASSWORD_PASSWORD_COMPLEXITY: 'Password must be at least 6 characters and it must contain numbers and letters.',
+    ADDRESS_NOT_FOUND: 'Address not found',
+    PRODUCT_NOT_FOUND: 'Product not found',
+    FAILED_MANAGING_ORDER_ITEMS: 'Failed managing order items',
+    FAILED_CREATING_ORDER: 'Failed creating order'
 };
 
-export const successMapper: UserMessage = {
-    USER_UPDATED: 'User information updated successfully.',
-    PASSWORD_RESET_EMAIL_SENT: 'We sent a password reset link to your email address, which allows you to reset your password.'
-};
+export function getErrorMessage(key: string) {
+    return errorMapper[key] || key;
+}

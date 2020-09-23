@@ -1,5 +1,5 @@
 import { serverBaseUrl } from '../../utils/api-helper';
-import { errorMapper } from '../../utils/messages-mapper';
+import { getErrorMessage } from '../../utils/messages-mapper';
 import * as Model from './model';
 
 export const getFullTreeOfCategories = async (): Promise<Model.Category[]> => {
@@ -9,6 +9,6 @@ export const getFullTreeOfCategories = async (): Promise<Model.Category[]> => {
     if (categoriesResponse.success) {
         return categoriesResponse.categories;
     } else {
-        throw new Error(errorMapper[categoriesResponse.error]);
+        throw new Error(getErrorMessage(categoriesResponse.error));
     }
 };
