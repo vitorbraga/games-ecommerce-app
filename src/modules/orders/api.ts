@@ -22,3 +22,15 @@ export const createOrder = async (createOrderBody: Model.CreateOrderBody, authTo
         throw new Error(getErrorMessage(createOrderResponse.error));
     }
 };
+
+export const getOrder = async (orderId: string): Promise<Model.Order> => {
+    console.log('getOrder', orderId);
+    const response: Response = await fetch(`${serverBaseUrl}/orders/${orderId}`);
+    const orderResponse: Model.GetOrderResponse = await response.json();
+
+    if (orderResponse.success) {
+        return orderResponse.order;
+    } else {
+        throw new Error(getErrorMessage(orderResponse.error));
+    }
+};

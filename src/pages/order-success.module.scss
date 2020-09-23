@@ -1,0 +1,64 @@
+@import '../base';
+
+.order-success-container {
+    display: flex;
+    flex-direction: column;
+    width: 1000px;
+    height: 100%;
+    @include font-standard;
+    
+    .page-title {
+        text-align: center;
+        margin-top: 30px;
+        font-weight: bold;
+    }
+
+    .page-subtitle {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .loading-circle {
+        display: flex;
+        justify-content: center;
+    }
+
+    .error-box {
+        width: 500px;
+        margin: auto;
+        margin-top: 16px;
+    }
+
+    .order-information-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        width: 600px;
+        margin: auto;
+
+        .info-card {
+            display: flex;
+            width: 280px;
+            height: 120px;
+            padding: 8px;
+            border: 1px solid $color-border;
+            margin-top: 20px;
+
+            .icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .text {
+                flex: 1;
+                margin-left: 16px;
+                font-size: 13px;
+
+                p {
+                    margin-bottom: 4px;
+                }
+            }
+        }
+    }
+
+}

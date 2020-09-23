@@ -43,7 +43,6 @@ function SearchPage({ query: { term, categories, sortType } }: Props) {
     }
 
     React.useEffect(() => {
-        console.log('useEffect');
         setSearchTerm(term as string);
         const newCategories = categories ? categories.toString().split(',') : [];
         setSelectedCategories(newCategories);
