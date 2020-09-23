@@ -1,14 +1,15 @@
 import * as React from 'react';
 import shallowEqual from 'shallowequal';
+import { ParsedUrlQuery } from 'querystring';
 import Router from 'next/router';
 import { Layout } from '../../components/layout';
 import Spinner from 'react-bootstrap/Spinner';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { FetchStatusEnum } from '../../utils/api-helper';
 import { Product } from '../../modules/products/model';
 import { ProductList } from '../../components/products/product-list';
 import * as ProductApi from '../../modules/products/api';
-import { ParsedUrlQuery } from 'querystring';
 import { SearchBar } from '../../widgets/search-bar/search-bar';
 import { Sidebar } from './sidebar';
 
@@ -54,8 +55,10 @@ function SearchPage({ query: { term, categories, sortType } }: Props) {
     const renderSearchStatus = () => {
         if (productsFetch.searchStatus === FetchStatusEnum.loading) {
             return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+        } else if (productsFetch.searchStatus === FetchStatusEnum.failure) {
+            return <Alert variant="danger">Failed searching products.</Alert>;
         }
-        // TODO finish this
+
         return null;
     };
 

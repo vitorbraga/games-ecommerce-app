@@ -16,9 +16,9 @@ import { getUser } from '../../../modules/user/selector';
 import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
-import { errorMapper } from '../../../utils/messages-mapper';
 import { Country } from '../../../modules/countries/model';
 import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
+import { getErrorMessage } from '../../../utils/messages-mapper';
 
 import styles from './new.module.scss';
 
@@ -94,7 +94,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
                 } else {
                     const fieldsWithErrors = addressesOrFieldsWithErrors;
                     if (fieldsWithErrors.length > 0) {
-                        this.setState({ submitStatus: FetchStatusEnum.failure, submitError: errorMapper[Object.values(fieldsWithErrors[0].constraints)[0]] });
+                        this.setState({ submitStatus: FetchStatusEnum.failure, submitError: getErrorMessage(Object.values(fieldsWithErrors[0].constraints)[0]) });
                     }
                 }
             } catch (error) {

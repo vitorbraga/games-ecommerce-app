@@ -318,7 +318,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         const { cartItems } = this.props;
 
         return {
-            addressId: selectedAddress!.id + '22',
+            addressId: selectedAddress!.id,
             shippingCosts,
             orderItems: cartItems.map((item) => ({ productId: item.product.id, quantity: item.quantity })),
             paymentInfo
