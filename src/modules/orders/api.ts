@@ -24,7 +24,6 @@ export const createOrder = async (createOrderBody: Model.CreateOrderBody, authTo
 };
 
 export const getOrder = async (orderId: string): Promise<Model.Order> => {
-    console.log('getOrder', orderId);
     const response: Response = await fetch(`${serverBaseUrl}/orders/${orderId}`);
     const orderResponse: Model.GetOrderResponse = await response.json();
 
@@ -32,5 +31,21 @@ export const getOrder = async (orderId: string): Promise<Model.Order> => {
         return orderResponse.order;
     } else {
         throw new Error(getErrorMessage(orderResponse.error));
+    }
+};
+
+export const getUserOrders = async (userId: string, authToken: string): Promise<Model.Order[]> => {
+    // TODO will replace this for using userId from authToken (or comparing both)
+    const options = {
+        headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').withJwt(authToken).build()
+    };
+
+    const response: Response = await fetch(`${serverBaseUrl}/users/${userId}/orders`, options);
+    const userOrdersResponse: Model.GetUserOrdersResponse = await response.json();
+
+    if (userOrdersResponse.success) {
+        return userOrdersResponse.orders;
+    } else {
+        throw new Error(getErrorMessage(userOrdersResponse.error));
     }
 };

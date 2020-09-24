@@ -30,7 +30,7 @@ interface State {
     addresses: Address[];
     removeStatus: FetchStatus;
     setMainAddressStatus: FetchStatus;
-    user: User | null;
+    userFullData: User | null;
 }
 
 class AddressesPage extends React.PureComponent<Props, State> {
@@ -39,7 +39,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
         addresses: [],
         removeStatus: FetchStatusEnum.initial,
         setMainAddressStatus: FetchStatusEnum.initial,
-        user: null
+        userFullData: null
     };
 
     public componentDidMount() {
@@ -47,9 +47,9 @@ class AddressesPage extends React.PureComponent<Props, State> {
             try {
                 const { user: { id: userId }, authToken } = this.props;
 
-                const user = await UserApi.getUserFullData(userId, authToken);
+                const userFullData = await UserApi.getUserFullData(userId, authToken);
                 const addresses = await AddressApi.getUserAddresses(userId, authToken);
-                this.setState({ fetchStatus: FetchStatusEnum.success, user, addresses });
+                this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, addresses });
             } catch (error) {
                 this.setState({ fetchStatus: FetchStatusEnum.failure });
             }
@@ -79,7 +79,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
     };
 
     private renderUserAddresses() {
-        const { addresses, user } = this.state;
+        const { addresses, userFullData } = this.state;
 
         if (addresses.length === 0) {
             return <div className={styles['empty-state']}>You don't have registered addresses. Click here to add one.</div>;
@@ -88,7 +88,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
         return (
             <div className={styles['current-addresses-wrapper']}>
                 {addresses.map((address, index) => {
-                    const isMainAddress = address.id === user?.mainAddress?.id;
+                    const isMainAddress = address.id === userFullData?.mainAddress?.id;
                     const footer = (
                         <div className={styles['card-actions']}>
                             {isMainAddress
@@ -112,6 +112,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
     }
 
     private renderFetchStatus() {
+        // TODO probably it's a good idea to merge all fetch status into one
         const { fetchStatus } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {

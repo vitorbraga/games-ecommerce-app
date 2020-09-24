@@ -1,15 +1,17 @@
 import { Address } from '../address/model';
+import { Product } from '../products/model';
 import { User } from '../user/model';
 
 export interface OrderItem {
     id: string;
     quantity: number;
+    product: Product;
 }
 
 export interface Order {
     id: string;
     orderNumber: string;
-    deliveryFee: number;
+    shippingCosts: number;
     total: number;
     coupon: string | null;
     orderItems: OrderItem[];
@@ -47,6 +49,14 @@ export interface CreateOrderBody {
 export type GetOrderResponse = {
     success: true;
     order: Order;
+} | {
+    success: false;
+    error: string;
+};
+
+export type GetUserOrdersResponse = {
+    success: true;
+    orders: Order[];
 } | {
     success: false;
     error: string;

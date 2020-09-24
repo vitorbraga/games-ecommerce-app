@@ -56,6 +56,7 @@ function OrderSuccessPage({ query: { order: orderId } }: Props) {
                             <div className={styles.text}>
                                 <p>The delivery address would be:</p>
                                 <p>{order.deliveryAddress.line1}</p>
+                                {order.deliveryAddress.line2 && <p>{order.deliveryAddress.line1}</p>}
                                 <p>{order.deliveryAddress.city}, {order.deliveryAddress.country.name}</p>
                                 <p>{order.deliveryAddress.zipCode}</p>
                             </div>

@@ -11,23 +11,32 @@ interface Props {
     product: Product;
 }
 
-export class ProductCard extends React.PureComponent<Props, never> {
-    private handleRedirectClick = () => {
-        Router.push(`/products/${this.props.product.id}`);
+export const ProductCard: React.FC<Props> = ({ product }) => {
+    const productDetailsUrl = `/products/${product.id}`;
+
+    const handleRedirectClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (event.ctrlKey) {
+            window.open(productDetailsUrl, '_blank');
+        } else {
+            Router.push(productDetailsUrl);
+        }
     };
 
-    public render() {
-        const { product } = this.props;
-        const imagePath = generatePictureURL(product.pictures[0].filename);
+    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (event.button === 1) {
+            window.open(productDetailsUrl, '_blank');
+        }
+    };
 
-        return (
-            <Card className={styles['product-card']} onClick={this.handleRedirectClick}>
-                <Card.Img variant="top" src={imagePath} className={styles.image} />
-                <Card.Body className={styles['custom-card-body']}>
-                    <Card.Title className={styles.title}>{product.title}</Card.Title>
-                    <Card.Subtitle className={styles.subtitle}>{formatPrice(product.price)}</Card.Subtitle>
-                </Card.Body>
-            </Card>
-        );
-    }
-}
+    const imagePath = generatePictureURL(product.pictures[0].filename);
+
+    return (
+        <Card className={styles['product-card']} onClick={handleRedirectClick} onMouseDown={handleMouseDown}>
+            <Card.Img variant="top" src={imagePath} className={styles.image} />
+            <Card.Body className={styles['custom-card-body']}>
+                <Card.Title className={styles.title}>{product.title}</Card.Title>
+                <Card.Subtitle className={styles.subtitle}>{formatPrice(product.price)}</Card.Subtitle>
+            </Card.Body>
+        </Card>
+    );
+};

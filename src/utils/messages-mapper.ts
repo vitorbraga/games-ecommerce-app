@@ -2,7 +2,7 @@ interface UserMessage {
     [Key: string]: string;
 }
 
-const errorMapper: UserMessage = {
+export const errorMapper: UserMessage = {
     LOGIN_MISSING_CREDENTIALS: 'Missing credentials.',
     LOGIN_USER_NOT_FOUND: 'User not found.',
     LOGIN_UNMATCHED_EMAIL_PWD: 'Email and password do not match.',

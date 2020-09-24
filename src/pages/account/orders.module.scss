@@ -1,3 +1,68 @@
+@import '../../base';
+
 .custom-layout-content {
     min-height: 100%;
+}
+
+.orders-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    @include font-standard;
+
+    .orders-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+        .order-box {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 16px;
+            padding: 16px;
+            border: 1px solid $color-border;
+
+            .details-wrapper {
+                display: flex;
+                justify-content: space-evenly;
+                margin-top: 8px;
+
+                .column {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+
+                    .label {
+                        font-weight: bold;
+                        margin-top: 10px;
+                        font-size: 14px;
+                    }
+
+                    .label:first-of-type {
+                        margin-top: 0;
+                    }
+    
+                    .value {
+                        font-size: 13px;
+                        margin-bottom: 4px;
+    
+                        p {
+                            margin-bottom: 0;
+                        }
+                    }
+
+                    .costs-wrapper {
+                        font-size: 13px;
+
+                        .line {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
 }
