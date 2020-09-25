@@ -20,7 +20,7 @@ export interface Builder {
 export function headersBuilder() {
     const headers = new Headers();
     const builder: Builder = {
-        withJwt: (token: string) => (headers.append('auth', token), builder),
+        withJwt: (token: string) => (headers.append('Authorization', `Bearer ${token}`), builder),
         with: (name: string, value: string) => (headers.append(name, value), builder),
         build: () => headers
     };
