@@ -3,17 +3,20 @@ import { connect } from 'react-redux';
 import Dinero from 'dinero.js';
 import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
+import Image from 'react-bootstrap/Image';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
 import { Layout } from '../../components/layout';
 import { getUser } from '../../modules/user/selector';
 import { AppState } from '../../store';
-import { FetchStatus, FetchStatusEnum } from '../../utils/api-helper';
+import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 import * as OrdersApi from '../../modules/orders/api';
 import * as CommonHelpers from '../../utils/common-helper';
 import { User } from '../../modules/user/model';
-import { Order } from '../../modules/orders/model';
+import { Order, OrderStatus } from '../../modules/orders/model';
+import * as DateUtils from '../../utils/date-utils';
+import { OrderStatusBadge } from '../../widgets/order-status-badge/order-status-badge';
 
 import styles from './orders.module.scss';
 
@@ -60,6 +63,21 @@ class OrdersPage extends React.PureComponent<Props, State> {
         return null;
     }
 
+    private openProductInANewTab(productId: string) {
+        const productDetailsUrl = `/products/${productId}`;
+        window.open(productDetailsUrl, '_blank');
+    }
+
+    private handleClickProduct = (productId: string) => () => {
+        this.openProductInANewTab(productId);
+    };
+
+    private handleMouseDownProduct = (productId: string) => (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (event.button === 1) {
+            this.openProductInANewTab(productId);
+        }
+    };
+
     private renderOrders() {
         const { orders } = this.state;
 
@@ -77,13 +95,16 @@ class OrdersPage extends React.PureComponent<Props, State> {
 
                     return (
                         <div className={styles['order-box']} key={`order-box-${index}`}>
-                            <h4>Order #{order.orderNumber}</h4>
-                            <div className={styles['details-wrapper']}>
+                            <div className={styles['title-section']}>
+                                <h5>#{order.orderNumber}</h5>
+                                <h5><OrderStatusBadge orderStatus={order.status as OrderStatus} /></h5>
+                            </div>
+                            <div className={styles['details-section']}>
                                 <div className={styles.column}>
                                     <div className={styles.label}>Order number</div>
                                     <div className={styles.value}>{order.orderNumber}</div>
                                     <div className={styles.label}>Ordered on</div>
-                                    <div className={styles.value}>{order.createdAt}</div>
+                                    <div className={styles.value}>{DateUtils.formatDateFromMilliseconds(order.createdAt)}</div>
                                 </div>
                                 <div className={styles.column}>
                                     <div className={styles.label}>Delivery address</div>
@@ -113,6 +134,24 @@ class OrdersPage extends React.PureComponent<Props, State> {
                                             <div>{CommonHelpers.formatPrice(totalToPaid)}</div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div className={styles['pictures-section']}>
+                                <div className={styles['products-title']}>Products:</div>
+                                <div className={styles['pictures-wrapper']}>
+                                    {order.orderItems.map(({ product, quantity }, index) => {
+                                        const imagePath = generatePictureURL(product.pictures[0].filename);
+                                        return (
+                                            <Image
+                                                key={`product-picture-${index}`}
+                                                src={imagePath}
+                                                className={styles['product-preview']}
+                                                title={`${product.title} (${quantity})`}
+                                                onClick={this.handleClickProduct(product.id)}
+                                                onMouseDown={this.handleMouseDownProduct(product.id)}
+                                            />
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

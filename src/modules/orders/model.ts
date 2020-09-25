@@ -2,6 +2,22 @@ import { Address } from '../address/model';
 import { Product } from '../products/model';
 import { User } from '../user/model';
 
+export enum OrderStatusEnum {
+    AWAITING_PAYMENT = 'AWAITING_PAYMENT',
+    AWAITING_DELIVERY = 'AWAITING_DELIVERY',
+    DELIVERED = 'DELIVERED',
+    CANCELLED = 'CANCELLED'
+};
+
+export type OrderStatus = keyof typeof OrderStatusEnum;
+
+export const orderStatusMapper: { [key in OrderStatus]: { label: string, color: string} } = {
+    AWAITING_PAYMENT: { label: 'Awaiting Payment', color: '#c46f00' },
+    AWAITING_DELIVERY: { label: 'Awaiting Delivery', color: '#fcba03' },
+    DELIVERED: { label: 'Delivered', color: '#00c40a' },
+    CANCELLED: { label: 'Cancelled', color: '#ab0e00' }
+};
+
 export interface OrderItem {
     id: string;
     quantity: number;
@@ -10,6 +26,7 @@ export interface OrderItem {
 
 export interface Order {
     id: string;
+    status: string;
     orderNumber: string;
     shippingCosts: number;
     total: number;

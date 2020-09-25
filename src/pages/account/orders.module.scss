@@ -23,7 +23,12 @@
             padding: 16px;
             border: 1px solid $color-border;
 
-            .details-wrapper {
+            .title-section {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .details-section {
                 display: flex;
                 justify-content: space-evenly;
                 margin-top: 8px;
@@ -61,7 +66,27 @@
                         }
                     }
                 }
+            }
 
+            .pictures-section {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: wrap;
+
+                .products-title {
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+
+                .pictures-wrapper {
+                    display: flex;
+                    margin-top: 10px;
+
+                    .product-preview {
+                        width: 60px;
+                        cursor: pointer;
+                    }
+                }
             }
         }
     }
