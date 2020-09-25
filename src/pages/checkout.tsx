@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Router from 'next/router';
 import { Layout } from '../components/layout';
-import { User } from '../modules/user/model';
+import { User, UserSession } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { withAuthenticationCheck } from '../utils/authentication-wrapper';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
@@ -18,7 +18,7 @@ import * as UserApi from '../modules/user/api';
 import * as AddressApi from '../modules/address/api';
 import * as OrderApi from '../modules/orders/api';
 import { AppState } from '../store';
-import { getUser } from '../modules/user/selector';
+import { getUserSession } from '../modules/user/selector';
 import { Address } from '../modules/address/model';
 import { AddressCard } from '../widgets/address-card/address-card';
 import { CustomModal } from '../widgets/custom-modal/custom-modal';
@@ -35,7 +35,7 @@ import styles from './checkout.module.scss';
 
 interface Props {
     authToken: string;
-    user: User; // TODO it will be only userId from localstorage
+    userSession: UserSession;
     cartItems: CartItem[];
     totalItems: number;
     onEmptyCart: () => void;
@@ -98,7 +98,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         } else {
             this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
                 try {
-                    const { user: { id: userId }, authToken } = this.props;
+                    const { userSession: { id: userId }, authToken } = this.props;
 
                     const userFullData = await UserApi.getUserFullData(userId, authToken);
                     this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, selectedAddress: userFullData.mainAddress || null });
@@ -151,7 +151,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     private handleOpenAddressModal = () => {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const { user: { id: userId }, authToken } = this.props;
+                const { userSession: { id: userId }, authToken } = this.props;
                 const allAddresses = await AddressApi.getUserAddresses(userId, authToken);
                 this.setState({ fetchStatus: FetchStatusEnum.success, addressModalOpen: true, allAddresses });
             } catch (error) {
@@ -365,7 +365,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    user: getUser(state.user),
+    userSession: getUserSession(state.user),
     cartItems: getCartItems(state.cart),
     totalItems: getTotalItems(state.cart)
 });

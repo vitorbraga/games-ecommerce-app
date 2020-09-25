@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Router from 'next/router';
-import { User } from '../../modules/user/model';
+import { UserSession } from '../../modules/user/model';
 import Link from 'next/link';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -9,7 +9,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import styles from './user-box.module.scss';
 
 interface Props {
-    user: User | null;
+    userSession: UserSession | null;
     userLogout: () => void;
 }
 
@@ -24,8 +24,8 @@ export class UserBox extends React.PureComponent<Props, never> {
     };
 
     public render() {
-        const { user } = this.props;
-        if (user) {
+        const { userSession } = this.props;
+        if (userSession) {
             const popover = (
                 <Popover id="popover-logged-user" style={{ borderRadius: '0' }}>
                     <ListGroup>
@@ -61,7 +61,7 @@ export class UserBox extends React.PureComponent<Props, never> {
                 <div className={styles['logged-wrapper']}>
                     <div className={styles['name-wrapper']}>
                         <div>Welcome</div>
-                        <div><b>{user.firstName}</b></div>
+                        <div><b>{userSession.firstName}</b></div>
                     </div>
                     <OverlayTrigger trigger="click" placement="bottom-end" rootClose overlay={popover}>
                         <img src="/user.svg" className={styles['user-icon']} />

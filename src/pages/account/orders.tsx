@@ -6,13 +6,13 @@ import Image from 'react-bootstrap/Image';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
 import { Layout } from '../../components/layout';
-import { getUser } from '../../modules/user/selector';
+import { getUserSession } from '../../modules/user/selector';
 import { AppState } from '../../store';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 import * as OrdersApi from '../../modules/orders/api';
 import * as CommonHelpers from '../../utils/common-helper';
-import { User } from '../../modules/user/model';
+import { UserSession } from '../../modules/user/model';
 import { Order, OrderStatus } from '../../modules/orders/model';
 import * as DateUtils from '../../utils/date-utils';
 import { OrderStatusBadge } from '../../widgets/order-status-badge/order-status-badge';
@@ -22,7 +22,7 @@ import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
-    user: User;
+    userSession: UserSession;
 }
 
 interface State {
@@ -41,7 +41,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
     public componentDidMount() {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const { user: { id: userId }, authToken } = this.props;
+                const { userSession: { id: userId }, authToken } = this.props;
 
                 const orders = await OrdersApi.getUserOrders(userId, authToken);
                 this.setState({ fetchStatus: FetchStatusEnum.success, orders });
@@ -177,7 +177,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    user: getUser(state.user)
+    userSession: getUserSession(state.user)
 });
 
 export default connect(mapStateToProps)(withAuthenticationCheck(OrdersPage));

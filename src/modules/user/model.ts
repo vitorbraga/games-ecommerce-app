@@ -1,9 +1,7 @@
 import { FieldWithError } from '../../utils/api-helper';
 import { Address } from '../address/model';
 
-export const SET_USER_ID = 'SET_USER_ID';
-export const SET_USER_NAME = 'SET_USER_NAME';
-export const SET_USER = 'SET_USER';
+export const SET_USER_SESSION = 'SET_USER_SESSION';
 
 export interface UserRegister {
     firstName: string;
@@ -28,6 +26,11 @@ export interface User {
     mainAddress?: Address;
     addresses?: Address[];
     passwordResets?: PasswordReset[];
+}
+
+export interface UserSession {
+    id: string;
+    firstName: string;
 }
 
 export interface PasswordReset {
@@ -58,14 +61,10 @@ export type GetUserResponse = {
     error: string;
 };
 
-interface SetUserIdAction { type: typeof SET_USER_ID, payload: number | null }
-interface SetUserAction { type: typeof SET_USER, payload: User | null }
-interface SetUserNameAction { type: typeof SET_USER_NAME, payload: string | null }
+interface SetUserSessionAction { type: typeof SET_USER_SESSION, payload: UserSession | null }
 
 export interface UserState {
-    userId: number | null;
-    user: User | null;
-    name: string | null;
+    userSession: UserSession | null;
 }
 
-export type ActionTypes = SetUserIdAction | SetUserAction | SetUserNameAction;
+export type ActionTypes = SetUserSessionAction;

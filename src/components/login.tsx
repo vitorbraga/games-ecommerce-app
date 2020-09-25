@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
 import * as AuthenticationApi from '../modules/authentication/api';
 import { JwtAuthToken } from '../modules/authentication/helpers';
-import { User } from '../modules/user/model';
+import { UserSession } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
 import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
@@ -16,8 +16,8 @@ import styles from './login.module.scss';
 
 interface LoginProps {
     authToken: string | null;
-    setAuthenticationToken: (authToken: string | null) => void;
-    setUser: (user: User | null) => void;
+    onSetAuthenticationToken: (authToken: string | null) => void;
+    onSetUserSession: (userSession: UserSession | null) => void;
 }
 
 interface LoginState {
@@ -54,8 +54,8 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
                 try {
                     const authenticationToken = await AuthenticationApi.authenticate(this.state.email, this.state.password);
                     const decoded = jwtDecode<JwtAuthToken>(authenticationToken);
-                    this.props.setAuthenticationToken(authenticationToken);
-                    this.props.setUser(decoded.user);
+                    this.props.onSetAuthenticationToken(authenticationToken);
+                    this.props.onSetUserSession(decoded.userSession);
 
                     Router.push('/');
                 } catch (error) {

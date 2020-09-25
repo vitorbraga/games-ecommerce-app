@@ -10,8 +10,8 @@ import { SideMenuItemEnum } from '../../../components/account/side-menu';
 import { Layout } from '../../../components/layout';
 import * as AddressApi from '../../../modules/address/api';
 import * as CountryApi from '../../../modules/countries/api';
-import { User } from '../../../modules/user/model';
-import { getUser } from '../../../modules/user/selector';
+import { UserSession } from '../../../modules/user/model';
+import { getUserSession } from '../../../modules/user/selector';
 import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
@@ -24,7 +24,7 @@ import { CustomSpinner } from '../../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
-    user: User;
+    userSession: UserSession;
 }
 
 interface State {
@@ -218,7 +218,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    user: getUser(state.user)
+    userSession: getUserSession(state.user)
 });
 
 export default connect(mapStateToProps)(withAuthenticationCheck(NewAddressPage));

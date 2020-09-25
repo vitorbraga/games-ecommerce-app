@@ -9,8 +9,8 @@ import { Layout } from '../../../components/layout';
 import * as AddressApi from '../../../modules/address/api';
 import * as UserApi from '../../../modules/user/api';
 import { Address } from '../../../modules/address/model';
-import { User } from '../../../modules/user/model';
-import { getUser } from '../../../modules/user/selector';
+import { User, UserSession } from '../../../modules/user/model';
+import { getUserSession } from '../../../modules/user/selector';
 import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
@@ -22,7 +22,7 @@ import styles from './index.module.scss';
 
 interface Props {
     authToken: string;
-    user: User;
+    userSession: UserSession;
 }
 
 interface State {
@@ -43,7 +43,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
     public componentDidMount() {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const { user: { id: userId }, authToken } = this.props;
+                const { userSession: { id: userId }, authToken } = this.props;
 
                 const userFullData = await UserApi.getUserFullData(userId, authToken);
                 const addresses = await AddressApi.getUserAddresses(userId, authToken);
@@ -57,7 +57,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
     private handleClickRemoveAddress = (addressId: string) => () => {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                await AddressApi.removeAddress(this.props.user.id, addressId, this.props.authToken);
+                await AddressApi.removeAddress(this.props.userSession.id, addressId, this.props.authToken);
                 Router.reload();
             } catch (error) {
                 this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
@@ -68,7 +68,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
     private handleClickSetMainAddress = (addressId: string) => () => {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                await AddressApi.setMainAddress(this.props.user.id, addressId, this.props.authToken);
+                await AddressApi.setMainAddress(this.props.userSession.id, addressId, this.props.authToken);
                 Router.reload();
             } catch (error) {
                 this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
@@ -146,7 +146,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
 };
 
 const mapStateToProps = (state: AppState) => ({
-    user: getUser(state.user)
+    userSession: getUserSession(state.user)
 });
 
 export default connect(mapStateToProps)(withAuthenticationCheck(AddressesPage));
