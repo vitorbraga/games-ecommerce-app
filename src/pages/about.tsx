@@ -30,7 +30,6 @@ export default class About extends React.Component<{}, State> {
     };
 
     private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
         this.setState({ text: event.target.value });
     };
 

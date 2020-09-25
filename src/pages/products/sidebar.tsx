@@ -1,7 +1,9 @@
 import * as React from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { getFullTreeOfCategories } from '../../modules/category/api';
 import { Category } from '../../modules/category/model';
+import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
 
 import styles from './sidebar.module.scss';
 
@@ -11,15 +13,20 @@ interface Props {
 }
 
 export const Sidebar: React.FC<Props> = (props) => {
-    const [categories, setCategories] = React.useState([] as Category[]);
+    const [categories, setCategories] = React.useState<Category[]>([]);
+    const [loading, setLoading] = React.useState(false);
+    const [fetchError, setFetchError] = React.useState<string | null>(null);
+
     React.useEffect(() => {
         const fetchCategories = async () => {
             try {
-                // TODO loading
+                // TODO Improve this code, putting all together in the same object to make one single call
+                setLoading(true);
                 const categories = await getFullTreeOfCategories();
                 setCategories(categories);
+                setLoading(false);
             } catch (error) {
-                console.log(error);
+                setFetchError(error.message);
             }
         };
 
@@ -53,9 +60,19 @@ export const Sidebar: React.FC<Props> = (props) => {
         });
     };
 
+    const renderSidebarContent = () => {
+        if (loading) {
+            return <CustomSpinner />;
+        } else if (fetchError) {
+            return <Alert variant="danger" style={{ marginTop: '10px' }}>{fetchError}</Alert>;
+        } else {
+            return renderCategories(categories);
+        }
+    };
+
     return (
         <div className={styles.sidebar}>
-            {renderCategories(categories)}
+            {renderSidebarContent()}
         </div>
     );
 };

@@ -2,6 +2,7 @@
 
 .checkout-container {
     display: flex;
+    flex-direction: column;
     width: 1000px;
     height: 100%;
     padding: 16px;
@@ -24,47 +25,51 @@
         }
     }
 
-    .left-box {
+    .content-container {
         display: flex;
-        flex-direction: column;
-        width: 650px;
 
-        .delivery-address-box {
+        .left-box {
             display: flex;
             flex-direction: column;
-            width: 100%;
-            padding: 16px;
-            border: 1px solid $color-border;
-        }
-
-        .payment-box {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            margin-top: 16px;
-            padding: 16px;
-            padding-bottom: 0;
-            border: 1px solid $color-border;
-
-            .double-fields-wrapper {
+            width: 650px;
+    
+            .delivery-address-box {
                 display: flex;
-                justify-content: space-between;
-
-                .small-field {
-                    flex: 1;
-                }
-
-                .small-field:first-of-type {
-                    margin-right: 20px;
+                flex-direction: column;
+                width: 100%;
+                padding: 16px;
+                border: 1px solid $color-border;
+            }
+    
+            .payment-box {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-top: 16px;
+                padding: 16px;
+                padding-bottom: 0;
+                border: 1px solid $color-border;
+    
+                .double-fields-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+    
+                    .small-field {
+                        flex: 1;
+                    }
+    
+                    .small-field:first-of-type {
+                        margin-right: 20px;
+                    }
                 }
             }
-        }
-
-        .complete-box {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 16px;
-            width: 100%;
+    
+            .complete-box {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 16px;
+                width: 100%;
+            }
         }
     }
 
@@ -143,5 +148,6 @@
     .button-wrapper {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
     }
 }

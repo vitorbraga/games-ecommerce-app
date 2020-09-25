@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Dinero from 'dinero.js';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
 import { BaseStructure } from '../../components/account/base-structure';
@@ -19,6 +18,7 @@ import * as DateUtils from '../../utils/date-utils';
 import { OrderStatusBadge } from '../../widgets/order-status-badge/order-status-badge';
 
 import styles from './orders.module.scss';
+import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -55,9 +55,9 @@ class OrdersPage extends React.PureComponent<Props, State> {
         const { fetchStatus, fetchError } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">{fetchError}</Alert>;
+            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
         }
 
         return null;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layout } from '../components/layout';
 import Router from 'next/router';
-import Spinner from 'react-bootstrap/Spinner';
+import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
 import * as ProductApi from '../modules/products/api';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { Product } from '../modules/products/model';
@@ -19,7 +19,7 @@ interface State {
 export default class Index extends React.PureComponent<{}, State> {
     public state: State = {
         searchTerm: '',
-        searchStatus: FetchStatusEnum.initial,
+        searchStatus: FetchStatusEnum.loading,
         products: []
     };
 
@@ -56,7 +56,7 @@ export default class Index extends React.PureComponent<{}, State> {
         const { searchStatus } = this.state;
 
         if (searchStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         }
         // TODO finish this
         return null;

@@ -2,7 +2,6 @@ import React from 'react';
 import * as Yup from 'yup';
 import classNames from 'classnames';
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
@@ -15,6 +14,7 @@ import { checkPasswordComplexity } from '../../utils/validators';
 import * as AuthenticationApi from '../../modules/authentication/api';
 
 import styles from './change-password.module.scss';
+import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -22,7 +22,7 @@ interface Props {
 
 interface State {
     submitStatus: FetchStatus;
-    submitError: string | null | undefined;
+    submitError: string | null;
 }
 
 interface FormData {
@@ -77,7 +77,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
         const { submitStatus, submitError } = this.state;
 
         if (submitStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         } else if (submitStatus === FetchStatusEnum.failure) {
             return <Alert variant="danger">{submitError}</Alert>;
         } else if (submitStatus === FetchStatusEnum.success) {
@@ -92,7 +92,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
             <Layout title="Change password" showNav={true} customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.changePassword}>
                     <div className={styles['form-wrapper']}>
-                        <h3>Register a new address</h3>
+                        <h3>Change your password</h3>
                         {this.renderSubmitStatus()}
                         <Formik
                             initialValues={this.formInitialValues}
@@ -101,7 +101,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
                         >
                             {({ errors, touched }) => {
                                 return (
-                                    <Form>
+                                    <Form style={{ marginTop: '20px' }}>
                                         <div className="form-group">
                                             <label htmlFor="fullName">Current password *</label>
                                             <Field

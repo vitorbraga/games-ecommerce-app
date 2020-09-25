@@ -5,12 +5,12 @@ import Link from 'next/link';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
 import Alert from 'react-bootstrap/Alert';
-import Spinner from 'react-bootstrap/Spinner';
 import * as AuthenticationApi from '../modules/authentication/api';
 import { JwtAuthToken } from '../modules/authentication/helpers';
 import { User } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
+import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
 
 import styles from './login.module.scss';
 
@@ -23,7 +23,7 @@ interface LoginProps {
 interface LoginState {
     email: string;
     password: string;
-    loginError: string | null | undefined;
+    loginError: string | null;
     submitStatus: FetchStatus;
 }
 
@@ -77,7 +77,7 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
         const { submitStatus, loginError } = this.state;
 
         if (submitStatus === FetchStatusEnum.loading) {
-            return <div className={styles['spinner-wrapper']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         }
 
         if (submitStatus === FetchStatusEnum.failure) {

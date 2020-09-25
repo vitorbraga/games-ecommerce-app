@@ -2,7 +2,7 @@ import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
-import Spinner from 'react-bootstrap/Spinner';
+import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
 import { Layout } from '../components/layout';
 import * as OrderApi from '../modules/orders/api';
 import { Order } from '../modules/orders/model';
@@ -16,7 +16,7 @@ interface Props {
 function OrderSuccessPage({ query: { order: orderId } }: Props) {
     const [order, setOrder] = React.useState<Order | null>(null);
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [error, setError] = React.useState<string | null>(null);
+    const [error, setError] = React.useState<string | null>('sjaduhadsudas asgdysadgydasgdas');
 
     React.useEffect(() => {
         const fetchOrderById = async () => {
@@ -40,7 +40,7 @@ function OrderSuccessPage({ query: { order: orderId } }: Props) {
             <div className={styles['order-success-container']}>
                 <h2 className={styles['page-title']}>Order success</h2>
                 <h5 className={styles['page-subtitle']}>Thanks for your order. We will start working for you immediately.</h5>
-                {loading && <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>}
+                {loading && <CustomSpinner />}
                 {error && <Alert variant="danger" className={styles['error-box']}>{error}</Alert>}
                 {order
                     && <div className={styles['order-information-wrapper']}>

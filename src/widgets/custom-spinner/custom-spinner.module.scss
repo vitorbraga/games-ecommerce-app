@@ -1,0 +1,13 @@
+@import '../../base';
+
+.custom-spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .custom-spinner {
+        color: $color-primary;
+    }
+}

@@ -4,18 +4,18 @@ import Router from 'next/router';
 import Link from 'next/link';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { registerUser } from '../modules/user/api';
 import { errorMapper } from '../utils/messages-mapper';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { checkPasswordComplexity } from '../utils/validators';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
+import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
 
 import styles from './register.module.scss';
 
 interface RegisterState {
-    registerError: string | null | undefined;
+    registerError: string | null;
     submitStatus: FetchStatus;
 }
 
@@ -79,7 +79,7 @@ export class Register extends React.PureComponent<{}, RegisterState> {
         const { submitStatus, registerError } = this.state;
 
         if (submitStatus === FetchStatusEnum.loading) {
-            return <div className={styles['spinner-wrapper']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         }
 
         if (submitStatus === FetchStatusEnum.failure) {

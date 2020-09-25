@@ -2,7 +2,6 @@ import React from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
@@ -16,9 +15,10 @@ import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
 import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
+import { AddressCard } from '../../../widgets/address-card/address-card';
+import { CustomSpinner } from '../../../widgets/custom-spinner/custom-spinner';
 
 import styles from './index.module.scss';
-import { AddressCard } from '../../../widgets/address-card/address-card';
 
 interface Props {
     authToken: string;
@@ -27,18 +27,16 @@ interface Props {
 
 interface State {
     fetchStatus: FetchStatus;
+    fetchError: string | null;
     addresses: Address[];
-    removeStatus: FetchStatus;
-    setMainAddressStatus: FetchStatus;
     userFullData: User | null;
 }
 
 class AddressesPage extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
+        fetchError: null,
         addresses: [],
-        removeStatus: FetchStatusEnum.initial,
-        setMainAddressStatus: FetchStatusEnum.initial,
         userFullData: null
     };
 
@@ -57,23 +55,23 @@ class AddressesPage extends React.PureComponent<Props, State> {
     }
 
     private handleClickRemoveAddress = (addressId: string) => () => {
-        this.setState({ removeStatus: FetchStatusEnum.loading }, async () => {
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
                 await AddressApi.removeAddress(this.props.user.id, addressId, this.props.authToken);
                 Router.reload();
             } catch (error) {
-                this.setState({ removeStatus: FetchStatusEnum.failure });
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     };
 
     private handleClickSetMainAddress = (addressId: string) => () => {
-        this.setState({ setMainAddressStatus: FetchStatusEnum.loading }, async () => {
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
                 await AddressApi.setMainAddress(this.props.user.id, addressId, this.props.authToken);
                 Router.reload();
             } catch (error) {
-                this.setState({ setMainAddressStatus: FetchStatusEnum.failure });
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     };
@@ -112,37 +110,12 @@ class AddressesPage extends React.PureComponent<Props, State> {
     }
 
     private renderFetchStatus() {
-        // TODO probably it's a good idea to merge all fetch status into one
-        const { fetchStatus } = this.state;
+        const { fetchStatus, fetchError } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
+            return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed fetching user addresses.</Alert>;
-        }
-
-        return null;
-    }
-
-    private renderRemoveStatus() {
-        const { removeStatus } = this.state;
-
-        if (removeStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (removeStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed removing address.</Alert>;
-        }
-
-        return null;
-    }
-
-    private renderSetMainAddressStatus() {
-        const { setMainAddressStatus } = this.state;
-
-        if (setMainAddressStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (setMainAddressStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed setting main address.</Alert>;
+            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
         }
 
         return null;
@@ -160,8 +133,6 @@ class AddressesPage extends React.PureComponent<Props, State> {
                         <div>
                             <h4>My addresses</h4>
                             {this.renderFetchStatus()}
-                            {this.renderRemoveStatus()}
-                            {this.renderSetMainAddressStatus()}
                             {this.renderUserAddresses()}
                         </div>
                         <div>

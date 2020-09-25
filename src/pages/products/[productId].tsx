@@ -4,7 +4,6 @@ import { Dispatch } from 'redux';
 import Router from 'next/router';
 import classNames from 'classnames';
 import Carousel from 'react-bootstrap/Carousel';
-import Spinner from 'react-bootstrap/Spinner';
 import Badge from 'react-bootstrap/Badge';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
@@ -21,6 +20,7 @@ import { addCartItem } from '../../modules/cart/actions';
 import { CartItem } from '../../modules/cart/model';
 
 import styles from './[productId].module.scss';
+import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     query: {
@@ -80,7 +80,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
         const { product, fetchStatus, activeCarouselItem, quantity } = this.state;
 
         if (fetchStatus === FetchStatusEnum.loading) {
-            return <Spinner animation="border" variant="info" />;
+            return <CustomSpinner />;
         } else if (product === null) {
             return <div>Product not found</div>;
         } else {

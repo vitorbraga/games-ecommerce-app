@@ -4,7 +4,6 @@ import { Dispatch } from 'redux';
 import classNames from 'classnames';
 import Dinero from 'dinero.js';
 import Alert from 'react-bootstrap/Alert';
-import Spinner from 'react-bootstrap/Spinner';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import * as Yup from 'yup';
@@ -30,6 +29,7 @@ import { MaskedField } from '../widgets/masked-field/masked-field';
 import * as CustomValidators from '../utils/validators';
 import { CreateOrderBody } from '../modules/orders/model';
 import { emptyCart } from '../modules/cart/actions';
+import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
 
 import styles from './checkout.module.scss';
 
@@ -43,6 +43,8 @@ interface Props {
 
 interface State {
     fetchStatus: FetchStatus;
+    addressStatus: FetchStatus;
+    orderStatus: FetchStatus;
     fetchError: string | null;
     userFullData: User | null;
     selectedAddress: Address | null;
@@ -61,6 +63,8 @@ interface FormData {
 class CheckoutPage extends React.PureComponent<Props, State> {
     public state: State = {
         fetchStatus: FetchStatusEnum.initial,
+        addressStatus: FetchStatusEnum.initial,
+        orderStatus: FetchStatusEnum.initial,
         fetchError: null,
         userFullData: null,
         selectedAddress: null,
@@ -103,18 +107,6 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                 }
             });
         }
-    }
-
-    private renderFetchStatus() {
-        const { fetchStatus, fetchError } = this.state;
-
-        if (fetchStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">{fetchError}</Alert>;
-        }
-
-        return null;
     }
 
     private handleCloseAddressModal = () => {
@@ -177,9 +169,12 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         return (
             <div>
                 <AddressCard address={selectedAddress} fullWidth />
-                <CustomButton variant="secondary" onClick={this.handleOpenAddressModal}>
-                    Choose different address
-                </CustomButton>
+                <div className={styles['button-wrapper']}>
+                    {this.state.addressStatus === FetchStatusEnum.loading && <div style={{ marginRight: '10px' }}><CustomSpinner /></div>}
+                    <CustomButton variant="secondary" onClick={this.handleOpenAddressModal}>
+                        Choose different address
+                    </CustomButton>
+                </div>
             </div>
         );
     }
@@ -234,14 +229,14 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     private handleSubmit = (paymentInfo: FormData) => {
         const createOrderBody = this.buildCreateOrderBody(paymentInfo);
 
-        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
+        this.setState({ orderStatus: FetchStatusEnum.loading }, async () => {
             try {
                 const { authToken, onEmptyCart } = this.props;
                 const order = await OrderApi.createOrder(createOrderBody, authToken);
                 onEmptyCart();
                 Router.push(`/order-success?order=${order.id}`);
             } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+                this.setState({ orderStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     };
@@ -299,6 +294,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                                 </div>
                             </div>
                             <div className={classNames('form-group', styles['button-wrapper'])}>
+                                {this.state.orderStatus === FetchStatusEnum.loading && <div style={{ marginRight: '10px' }}><CustomSpinner /></div>}
                                 <CustomButton
                                     variant="primary"
                                     type="submit"
@@ -342,21 +338,25 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         return (
             <Layout title="Checkout" showNav={true}>
                 <div className={styles['checkout-container']}>
-                    <div className={styles['left-box']}>
-                        {this.renderFetchStatus()}
-                        <div className={styles['delivery-address-box']}>
-                            <h4>Delivery address</h4>
-                            {this.renderDeliveryAddress()}
-                            {this.renderAddressModal()}
+                    {this.state.fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
+                    {this.state.fetchError && <Alert variant="danger">{this.state.fetchError}</Alert>}
+                    <div className={styles['content-container']}>
+                        <div className={styles['left-box']}>
+                            <div className={styles['delivery-address-box']}>
+                                <h4>Delivery address</h4>
+                                {this.renderDeliveryAddress()}
+                                {this.renderAddressModal()}
+                            </div>
+                            <div className={styles['payment-box']}>
+                                <h4>Payment info</h4>
+                                {this.renderPaymentInfo()}
+                            </div>
                         </div>
-                        <div className={styles['payment-box']}>
-                            <h4>Payment info</h4>
-                            {this.renderPaymentInfo()}
+                        <div className={styles['right-box']}>
+                            <h4>Overview</h4>
+                            {this.renderOverview()}
                         </div>
-                    </div>
-                    <div className={styles['right-box']}>
-                        <h4>Overview</h4>
-                        {this.renderOverview()}
+
                     </div>
                 </div>
             </Layout>

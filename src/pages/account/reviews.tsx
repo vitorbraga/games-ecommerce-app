@@ -10,7 +10,7 @@ const ReviewsPage: React.FC<{}> = () => {
     return (
         <Layout title="My reviews" showNav={true} customContentClass={styles['custom-layout-content']}>
             <BaseStructure activeMenuItem={SideMenuItemEnum.reviews}>
-                <h1>My reviews</h1>
+                <h3>My reviews</h3>
             </BaseStructure>
         </Layout>
     );

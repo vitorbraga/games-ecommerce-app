@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { connect } from 'react-redux';
-import Spinner from 'react-bootstrap/Spinner';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
@@ -21,6 +20,7 @@ import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
 import { getErrorMessage } from '../../../utils/messages-mapper';
 
 import styles from './new.module.scss';
+import { CustomSpinner } from '../../../widgets/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -28,9 +28,8 @@ interface Props {
 }
 
 interface State {
-    submitStatus: FetchStatus;
-    submitError: string | null | undefined;
-    fetchCountriesStatus: FetchStatus;
+    fetchStatus: FetchStatus;
+    fetchError: string | null;
     allCountries: Country[];
 }
 
@@ -47,9 +46,8 @@ interface FormData {
 
 class NewAddressPage extends React.PureComponent<Props, State> {
     public state: State = {
-        submitStatus: FetchStatusEnum.initial,
-        submitError: null,
-        fetchCountriesStatus: FetchStatusEnum.initial,
+        fetchStatus: FetchStatusEnum.initial,
+        fetchError: null,
         allCountries: []
     };
 
@@ -73,18 +71,18 @@ class NewAddressPage extends React.PureComponent<Props, State> {
     });
 
     public componentDidMount() {
-        this.setState({ fetchCountriesStatus: FetchStatusEnum.loading }, async () => {
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
                 const allCountries = await CountryApi.getAllCountries();
-                this.setState({ fetchCountriesStatus: FetchStatusEnum.success, allCountries });
+                this.setState({ fetchStatus: FetchStatusEnum.success, allCountries });
             } catch (error) {
-                this.setState({ fetchCountriesStatus: FetchStatusEnum.failure });
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     }
 
     private handleSubmit = async (formData: FormData) => {
-        this.setState({ submitStatus: FetchStatusEnum.loading }, async () => {
+        this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
                 const { user: { id: userId }, authToken } = this.props;
 
@@ -94,34 +92,22 @@ class NewAddressPage extends React.PureComponent<Props, State> {
                 } else {
                     const fieldsWithErrors = addressesOrFieldsWithErrors;
                     if (fieldsWithErrors.length > 0) {
-                        this.setState({ submitStatus: FetchStatusEnum.failure, submitError: getErrorMessage(Object.values(fieldsWithErrors[0].constraints)[0]) });
+                        this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: getErrorMessage(Object.values(fieldsWithErrors[0].constraints)[0]) });
                     }
                 }
             } catch (error) {
-                this.setState({ submitStatus: FetchStatusEnum.failure, submitError: error.message });
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
             }
         });
     };
 
-    private renderSubmitStatus() {
-        const { submitStatus } = this.state;
+    private renderFetchStatus() {
+        const { fetchStatus, fetchError } = this.state;
 
-        if (submitStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (submitStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed registering new addresses.</Alert>;
-        }
-
-        return null;
-    }
-
-    private renderFetchCountriesStatus() {
-        const { fetchCountriesStatus } = this.state;
-
-        if (fetchCountriesStatus === FetchStatusEnum.loading) {
-            return <div className={styles['loading-circle']}><Spinner animation="border" variant="info" /></div>;
-        } else if (fetchCountriesStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">Failed fetching countries.</Alert>;
+        if (fetchStatus === FetchStatusEnum.loading) {
+            return <CustomSpinner />;
+        } else if (fetchStatus === FetchStatusEnum.failure) {
+            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
         }
 
         return null;
@@ -133,8 +119,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
                 <BaseStructure activeMenuItem={SideMenuItemEnum.addresses}>
                     <div className={styles['form-wrapper']}>
                         <h3>Register a new address</h3>
-                        {this.renderSubmitStatus()}
-                        {this.renderFetchCountriesStatus()}
+                        {this.renderFetchStatus()}
                         <Formik
                             initialValues={this.formInitialValues}
                             validationSchema={this.validationSchema}
@@ -142,7 +127,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
                         >
                             {({ errors, touched }) => {
                                 return (
-                                    <Form>
+                                    <Form style={{ marginTop: '20px' }}>
                                         <div className="form-group">
                                             <label htmlFor="fullName">Full name *</label>
                                             <Field
