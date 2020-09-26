@@ -6,8 +6,6 @@ export function notUndefined<T>(x: T | undefined): x is T {
     return x !== undefined;
 }
 
-// TODO maybe call this MoneyHelpers
-
 export function formatPrice(value: number): string {
     const price = Dinero({ amount: value, currency: 'EUR' });
     return price.toFormat();

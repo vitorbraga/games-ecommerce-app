@@ -5,10 +5,10 @@
 }
 
 .orders-container {
-    padding: 20px;
     display: flex;
     flex-direction: column;
     @include font-standard;
+    padding: 20px;
 
     .orders-list {
         display: flex;

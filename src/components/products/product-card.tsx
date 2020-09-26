@@ -3,7 +3,7 @@ import Router from 'next/router';
 import Card from 'react-bootstrap/Card';
 import { Product } from '../../modules/products/model';
 import { generatePictureURL } from '../../utils/api-helper';
-import { formatPrice } from '../../utils/common-helper';
+import { formatPrice } from '../../utils/money-utils';
 
 import styles from './product-card.module.scss';
 

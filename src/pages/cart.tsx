@@ -9,7 +9,7 @@ import { CartItem } from '../modules/cart/model';
 import { AppState } from '../store';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
 import { generatePictureURL } from '../utils/api-helper';
-import * as CommonHelpers from '../utils/common-helper';
+import * as MoneyUtils from '../utils/money-utils';
 import { Product } from '../modules/products/model';
 import { removeItem, replaceCartItem } from '../modules/cart/actions';
 import { CustomButton } from '../widgets/custom-buttom/custom-button';
@@ -83,7 +83,7 @@ class CartPage extends React.PureComponent<Props, State> {
                     }
                     {cartItems.map(({ product, quantity }, index) => {
                         const imagePath = generatePictureURL(product.pictures[0].filename);
-                        const cartItemTotal = CommonHelpers.calculateCartItemTotal({ product, quantity });
+                        const cartItemTotal = MoneyUtils.calculateCartItemTotal({ product, quantity });
 
                         return (
                             <tr key={`product-row-${index}`}>
@@ -97,7 +97,7 @@ class CartPage extends React.PureComponent<Props, State> {
                                     </div>
                                 </td>
                                 <td className={styles['aligned-end']}>
-                                    {CommonHelpers.formatPrice(product.price)}
+                                    {MoneyUtils.formatPrice(product.price)}
                                 </td>
                                 <td className={styles['aligned-end']}>
                                     <div className={styles['quantity-input']}>
@@ -112,7 +112,7 @@ class CartPage extends React.PureComponent<Props, State> {
                                     </div>
                                 </td>
                                 <td className={styles['aligned-end']}>
-                                    {CommonHelpers.formatPrice(cartItemTotal)}
+                                    {MoneyUtils.formatPrice(cartItemTotal)}
                                 </td>
                             </tr>
                         );
@@ -128,14 +128,14 @@ class CartPage extends React.PureComponent<Props, State> {
 
     private renderSummaryAndCheckout() {
         const { totalItems } = this.props;
-        const subtotal = CommonHelpers.calculateAllCartItemsTotal(this.props.cartItems);
+        const subtotal = MoneyUtils.calculateAllCartItemsTotal(this.props.cartItems);
 
         if (totalItems > 0) {
             return (
                 <div className={styles['summary-wrapper']}>
                     <div className={styles['subtotal-wrapper']}>
                         <div>Subtotal</div>
-                        <div className={styles.value}>{CommonHelpers.formatPrice(subtotal)}</div>
+                        <div className={styles.value}>{MoneyUtils.formatPrice(subtotal)}</div>
                     </div>
                     <div className={styles['shipping-info']}>Taxes and shipping calculated at checkout</div>
                     <div className={styles['checkout-wrapper']}>

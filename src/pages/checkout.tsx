@@ -24,7 +24,7 @@ import { AddressCard } from '../widgets/address-card/address-card';
 import { CustomModal } from '../widgets/custom-modal/custom-modal';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
 import { CartItem } from '../modules/cart/model';
-import * as CommonHelpers from '../utils/common-helper';
+import * as MoneyUtils from '../utils/money-utils';
 import { MaskedField } from '../widgets/masked-field/masked-field';
 import * as CustomValidators from '../utils/validators';
 import { CreateOrderBody } from '../modules/orders/model';
@@ -183,7 +183,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         const { cartItems, totalItems } = this.props;
         const { shippingCosts } = this.state;
 
-        const allCartItemsTotal = CommonHelpers.calculateAllCartItemsTotal(cartItems);
+        const allCartItemsTotal = MoneyUtils.calculateAllCartItemsTotal(cartItems);
         const totalToBePaid = Dinero({ amount: allCartItemsTotal }).add(Dinero({ amount: shippingCosts })).getAmount();
 
         return (
@@ -193,19 +193,19 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                         <Accordion.Toggle as={Card.Header} eventKey="0" className={styles['products-card-header']}>
                             <div className={styles['products-card-header-wrapper']}>
                                 <div>Products ({totalItems})</div>
-                                <div>{CommonHelpers.formatPrice(allCartItemsTotal)}</div>
+                                <div>{MoneyUtils.formatPrice(allCartItemsTotal)}</div>
                             </div>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body className={styles['products-card-body']}>
                                 <div>
                                     {cartItems.map((cartItem, index) => {
-                                        const cartItemTotal = CommonHelpers.calculateCartItemTotal(cartItem);
+                                        const cartItemTotal = MoneyUtils.calculateCartItemTotal(cartItem);
 
                                         return (
                                             <div className={styles['cart-item-wrapper']} key={`cart-item-${index}`}>
                                                 <div>{cartItem.product.title} <span className={styles['item-quantity']}>({cartItem.quantity})</span></div>
-                                                <div>{CommonHelpers.formatPrice(cartItemTotal)}</div>
+                                                <div>{MoneyUtils.formatPrice(cartItemTotal)}</div>
                                             </div>
                                         );
                                     })}
@@ -216,11 +216,11 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                 </Accordion>
                 <div className={styles['shipping-costs-wrapper']}>
                     <div>Shipping costs</div>
-                    <div>{shippingCosts === 0 ? <span className={styles.free}>Free</span> : CommonHelpers.formatPrice(shippingCosts)}</div>
+                    <div>{shippingCosts === 0 ? <span className={styles.free}>Free</span> : MoneyUtils.formatPrice(shippingCosts)}</div>
                 </div>
                 <div className={styles['to-be-paid-wrapper']}>
                     <div>To be paid</div>
-                    <div>{CommonHelpers.formatPrice(totalToBePaid)}</div>
+                    <div>{MoneyUtils.formatPrice(totalToBePaid)}</div>
                 </div>
             </div>
         );

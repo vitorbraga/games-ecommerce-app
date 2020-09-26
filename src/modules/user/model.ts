@@ -1,5 +1,6 @@
 import { FieldWithError } from '../../utils/api-helper';
 import { Address } from '../address/model';
+import { Order } from '../orders/model';
 
 export const SET_USER_SESSION = 'SET_USER_SESSION';
 
@@ -21,11 +22,12 @@ export interface User {
     lastName: string;
     email: string;
     role: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: number;
+    updatedAt: number;
     mainAddress?: Address;
     addresses?: Address[];
     passwordResets?: PasswordReset[];
+    orders?: Order[];
 }
 
 export interface UserSession {

@@ -1,3 +1,70 @@
+@import '../../base';
+
 .custom-layout-content {
     min-height: 100%;
+}
+
+.overview-container {
+    display: flex;
+    flex-direction: column;
+    @include font-standard;
+    padding: 20px;
+
+    .section-wrapper {
+        border: 1px solid $color-border;
+        padding: 16px;
+        width: 100%;
+        margin-top: 20px;
+
+        .orders-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+
+            .order-item {
+                display: flex;
+                flex-direction: column;
+                margin-right: 16px;
+                margin-top: 16px;
+                width: 240px;
+                height: 130px;
+                border: 1px solid #ebebeb;
+                font-size: 13px;
+                padding: 8px;
+                overflow: hidden;
+
+                .pictures-wrapper {
+                    margin-top: 4px;
+
+                    .picture-thumb {
+                        width: 50px;
+                    }
+                }
+            }
+        }
+
+        .info-wrapper {
+            display: flex;
+            align-items: start;
+
+            .profile {
+                display: flex;
+                flex-direction: column;
+                border: 1px solid #ebebeb;
+                font-size: 14px;
+                margin-right: 10px;
+                padding: 8px;
+                width: 380px;
+            }
+        }
+
+        .empty-text {
+            font-size: 14px;
+        }
+    }
+
+    .line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 }

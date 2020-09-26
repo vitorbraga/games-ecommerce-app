@@ -11,7 +11,7 @@ import { AppState } from '../../store';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 import * as OrdersApi from '../../modules/orders/api';
-import * as CommonHelpers from '../../utils/common-helper';
+import * as MoneyUtils from '../../utils/money-utils';
 import { UserSession } from '../../modules/user/model';
 import { Order, OrderStatus } from '../../modules/orders/model';
 import * as DateUtils from '../../utils/date-utils';
@@ -90,8 +90,8 @@ class OrdersPage extends React.PureComponent<Props, State> {
                 {orders.map((order, index) => {
                     const { deliveryAddress, shippingCosts } = order;
                     const totalItems = order.orderItems.reduce((prev, cur) => prev + cur.quantity, 0);
-                    const allOrderItemsTotal = CommonHelpers.calculateAllOrderItemsTotal(order.orderItems);
-                    const totalToPaid = Dinero({ amount: allOrderItemsTotal }).add(Dinero({ amount: shippingCosts })).getAmount();
+                    const allOrderItemsTotal = MoneyUtils.calculateAllOrderItemsTotal(order.orderItems);
+                    const totalPaid = Dinero({ amount: allOrderItemsTotal }).add(Dinero({ amount: shippingCosts })).getAmount();
 
                     return (
                         <div className={styles['order-box']} key={`order-box-${index}`}>
@@ -122,16 +122,16 @@ class OrdersPage extends React.PureComponent<Props, State> {
                                     <div className={styles['costs-wrapper']}>
                                         <div className={styles.line}>
                                             <div>Total items ({totalItems})</div>
-                                            <div>{CommonHelpers.formatPrice(allOrderItemsTotal)}</div>
+                                            <div>{MoneyUtils.formatPrice(allOrderItemsTotal)}</div>
                                         </div>
                                         <div className={styles.line}>
                                             <div>Shipping costs</div>
-                                            <div>{CommonHelpers.formatPrice(shippingCosts)}</div>
+                                            <div>{MoneyUtils.formatPrice(shippingCosts)}</div>
                                         </div>
                                         <hr />
                                         <div className={styles.line}>
                                             <div>Total</div>
-                                            <div>{CommonHelpers.formatPrice(totalToPaid)}</div>
+                                            <div>{MoneyUtils.formatPrice(totalPaid)}</div>
                                         </div>
                                     </div>
                                 </div>
