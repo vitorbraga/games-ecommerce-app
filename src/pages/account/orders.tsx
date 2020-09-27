@@ -90,7 +90,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
                 {orders.map((order, index) => {
                     const { deliveryAddress, shippingCosts } = order;
                     const totalItems = order.orderItems.reduce((prev, cur) => prev + cur.quantity, 0);
-                    const allOrderItemsTotal = MoneyUtils.calculateAllOrderItemsTotal(order.orderItems);
+                    const allOrderItemsTotal = MoneyUtils.calculateAllItemsTotal(order.orderItems);
                     const totalPaid = Dinero({ amount: allOrderItemsTotal }).add(Dinero({ amount: shippingCosts })).getAmount();
 
                     return (

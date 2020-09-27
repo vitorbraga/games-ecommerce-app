@@ -7,3 +7,9 @@
 
     @include font-standard;
 }
+
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    @include font-standard;
+}

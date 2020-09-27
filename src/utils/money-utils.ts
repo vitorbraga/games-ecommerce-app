@@ -1,6 +1,5 @@
 import Dinero from 'dinero.js';
 import { CartItem } from '../modules/cart/model';
-import { OrderItem } from '../modules/orders/model';
 
 export function notUndefined<T>(x: T | undefined): x is T {
     return x !== undefined;
@@ -15,14 +14,12 @@ export function calculateCartItemTotal({ product, quantity }: CartItem): number 
     return Dinero({ amount: product.price }).multiply(quantity).getAmount();
 }
 
-export function calculateAllCartItemsTotal(cartItems: CartItem[]): number {
-    return cartItems.reduce((prev, cur) => {
-        return Dinero({ amount: cur.product.price }).multiply(cur.quantity).add(Dinero({ amount: prev })).getAmount();
-    }, 0);
+interface OrderItemBase {
+    product: { price: number };
+    quantity: number;
 }
 
-// TODO maybe join both methods
-export function calculateAllOrderItemsTotal(orderItems: OrderItem[]): number {
+export function calculateAllItemsTotal<T extends OrderItemBase>(orderItems: T[]): number {
     return orderItems.reduce((prev, cur) => {
         return Dinero({ amount: cur.product.price }).multiply(cur.quantity).add(Dinero({ amount: prev })).getAmount();
     }, 0);

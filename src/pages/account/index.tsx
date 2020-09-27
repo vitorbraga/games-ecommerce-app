@@ -64,7 +64,7 @@ class AccountPage extends React.PureComponent<Props, State> {
                     <div className={styles['orders-wrapper']}>
                         {sortedOrders.slice(0, 3).map((order, orderIndex) => {
                             const totalItems = order.orderItems.reduce((prev, cur) => prev + cur.quantity, 0);
-                            const allOrderItemsTotal = MoneyUtils.calculateAllOrderItemsTotal(order.orderItems);
+                            const allOrderItemsTotal = MoneyUtils.calculateAllItemsTotal(order.orderItems);
                             const totalPaid = Dinero({ amount: allOrderItemsTotal }).add(Dinero({ amount: order.shippingCosts })).getAmount();
 
                             return (

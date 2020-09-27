@@ -1,11 +1,12 @@
 import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
-import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
 import { Layout } from '../components/layout/layout';
+import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
 import * as OrderApi from '../modules/orders/api';
 import { Order } from '../modules/orders/model';
+import { FetchState, FetchStatusEnum } from '../utils/api-helper';
 
 import styles from './order-success.module.scss';
 
@@ -14,34 +15,32 @@ interface Props {
 }
 
 function OrderSuccessPage({ query: { order: orderId } }: Props) {
-    const [order, setOrder] = React.useState<Order | null>(null);
-    const [loading, setLoading] = React.useState<boolean>(false);
-    const [error, setError] = React.useState<string | null>('sjaduhadsudas asgdysadgydasgdas');
+    const [fetchState, setFetchState] = React.useState<FetchState<Order | null>>({ status: FetchStatusEnum.initial, fetchError: null, data: null });
 
     React.useEffect(() => {
         const fetchOrderById = async () => {
             try {
-                setLoading(true);
+                setFetchState({ status: FetchStatusEnum.loading, fetchError: null, data: null });
                 if (orderId && typeof orderId === 'string') {
                     const fetchedOrder = await OrderApi.getOrder(orderId);
-                    setLoading(false);
-                    setOrder(fetchedOrder);
+                    setFetchState({ status: FetchStatusEnum.success, fetchError: null, data: fetchedOrder });
                 }
             } catch (error) {
-                setError(error.message);
+                setFetchState({ status: FetchStatusEnum.failure, fetchError: error.message, data: null });
             }
         };
 
         fetchOrderById();
     }, []);
 
+    const { data: order } = fetchState;
     return (
         <Layout title="Order success" showNav>
             <div className={styles['order-success-container']}>
                 <h2 className={styles['page-title']}>Order success</h2>
                 <h5 className={styles['page-subtitle']}>Thanks for your order. We will start working for you immediately.</h5>
-                {loading && <CustomSpinner />}
-                {error && <Alert variant="danger" className={styles['error-box']}>{error}</Alert>}
+                {fetchState.status === FetchStatusEnum.loading && <CustomSpinner />}
+                {fetchState.status === FetchStatusEnum.failure && <CustomErrorBox>{fetchState.fetchError}</CustomErrorBox>}
                 {order
                     && <div className={styles['order-information-wrapper']}>
                         <div className={styles['info-card']}>
@@ -56,7 +55,7 @@ function OrderSuccessPage({ query: { order: orderId } }: Props) {
                             <div className={styles.text}>
                                 <p>The delivery address would be:</p>
                                 <p>{order.deliveryAddress.line1}</p>
-                                {order.deliveryAddress.line2 && <p>{order.deliveryAddress.line1}</p>}
+                                {order.deliveryAddress.line2 && <p>{order.deliveryAddress.line2}</p>}
                                 <p>{order.deliveryAddress.city}, {order.deliveryAddress.country.name}</p>
                                 <p>{order.deliveryAddress.zipCode}</p>
                             </div>

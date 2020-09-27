@@ -11,6 +11,12 @@ export enum FetchStatusEnum {
 
 export type FetchStatus = keyof typeof FetchStatusEnum;
 
+export interface FetchState<T> {
+    status: FetchStatus;
+    fetchError: string | null;
+    data: T;
+}
+
 export interface Builder {
     withJwt: (token: string) => Builder;
     with: (name: string, value: string) => Builder;

@@ -12,19 +12,17 @@ interface Props {
     disabled?: boolean;
 }
 
-export class CustomButton extends React.PureComponent<Props, never> {
-    public render() {
-        const { variant, onClick, className, children, type, disabled } = this.props;
+export const CustomButton: React.FC<Props> = (props) => {
+    const { variant, onClick, className, children, type, disabled } = props;
 
-        return (
-            <Button
-                type={type || 'button'}
-                onClick={onClick}
-                className={classNames(styles[variant], className)}
-                disabled={disabled}
-            >
-                {children}
-            </Button>
-        );
-    }
-}
+    return (
+        <Button
+            type={type || 'button'}
+            onClick={onClick}
+            className={classNames(styles[variant], className)}
+            disabled={disabled}
+        >
+            {children}
+        </Button>
+    );
+};

@@ -183,7 +183,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         const { cartItems, totalItems } = this.props;
         const { shippingCosts } = this.state;
 
-        const allCartItemsTotal = MoneyUtils.calculateAllCartItemsTotal(cartItems);
+        const allCartItemsTotal = MoneyUtils.calculateAllItemsTotal(cartItems);
         const totalToBePaid = Dinero({ amount: allCartItemsTotal }).add(Dinero({ amount: shippingCosts })).getAmount();
 
         return (

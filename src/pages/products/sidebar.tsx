@@ -1,9 +1,10 @@
 import * as React from 'react';
-import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { getFullTreeOfCategories } from '../../modules/category/api';
 import { Category } from '../../modules/category/model';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
+import { FetchState, FetchStatusEnum } from '../../utils/api-helper';
 
 import styles from './sidebar.module.scss';
 
@@ -13,21 +14,16 @@ interface Props {
 }
 
 export const Sidebar: React.FC<Props> = (props) => {
-    const [categories, setCategories] = React.useState<Category[]>([]);
-    const [loading, setLoading] = React.useState(false);
-    const [fetchError, setFetchError] = React.useState<string | null>(null);
+    const [fetchState, setFetchState] = React.useState<FetchState<Category[]>>({ status: FetchStatusEnum.initial, fetchError: null, data: [] });
 
     React.useEffect(() => {
         const fetchCategories = async () => {
             try {
-                // TODO Improve this code, putting all together in the same object to make one single setState call
-                setLoading(true);
+                setFetchState({ status: FetchStatusEnum.loading, fetchError: null, data: [] });
                 const categories = await getFullTreeOfCategories();
-                setCategories(categories);
-                setLoading(false);
+                setFetchState({ status: FetchStatusEnum.success, fetchError: null, data: categories });
             } catch (error) {
-                setLoading(false);
-                setFetchError(error.message);
+                setFetchState({ status: FetchStatusEnum.failure, fetchError: error.message, data: [] });
             }
         };
 
@@ -62,12 +58,12 @@ export const Sidebar: React.FC<Props> = (props) => {
     };
 
     const renderSidebarContent = () => {
-        if (loading) {
+        if (fetchState.status === FetchStatusEnum.loading) {
             return <CustomSpinner />;
-        } else if (fetchError) {
-            return <Alert variant="danger">{fetchError}</Alert>;
+        } else if (fetchState.status === FetchStatusEnum.failure) {
+            return <CustomErrorBox>{fetchState.fetchError}</CustomErrorBox>;
         } else {
-            return renderCategories(categories);
+            return renderCategories(fetchState.data);
         }
     };
 

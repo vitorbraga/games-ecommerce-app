@@ -128,7 +128,7 @@ class CartPage extends React.PureComponent<Props, State> {
 
     private renderSummaryAndCheckout() {
         const { totalItems } = this.props;
-        const subtotal = MoneyUtils.calculateAllCartItemsTotal(this.props.cartItems);
+        const subtotal = MoneyUtils.calculateAllItemsTotal(this.props.cartItems);
 
         if (totalItems > 0) {
             return (
