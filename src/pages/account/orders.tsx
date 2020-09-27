@@ -5,7 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import { getUserSession } from '../../modules/user/selector';
 import { AppState } from '../../store';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
@@ -15,10 +15,10 @@ import * as MoneyUtils from '../../utils/money-utils';
 import { UserSession } from '../../modules/user/model';
 import { Order, OrderStatus } from '../../modules/orders/model';
 import * as DateUtils from '../../utils/date-utils';
-import { OrderStatusBadge } from '../../widgets/order-status-badge/order-status-badge';
+import { OrderStatusBadge } from '../../components/order-status-badge/order-status-badge';
 
 import styles from './orders.module.scss';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;

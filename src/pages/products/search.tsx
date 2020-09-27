@@ -2,16 +2,16 @@ import * as React from 'react';
 import shallowEqual from 'shallowequal';
 import { ParsedUrlQuery } from 'querystring';
 import Router from 'next/router';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import { FetchStatusEnum } from '../../utils/api-helper';
 import { Product } from '../../modules/products/model';
 import { ProductList } from '../../components/products/product-list';
 import * as ProductApi from '../../modules/products/api';
-import { SearchBar } from '../../widgets/search-bar/search-bar';
+import { SearchBar } from '../../components/search-bar/search-bar';
 import { Sidebar } from './sidebar';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 import styles from './search.module.scss';
 

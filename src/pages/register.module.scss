@@ -1,4 +1,31 @@
+@import '../base';
+
 .custom-content {
     height: 100%;
     align-items: center;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 380px;
+    margin-top: -40px;
+    font-size: 13px;
+    border: 1px solid $color-border;
+
+    .register-box {
+        padding: 20px;
+        width: 350px;
+
+        .submit-button {
+            width: 100%;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            margin-top: 8px;
+            text-align: center;
+        }
+    }
 }

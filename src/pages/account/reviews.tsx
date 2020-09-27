@@ -1,7 +1,7 @@
 import React from 'react';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 
 import styles from './reviews.module.scss';

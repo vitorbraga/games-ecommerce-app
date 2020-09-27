@@ -1,12 +1,12 @@
 import React from 'react';
-import { Layout } from '../components/layout';
+import { Layout } from '../components/layout/layout';
 import Router from 'next/router';
-import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
 import * as ProductApi from '../modules/products/api';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { Product } from '../modules/products/model';
 import { ProductList } from '../components/products/product-list';
-import { SearchBar } from '../widgets/search-bar/search-bar';
+import { SearchBar } from '../components/search-bar/search-bar';
 
 import styles from './index.module.scss';
 
@@ -64,7 +64,7 @@ export default class Index extends React.PureComponent<{}, State> {
 
     public render() {
         return (
-            <Layout title="Home" showNav={true} customContentClass={styles['custom-content']}>
+            <Layout title="Home" showNav showFooter>
                 <div className={styles['index-page']}>
                     <SearchBar
                         onChange={this.handleChangeSearchTerm}

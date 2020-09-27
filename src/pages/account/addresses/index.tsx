@@ -5,7 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
-import { Layout } from '../../../components/layout';
+import { Layout } from '../../../components/layout/layout';
 import * as AddressApi from '../../../modules/address/api';
 import * as UserApi from '../../../modules/user/api';
 import { Address } from '../../../modules/address/model';
@@ -14,9 +14,9 @@ import { getUserSession } from '../../../modules/user/selector';
 import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
-import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
-import { AddressCard } from '../../../widgets/address-card/address-card';
-import { CustomSpinner } from '../../../widgets/custom-spinner/custom-spinner';
+import { CustomButton } from '../../../components/custom-buttom/custom-button';
+import { AddressCard } from '../../../components/address-card/address-card';
+import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
 
 import styles from './index.module.scss';
 

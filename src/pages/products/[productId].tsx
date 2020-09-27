@@ -8,17 +8,17 @@ import Badge from 'react-bootstrap/Badge';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
 import Toast from 'react-bootstrap/Toast';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import * as ProductApi from '../../modules/products/api';
 import { Product } from '../../modules/products/model';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
 import { formatPrice } from '../../utils/money-utils';
-import { CustomButton } from '../../widgets/custom-buttom/custom-button';
+import { CustomButton } from '../../components/custom-buttom/custom-button';
 import { AppState } from '../../store';
 import { getTotalItems } from '../../modules/cart/selector';
 import { addCartItem } from '../../modules/cart/actions';
 import { CartItem } from '../../modules/cart/model';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 import styles from './[productId].module.scss';
 

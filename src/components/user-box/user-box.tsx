@@ -1,10 +1,15 @@
 import * as React from 'react';
 import Router from 'next/router';
-import { UserSession } from '../../modules/user/model';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import Link from 'next/link';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { UserSession } from '../../modules/user/model';
+import { AppState } from '../../store';
+import { getUserSession } from '../../modules/user/selector';
+import { userLogout } from '../../modules/authentication/actions';
 
 import styles from './user-box.module.scss';
 
@@ -13,7 +18,7 @@ interface Props {
     userLogout: () => void;
 }
 
-export class UserBox extends React.PureComponent<Props, never> {
+class UserBox extends React.PureComponent<Props, never> {
     private handleClickLogout = async () => {
         await Router.push('/');
         this.props.userLogout();
@@ -82,3 +87,13 @@ export class UserBox extends React.PureComponent<Props, never> {
         );
     }
 }
+
+const mapStateToProps = (state: AppState) => ({
+    userSession: getUserSession(state.user)
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    userLogout: () => dispatch(userLogout())
+});
+
+export const UserBoxContainer = connect(mapStateToProps, mapDispatchToProps)(UserBox);

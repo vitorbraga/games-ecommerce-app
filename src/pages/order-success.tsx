@@ -2,8 +2,8 @@ import { ParsedUrlQuery } from 'querystring';
 import React from 'react';
 import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
-import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
-import { Layout } from '../components/layout';
+import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
+import { Layout } from '../components/layout/layout';
 import * as OrderApi from '../modules/orders/api';
 import { Order } from '../modules/orders/model';
 

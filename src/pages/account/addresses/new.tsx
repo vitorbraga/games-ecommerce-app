@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
-import { Layout } from '../../../components/layout';
+import { Layout } from '../../../components/layout/layout';
 import * as AddressApi from '../../../modules/address/api';
 import * as CountryApi from '../../../modules/countries/api';
 import { UserSession } from '../../../modules/user/model';
@@ -16,11 +16,11 @@ import { AppState } from '../../../store';
 import { FetchStatus, FetchStatusEnum } from '../../../utils/api-helper';
 import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
 import { Country } from '../../../modules/countries/model';
-import { CustomButton } from '../../../widgets/custom-buttom/custom-button';
+import { CustomButton } from '../../../components/custom-buttom/custom-button';
 import { getErrorMessage } from '../../../utils/messages-mapper';
 
 import styles from './new.module.scss';
-import { CustomSpinner } from '../../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;

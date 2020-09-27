@@ -3,7 +3,7 @@ import Alert from 'react-bootstrap/Alert';
 import Form from 'react-bootstrap/Form';
 import { getFullTreeOfCategories } from '../../modules/category/api';
 import { Category } from '../../modules/category/model';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 import styles from './sidebar.module.scss';
 

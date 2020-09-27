@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Dinero from 'dinero.js';
 import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 import { getUserSession } from '../../modules/user/selector';
 import { AppState } from '../../store';
@@ -12,12 +12,12 @@ import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
 import * as UserApi from '../../modules/user/api';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
-import { AddressCard } from '../../widgets/address-card/address-card';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+import { AddressCard } from '../../components/address-card/address-card';
 import * as MoneyUtils from '../../utils/money-utils';
 import * as DateUtils from '../../utils/date-utils';
 import { Order, OrderStatus } from '../../modules/orders/model';
-import { OrderStatusBadge } from '../../widgets/order-status-badge/order-status-badge';
+import { OrderStatusBadge } from '../../components/order-status-badge/order-status-badge';
 
 import styles from './index.module.scss';
 

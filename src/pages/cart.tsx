@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Router from 'next/router';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
-import { Layout } from '../components/layout';
+import { Layout } from '../components/layout/layout';
 import { CartItem } from '../modules/cart/model';
 import { AppState } from '../store';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
@@ -12,7 +12,7 @@ import { generatePictureURL } from '../utils/api-helper';
 import * as MoneyUtils from '../utils/money-utils';
 import { Product } from '../modules/products/model';
 import { removeItem, replaceCartItem } from '../modules/cart/actions';
-import { CustomButton } from '../widgets/custom-buttom/custom-button';
+import { CustomButton } from '../components/custom-buttom/custom-button';
 
 import styles from './cart.module.scss';
 
@@ -148,7 +148,7 @@ class CartPage extends React.PureComponent<Props, State> {
 
     public render() {
         return (
-            <Layout title="Shopping cart" showNav={true}>
+            <Layout title="Shopping cart" showNav>
                 <div className={styles['cart-container']}>
                     <h1 className={styles['page-title']}>Your cart</h1>
                     {this.renderProductsTable()}

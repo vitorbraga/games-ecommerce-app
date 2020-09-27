@@ -5,16 +5,16 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
 import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
-import { Layout } from '../../components/layout';
+import { Layout } from '../../components/layout/layout';
 import { FetchStatus, FetchStatusEnum } from '../../utils/api-helper';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
-import { CustomButton } from '../../widgets/custom-buttom/custom-button';
+import { CustomButton } from '../../components/custom-buttom/custom-button';
 import { errorMapper } from '../../utils/messages-mapper';
 import { checkPasswordComplexity } from '../../utils/validators';
 import * as AuthenticationApi from '../../modules/authentication/api';
 
 import styles from './change-password.module.scss';
-import { CustomSpinner } from '../../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;

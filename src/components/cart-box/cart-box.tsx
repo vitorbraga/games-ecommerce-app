@@ -2,6 +2,9 @@ import * as React from 'react';
 import Router from 'next/router';
 import Image from 'react-bootstrap/Image';
 import { Badge } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { AppState } from '../../store';
+import { getTotalItems } from '../../modules/cart/selector';
 
 import styles from './cart-box.module.scss';
 
@@ -9,7 +12,7 @@ interface Props {
     totalItems: number;
 }
 
-export const CartBox: React.FC<Props> = ({ totalItems }) => {
+const CartBox: React.FC<Props> = ({ totalItems }) => {
     const handleClick = () => {
         Router.push('/cart');
     };
@@ -25,3 +28,9 @@ export const CartBox: React.FC<Props> = ({ totalItems }) => {
         </div>
     );
 };
+
+const mapStateToProps = (state: AppState) => ({
+    totalItems: getTotalItems(state.cart)
+});
+
+export const CartBoxContainer = connect(mapStateToProps)(CartBox);

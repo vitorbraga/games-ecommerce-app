@@ -9,27 +9,27 @@ import Card from 'react-bootstrap/Card';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Router from 'next/router';
-import { Layout } from '../components/layout';
+import { Layout } from '../components/layout/layout';
 import { User, UserSession } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { withAuthenticationCheck } from '../utils/authentication-wrapper';
-import { CustomButton } from '../widgets/custom-buttom/custom-button';
+import { CustomButton } from '../components/custom-buttom/custom-button';
 import * as UserApi from '../modules/user/api';
 import * as AddressApi from '../modules/address/api';
 import * as OrderApi from '../modules/orders/api';
 import { AppState } from '../store';
 import { getUserSession } from '../modules/user/selector';
 import { Address } from '../modules/address/model';
-import { AddressCard } from '../widgets/address-card/address-card';
-import { CustomModal } from '../widgets/custom-modal/custom-modal';
+import { AddressCard } from '../components/address-card/address-card';
+import { CustomModal } from '../components/custom-modal/custom-modal';
 import { getCartItems, getTotalItems } from '../modules/cart/selector';
 import { CartItem } from '../modules/cart/model';
 import * as MoneyUtils from '../utils/money-utils';
-import { MaskedField } from '../widgets/masked-field/masked-field';
+import { MaskedField } from '../components/masked-field/masked-field';
 import * as CustomValidators from '../utils/validators';
 import { CreateOrderBody } from '../modules/orders/model';
 import { emptyCart } from '../modules/cart/actions';
-import { CustomSpinner } from '../widgets/custom-spinner/custom-spinner';
+import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
 
 import styles from './checkout.module.scss';
 
@@ -324,7 +324,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     public render() {
         if (this.props.totalItems === 0) {
             return (
-                <Layout title="Checkout" showNav={true}>
+                <Layout title="Checkout" showNav>
                     <div className={styles['checkout-container']}>
                         <div className={styles['empty-state-wrapper']}>
                             <h1 className={styles['page-title']}>Your cart</h1>
@@ -336,7 +336,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
         }
 
         return (
-            <Layout title="Checkout" showNav={true}>
+            <Layout title="Checkout" showNav>
                 <div className={styles['checkout-container']}>
                     {this.state.fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
                     {this.state.fetchError && <Alert variant="danger">{this.state.fetchError}</Alert>}

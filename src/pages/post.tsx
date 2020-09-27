@@ -1,5 +1,5 @@
 import { withRouter } from 'next/router';
-import { Layout } from '../components/layout';
+import { Layout } from '../components/layout/layout';
 
 interface Props {
     router?: any;
