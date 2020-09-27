@@ -108,7 +108,7 @@ class AccountPage extends React.PureComponent<Props, State> {
         const { userFullData, fetchError, fetchStatus } = this.state;
 
         return (
-            <Layout title="Account overview" showNav={true} customContentClass={styles['custom-layout-content']}>
+            <Layout title="Account overview" showNav customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.account}>
                     <div className={styles['overview-container']}>
                         <h3>Account overview</h3>

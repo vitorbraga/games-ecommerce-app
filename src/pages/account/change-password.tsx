@@ -89,7 +89,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
 
     public render() {
         return (
-            <Layout title="Change password" showNav={true} customContentClass={styles['custom-layout-content']}>
+            <Layout title="Change password" showNav customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.changePassword}>
                     <div className={styles['form-wrapper']}>
                         <h3>Change your password</h3>

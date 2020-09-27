@@ -36,7 +36,7 @@ function OrderSuccessPage({ query: { order: orderId } }: Props) {
     }, []);
 
     return (
-        <Layout title="Order success" showNav={true}>
+        <Layout title="Order success" showNav>
             <div className={styles['order-success-container']}>
                 <h2 className={styles['page-title']}>Order success</h2>
                 <h5 className={styles['page-subtitle']}>Thanks for your order. We will start working for you immediately.</h5>

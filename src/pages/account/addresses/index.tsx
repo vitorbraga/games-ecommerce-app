@@ -127,7 +127,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
 
     public render() {
         return (
-            <Layout title="My addresses" showNav={true} customContentClass={styles['custom-layout-content']}>
+            <Layout title="My addresses" showNav customContentClass={styles['custom-layout-content']}>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.addresses}>
                     <div className={styles['addresses-container']}>
                         <div>

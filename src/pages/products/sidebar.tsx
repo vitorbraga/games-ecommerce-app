@@ -20,12 +20,13 @@ export const Sidebar: React.FC<Props> = (props) => {
     React.useEffect(() => {
         const fetchCategories = async () => {
             try {
-                // TODO Improve this code, putting all together in the same object to make one single call
+                // TODO Improve this code, putting all together in the same object to make one single setState call
                 setLoading(true);
                 const categories = await getFullTreeOfCategories();
                 setCategories(categories);
                 setLoading(false);
             } catch (error) {
+                setLoading(false);
                 setFetchError(error.message);
             }
         };
@@ -64,7 +65,7 @@ export const Sidebar: React.FC<Props> = (props) => {
         if (loading) {
             return <CustomSpinner />;
         } else if (fetchError) {
-            return <Alert variant="danger" style={{ marginTop: '10px' }}>{fetchError}</Alert>;
+            return <Alert variant="danger">{fetchError}</Alert>;
         } else {
             return renderCategories(categories);
         }
