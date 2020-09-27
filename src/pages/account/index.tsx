@@ -62,13 +62,13 @@ class AccountPage extends React.PureComponent<Props, State> {
             return (
                 <>
                     <div className={styles['orders-wrapper']}>
-                        {sortedOrders.slice(0, 3).map((order, index) => {
+                        {sortedOrders.slice(0, 3).map((order, orderIndex) => {
                             const totalItems = order.orderItems.reduce((prev, cur) => prev + cur.quantity, 0);
                             const allOrderItemsTotal = MoneyUtils.calculateAllOrderItemsTotal(order.orderItems);
                             const totalPaid = Dinero({ amount: allOrderItemsTotal }).add(Dinero({ amount: order.shippingCosts })).getAmount();
 
                             return (
-                                <div className={styles['order-item']} key={`order-${index}`}>
+                                <div className={styles['order-item']} key={`order-${orderIndex}`}>
                                     <div className={styles.line}>
                                         <div><b>#{order.orderNumber}</b></div>
                                         <div style={{ fontSize: '14px' }}><OrderStatusBadge orderStatus={order.status as OrderStatus} /></div>
@@ -82,10 +82,14 @@ class AccountPage extends React.PureComponent<Props, State> {
                                         <div>{DateUtils.formatDateFromMilliseconds(order.createdAt, 'L')}</div>
                                     </div>
                                     <div className={styles['pictures-wrapper']}>
-                                        {order.orderItems.slice(0, 5).map((item) => {
-                                            const imagePath = generatePictureURL(item.product.pictures[0].filename);
+                                        {order.orderItems.slice(0, 5).map((orderItem, orderItemIndex) => {
+                                            const imagePath = generatePictureURL(orderItem.product.pictures[0].filename);
                                             return (
-                                                <Image src={imagePath} className={styles['picture-thumb']} />
+                                                <Image
+                                                    src={imagePath}
+                                                    key={`picture-${orderIndex}-${orderItemIndex}`}
+                                                    className={styles['picture-thumb']}
+                                                />
                                             );
                                         })}
                                     </div>
@@ -158,4 +162,4 @@ const mapStateToProps = (state: AppState) => ({
     userSession: getUserSession(state.user)
 });
 
-export default connect(mapStateToProps)(withAuthenticationCheck(AccountPage));
+export default connect(mapStateToProps)(withAuthenticationCheck(AccountPage, '/account'));

@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout } from '../components/layout/layout';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { NextPageContext } from 'next';
 import { AppState } from '../store';
 import { authToken } from '../modules/authentication/selector';
 import { setAuthToken } from '../modules/authentication/actions';
@@ -25,6 +26,7 @@ interface Props {
     authToken: string | null;
     onSetAuthenticationToken: (authToken: string | null) => void;
     onSetUserSession: (userSession: UserSession | null) => void;
+    query: { redirectTo?: string };
 }
 
 interface State {
@@ -32,6 +34,12 @@ interface State {
     password: string;
     loginError: string | null;
     submitStatus: FetchStatus;
+}
+
+interface LoginContext extends NextPageContext {
+    query: {
+        redirectTo?: string;
+    };
 }
 
 class LoginPage extends React.PureComponent<Props, State> {
@@ -64,7 +72,8 @@ class LoginPage extends React.PureComponent<Props, State> {
                     this.props.onSetAuthenticationToken(authenticationToken);
                     this.props.onSetUserSession(decoded.userSession);
 
-                    Router.push('/');
+                    const redirectTo = this.props.query.redirectTo || '/login';
+                    Router.push(redirectTo);
                 } catch (error) {
                     this.setState({ submitStatus: FetchStatusEnum.failure, loginError: error.message });
                 }
@@ -136,6 +145,10 @@ class LoginPage extends React.PureComponent<Props, State> {
                 </div>
             </Layout>
         );
+    }
+
+    static getInitialProps({ query }: LoginContext) {
+        return { query };
     }
 }
 

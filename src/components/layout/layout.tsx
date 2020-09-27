@@ -48,7 +48,7 @@ export const Layout: React.FunctionComponent<Props> = ({ children, title, showNa
                     <div className={styles['footer-wrapper']}>
                         <ul className={styles.links}>
                             <li className={styles['list-item']}><Link href="/about"><a className={styles.link}>About us</a></Link></li>
-                            <li className={styles['list-item']}><Link href="/about"><a className={styles.link}>Terms and Conditions</a></Link></li>
+                            <li className={styles['list-item']}><Link href="/terms-and-conditions"><a className={styles.link}>Terms and Conditions</a></Link></li>
                         </ul>
                         <div className={styles.signature}>© 2020, Vitor Braga</div>
                     </div>

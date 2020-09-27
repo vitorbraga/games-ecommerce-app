@@ -189,7 +189,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
         const title = product ? product.title : 'Product details';
 
         return (
-            <Layout title={title} showNav>
+            <Layout title={title} showNav showFooter>
                 <div className={styles['product-details-container']}>
                     {this.renderProductContent()}
                 </div>

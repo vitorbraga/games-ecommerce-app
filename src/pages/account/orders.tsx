@@ -180,4 +180,4 @@ const mapStateToProps = (state: AppState) => ({
     userSession: getUserSession(state.user)
 });
 
-export default connect(mapStateToProps)(withAuthenticationCheck(OrdersPage));
+export default connect(mapStateToProps)(withAuthenticationCheck(OrdersPage, '/account/orders'));

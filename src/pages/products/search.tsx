@@ -111,7 +111,7 @@ function SearchPage({ query: { term, categories, sortType } }: Props) {
     };
 
     return (
-        <Layout title="Search products" showNav={true} customContentClass={styles['custom-content']}>
+        <Layout title="Search products" showNav showFooter customContentClass={styles['custom-content']}>
             <div className={styles['search-container']}>
                 <SearchBar
                     onChange={handleChangeSearchTerm}
