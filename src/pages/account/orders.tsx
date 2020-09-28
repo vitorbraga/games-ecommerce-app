@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Dinero from 'dinero.js';
-import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
@@ -16,9 +15,10 @@ import { UserSession } from '../../modules/user/model';
 import { Order, OrderStatus } from '../../modules/orders/model';
 import * as DateUtils from '../../utils/date-utils';
 import { OrderStatusBadge } from '../../components/order-status-badge/order-status-badge';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
 
 import styles from './orders.module.scss';
-import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -57,7 +57,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
         if (fetchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
+            return <CustomErrorBox style={{ marginTop: '12px' }}>{fetchError}</CustomErrorBox>;
         }
 
         return null;

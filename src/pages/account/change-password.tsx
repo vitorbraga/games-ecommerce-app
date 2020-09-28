@@ -2,7 +2,6 @@ import React from 'react';
 import * as Yup from 'yup';
 import classNames from 'classnames';
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
-import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
 import { Layout } from '../../components/layout/layout';
@@ -12,9 +11,10 @@ import { CustomButton } from '../../components/custom-buttom/custom-button';
 import { errorMapper } from '../../utils/messages-mapper';
 import { checkPasswordComplexity } from '../../utils/validators';
 import * as AuthenticationApi from '../../modules/authentication/api';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
 
 import styles from './change-password.module.scss';
-import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -79,9 +79,9 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
         if (submitStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (submitStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">{submitError}</Alert>;
+            return <CustomErrorBox>{submitError}</CustomErrorBox>;
         } else if (submitStatus === FetchStatusEnum.success) {
-            return <Alert variant="success">Password changed successfully.</Alert>;
+            return <CustomErrorBox>Password changed successfully.</CustomErrorBox>;
         }
 
         return null;

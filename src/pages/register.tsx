@@ -5,13 +5,13 @@ import Router from 'next/router';
 import Link from 'next/link';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import Alert from 'react-bootstrap/Alert';
 import { registerUser } from '../modules/user/api';
 import { errorMapper } from '../utils/messages-mapper';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { checkPasswordComplexity } from '../utils/validators';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
 
 import styles from './register.module.scss';
 
@@ -71,6 +71,7 @@ class RegisterPage extends React.PureComponent<{}, State> {
                     }
                 }
             } catch (error) {
+                console.log(error);
                 this.setState({ submitStatus: FetchStatusEnum.failure, registerError: error.message });
             }
         });
@@ -84,7 +85,7 @@ class RegisterPage extends React.PureComponent<{}, State> {
         }
 
         if (submitStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">{registerError}</Alert>;
+            return <CustomErrorBox>{registerError}</CustomErrorBox>;
         }
 
         return null;

@@ -14,6 +14,11 @@
         width: $container-size;
         height: 100%;
 
+        .section-title {
+            margin-left: 20px;
+            margin-top: 16px;
+        }
+
         .products {
             height: 100%;
             width: 100%;

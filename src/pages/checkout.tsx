@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import classNames from 'classnames';
 import Dinero from 'dinero.js';
-import Alert from 'react-bootstrap/Alert';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import * as Yup from 'yup';
@@ -339,7 +338,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
             <Layout title="Checkout" showNav>
                 <div className={styles['checkout-container']}>
                     {this.state.fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
-                    {this.state.fetchError && <Alert variant="danger">{this.state.fetchError}</Alert>}
+                    {this.state.fetchError && <CustomErrorBox>{this.state.fetchError}</CustomErrorBox>}
                     <div className={styles['content-container']}>
                         <div className={styles['left-box']}>
                             <div className={styles['delivery-address-box']}>

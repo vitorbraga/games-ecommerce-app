@@ -13,12 +13,12 @@ import jwtDecode from 'jwt-decode';
 import Link from 'next/link';
 import Form from 'react-bootstrap/Form';
 import Image from 'react-bootstrap/Image';
-import Alert from 'react-bootstrap/Alert';
 import * as AuthenticationApi from '../modules/authentication/api';
 import { JwtAuthToken } from '../modules/authentication/helpers';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
 
 import styles from './login.module.scss';
 
@@ -97,7 +97,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         }
 
         if (submitStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger">{loginError}</Alert>;
+            return <CustomErrorBox>{loginError}</CustomErrorBox>;
         }
 
         return null;

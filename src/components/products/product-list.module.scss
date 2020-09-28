@@ -1,8 +1,11 @@
 @import '../../base';
 
 .product-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-row-gap: 20px;
+    column-gap: 20px;
+    width: 100%;
     padding: 20px;
 
     @include font-standard;

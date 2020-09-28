@@ -14,21 +14,23 @@ import styles from './index.module.scss';
 interface State {
     searchTerm: string;
     searchStatus: FetchStatus;
-    products: Product[];
+    consoles: Product[];
+    games: Product[];
 }
 
 export default class Index extends React.PureComponent<{}, State> {
     public state: State = {
         searchTerm: '',
         searchStatus: FetchStatusEnum.loading,
-        products: []
+        consoles: [],
+        games: []
     };
 
     public componentDidMount() {
         this.setState({ searchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const products = await ProductApi.getFeaturedProducts();
-                this.setState({ searchStatus: FetchStatusEnum.success, products });
+                const { consoles, games } = await ProductApi.getFeaturedProducts();
+                this.setState({ searchStatus: FetchStatusEnum.success, consoles, games });
             } catch (error) {
                 this.setState({ searchStatus: FetchStatusEnum.failure });
             }
@@ -78,7 +80,11 @@ export default class Index extends React.PureComponent<{}, State> {
                     <div className={styles['products-container']}>
                         <div className={styles.products}>
                             {this.renderSearchStatus()}
-                            <ProductList products={this.state.products} />
+                            <h5 className={styles['section-title']}>Games</h5>
+                            <ProductList products={this.state.games} emptyStateMessage="No games found." />
+                            <hr className={styles['custom-hr']} />
+                            <h5 className={styles['section-title']}>Consoles</h5>
+                            <ProductList products={this.state.consoles} emptyStateMessage="No consoles found." />
                         </div>
                     </div>
                 </div>

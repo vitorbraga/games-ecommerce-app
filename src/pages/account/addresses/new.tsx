@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { connect } from 'react-redux';
-import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
 import { Layout } from '../../../components/layout/layout';
@@ -18,9 +17,10 @@ import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
 import { Country } from '../../../modules/countries/model';
 import { CustomButton } from '../../../components/custom-buttom/custom-button';
 import { getErrorMessage } from '../../../utils/messages-mapper';
+import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../../../components/custom-error-box/custom-error-box';
 
 import styles from './new.module.scss';
-import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
 
 interface Props {
     authToken: string;
@@ -84,7 +84,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
     private handleSubmit = async (formData: FormData) => {
         this.setState({ fetchStatus: FetchStatusEnum.loading }, async () => {
             try {
-                const { user: { id: userId }, authToken } = this.props;
+                const { userSession: { id: userId }, authToken } = this.props;
 
                 const addressesOrFieldsWithErrors = await AddressApi.createAddress(userId, formData, authToken);
                 if ('id' in addressesOrFieldsWithErrors) {
@@ -107,7 +107,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
         if (fetchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
+            return <CustomErrorBox style={{ marginTop: '12px' }}>{fetchError}</CustomErrorBox>;
         }
 
         return null;

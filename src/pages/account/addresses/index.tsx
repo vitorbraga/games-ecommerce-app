@@ -2,7 +2,6 @@ import React from 'react';
 import Router from 'next/router';
 import { connect } from 'react-redux';
 import Card from 'react-bootstrap/Card';
-import Alert from 'react-bootstrap/Alert';
 import { BaseStructure } from '../../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../../components/account/side-menu';
 import { Layout } from '../../../components/layout/layout';
@@ -17,6 +16,7 @@ import { withAuthenticationCheck } from '../../../utils/authentication-wrapper';
 import { CustomButton } from '../../../components/custom-buttom/custom-button';
 import { AddressCard } from '../../../components/address-card/address-card';
 import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
+import { CustomErrorBox } from '../../../components/custom-error-box/custom-error-box';
 
 import styles from './index.module.scss';
 
@@ -115,7 +115,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
         if (fetchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <Alert variant="danger" style={{ marginTop: '12px' }}>{fetchError}</Alert>;
+            return <CustomErrorBox style={{ marginTop: '12px' }}>{fetchError}</CustomErrorBox>;
         }
 
         return null;

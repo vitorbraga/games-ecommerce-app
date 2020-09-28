@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import Dinero from 'dinero.js';
-import Alert from 'react-bootstrap/Alert';
 import Image from 'react-bootstrap/Image';
 import { Layout } from '../../components/layout/layout';
 import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
@@ -20,6 +19,7 @@ import { Order, OrderStatus } from '../../modules/orders/model';
 import { OrderStatusBadge } from '../../components/order-status-badge/order-status-badge';
 
 import styles from './index.module.scss';
+import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
 
 interface Props {
     authToken: string;
@@ -113,7 +113,7 @@ class AccountPage extends React.PureComponent<Props, State> {
                     <div className={styles['overview-container']}>
                         <h3>Account overview</h3>
                         {fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
-                        {fetchError && <Alert variant="danger">{fetchError}</Alert>}
+                        {fetchError && <CustomErrorBox>{fetchError}</CustomErrorBox>}
                         {userFullData
                             && <>
                                 <div className={styles['section-wrapper']}>

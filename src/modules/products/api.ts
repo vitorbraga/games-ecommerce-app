@@ -13,7 +13,7 @@ export const searchProducts = async (searchTerm: string, categories: string, sor
     }
 };
 
-export const getFeaturedProducts = async (): Promise<Model.Product[]> => {
+export const getFeaturedProducts = async (): Promise<{ consoles: Model.Product[], games: Model.Product[] }> => {
     const response: Response = await fetch(`${serverBaseUrl}/products/featured`);
     const productsResponse: Model.FeaturedProductsResponse = await response.json();
 

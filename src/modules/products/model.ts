@@ -43,4 +43,13 @@ export type SearchProductsResponse = {
     error: string;
 };
 
-export type FeaturedProductsResponse = SearchProductsResponse;
+export type FeaturedProductsResponse = {
+    success: true;
+    products: {
+        consoles: Product[];
+        games: Product[];
+    };
+} | {
+    success: false;
+    error: string;
+};

@@ -36,10 +36,25 @@ export const errorMapper: UserMessage = {
     CHANGE_PASSWORD_USER_NOT_FOUND: 'User not found.',
     CHANGE_PASSWORD_INCORRECT_CURRENT_PASSWORD: 'Current password is incorrect.',
     CHANGE_PASSWORD_PASSWORD_COMPLEXITY: 'Password must be at least 6 characters and it must contain numbers and letters.',
-    ADDRESS_NOT_FOUND: 'Address not found',
-    PRODUCT_NOT_FOUND: 'Product not found',
-    FAILED_MANAGING_ORDER_ITEMS: 'Failed managing order items',
-    FAILED_CREATING_ORDER: 'Failed creating order'
+    CREATE_USER_FAILED: 'Failed to register user.',
+    ADDRESS_NOT_FOUND: 'Address not found.',
+    PRODUCT_NOT_FOUND: 'Product not found.',
+    FAILED_MANAGING_ORDER_ITEMS: 'Failed managing order items.',
+    FAILED_CREATING_ORDER: 'Failed creating order.',
+    UPDATE_USER_FAILED: 'Failed updating user data.',
+    DELETE_USER_FAILED: 'Failed deleting user.',
+    MISSING_USER_ID: 'Missing user ID.',
+    MISSING_COUNTRY_ID: 'Missing country ID.',
+    COUNTRY_NOT_FOUND: 'Missing country ID',
+    FAILED_CREATING_ADDRESS: 'Failed creating address.',
+    MISSING_ADDRESS_ID: 'Missing address ID.',
+    SET_MAIN_ADDRESS_FAILED: 'Failed setting main address.',
+    DELETE_ADDRESS_FAILED: 'Failed deleting address.',
+    FETCHING_USER_ORDERS_FAILED: 'Failed fetching user orders.',
+    FETCHING_USER_ADDRESSES_FAILED: 'Failed fetching user addresses.',
+    MISSING_PRODUCT_ID: 'Missing product ID.',
+    PRODUCT_OUT_OF_STOCK: 'Product is out of stock.',
+    PAYMENT_FAILED: 'Payment failed'
 };
 
 export function getErrorMessage(key: string) {
