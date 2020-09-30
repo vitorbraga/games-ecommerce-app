@@ -72,7 +72,9 @@ class LoginPage extends React.PureComponent<Props, State> {
                     this.props.onSetAuthenticationToken(authenticationToken);
                     this.props.onSetUserSession(decoded.userSession);
 
-                    const redirectTo = this.props.query.redirectTo || '/login';
+                    console.log(this.props.query.redirectTo);
+                    const redirectTo = this.props.query.redirectTo || '/';
+                    console.log('redirectTo', redirectTo);
                     Router.push(redirectTo);
                 } catch (error) {
                     this.setState({ submitStatus: FetchStatusEnum.failure, loginError: error.message });
@@ -134,7 +136,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                                 <Form.Group className={styles['rememberme-group']}>
                                     <Form.Check type="checkbox" label="Remember me" />
                                 </Form.Group>
-                                <Link href="/forgot-password">Forgot password?</Link>
+                                <Link href="/password-recovery">Forgot password?</Link>
                             </div>
                             <CustomButton variant="primary" className={styles['submit-button']} onClick={this.handleSubmit}>Login</CustomButton>
                         </Form>

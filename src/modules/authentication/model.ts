@@ -31,6 +31,8 @@ export type PasswordRecoveryResponse = BaseResponse;
 
 export type ChangePasswordTokenResponse = BaseResponse;
 
+export type ResetPasswordTokenResponse = BaseResponse;
+
 export type CheckPasswordTokenResponse = BaseResponse;
 
 interface SetAuthTokenAction {

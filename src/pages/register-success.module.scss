@@ -1,4 +1,32 @@
-.custom-content {
-    height: 100%;
+@import '../base';
+
+.registration-success-container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    height: fit-content;
+    margin-top: 30px;
+    padding: 20px;
+    border: 1px solid $color-border;
+    @include font-standard;
+
+    .image {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .login-button {
+        width: fit-content;
+        margin-top: 20px;
+    }
 }

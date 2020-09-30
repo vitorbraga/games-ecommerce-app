@@ -1,4 +1,4 @@
-import { LoginResponse, PasswordRecoveryResponse, CheckPasswordTokenResponse, ChangePasswordTokenResponse, ChangePasswordResponse } from './model';
+import * as Model from './model';
 import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
 import { getErrorMessage } from '../../utils/messages-mapper';
 import { User } from '../user/model';
@@ -11,7 +11,7 @@ export const authenticate = async (username: string, password: string): Promise<
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/auth/login`, options);
-    const loginResponse: LoginResponse = await response.json();
+    const loginResponse: Model.LoginResponse = await response.json();
 
     if (loginResponse.success) {
         return loginResponse.jwt;
@@ -28,25 +28,25 @@ export const passwordRecovery = async (email: string): Promise<void> => {
     };
 
     const response: Response = await fetch(`${serverBaseUrl}/auth/password-recovery`, options);
-    const passwordRecoveryResponse: PasswordRecoveryResponse = await response.json();
+    const passwordRecoveryResponse: Model.PasswordRecoveryResponse = await response.json();
 
     if (!passwordRecoveryResponse.success) {
         throw new Error(getErrorMessage(passwordRecoveryResponse.error));
     }
 };
 
-export const changePasswordWithToken = async (newPassword: string, token: string, userId: string): Promise<void> => {
+export const resetPasswordWithToken = async (newPassword: string, token: string, userId: string): Promise<void> => {
     const options = {
         headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').build(),
         method: 'POST',
         body: JSON.stringify({ newPassword, token, userId })
     };
 
-    const response: Response = await fetch(`${serverBaseUrl}/auth/password-recovery`, options);
-    const changePasswordResponse: ChangePasswordTokenResponse = await response.json();
+    const response: Response = await fetch(`${serverBaseUrl}/auth/reset-password`, options);
+    const resetPasswordResponse: Model.ResetPasswordTokenResponse = await response.json();
 
-    if (!changePasswordResponse.success) {
-        throw new Error(getErrorMessage(changePasswordResponse.error));
+    if (!resetPasswordResponse.success) {
+        throw new Error(getErrorMessage(resetPasswordResponse.error));
     }
 };
 
@@ -62,7 +62,7 @@ export const changePassword = async (currentPassword: string, newPassword: strin
     };
 
     const response = await fetch(`${serverBaseUrl}/auth/change-password`, options);
-    const changePasswordResponse: ChangePasswordResponse = await response.json();
+    const changePasswordResponse: Model.ChangePasswordResponse = await response.json();
 
     if (changePasswordResponse.success) {
         return changePasswordResponse.user;
@@ -77,7 +77,7 @@ export const checkValidPasswordResetToken = async (token: string, userId: string
     };
 
     const response = await fetch(`${serverBaseUrl}/auth/check-password-token/${token}/${userId}`, options);
-    const checkPasswordResponse: CheckPasswordTokenResponse = await response.json();
+    const checkPasswordResponse: Model.CheckPasswordTokenResponse = await response.json();
 
     if (!checkPasswordResponse.success) {
         throw new Error(getErrorMessage(checkPasswordResponse.error));

@@ -1,3 +1,10 @@
+@import '../../base';
+
 .custom-layout-content {
     min-height: 100%;
+}
+
+.reviews-container {
+    padding: 20px;
+    @include font-standard;
 }

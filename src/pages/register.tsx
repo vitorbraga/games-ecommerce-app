@@ -1,10 +1,10 @@
 import React from 'react';
-import { Layout } from '../components/layout/layout';
 import classNames from 'classnames';
 import Router from 'next/router';
 import Link from 'next/link';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Layout } from '../components/layout/layout';
 import { registerUser } from '../modules/user/api';
 import { errorMapper } from '../utils/messages-mapper';
 import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
@@ -71,7 +71,6 @@ class RegisterPage extends React.PureComponent<{}, State> {
                     }
                 }
             } catch (error) {
-                console.log(error);
                 this.setState({ submitStatus: FetchStatusEnum.failure, registerError: error.message });
             }
         });
