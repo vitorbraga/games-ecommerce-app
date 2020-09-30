@@ -17,9 +17,9 @@ import * as MoneyUtils from '../../utils/money-utils';
 import * as DateUtils from '../../utils/date-utils';
 import { Order, OrderStatus } from '../../modules/orders/model';
 import { OrderStatusBadge } from '../../components/order-status-badge/order-status-badge';
+import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
 import styles from './index.module.scss';
-import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
 
 interface Props {
     authToken: string;
@@ -113,7 +113,7 @@ class AccountPage extends React.PureComponent<Props, State> {
                     <div className={styles['overview-container']}>
                         <h3>Account overview</h3>
                         {fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
-                        {fetchError && <CustomErrorBox>{fetchError}</CustomErrorBox>}
+                        {fetchError && <CustomStatusBox type="danger">{fetchError}</CustomStatusBox>}
                         {userFullData
                             && <>
                                 <div className={styles['section-wrapper']}>

@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'react-bootstrap/Image';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
 import { Layout } from '../components/layout/layout';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 import * as OrderApi from '../modules/orders/api';
 import { Order } from '../modules/orders/model';
 import { FetchState, FetchStatusEnum } from '../utils/api-helper';
@@ -40,7 +40,7 @@ function OrderSuccessPage({ query: { order: orderId } }: Props) {
                 <h2 className={styles['page-title']}>Order success</h2>
                 <h5 className={styles['page-subtitle']}>Thanks for your order. We will start working for you immediately.</h5>
                 {fetchState.status === FetchStatusEnum.loading && <CustomSpinner />}
-                {fetchState.status === FetchStatusEnum.failure && <CustomErrorBox>{fetchState.fetchError}</CustomErrorBox>}
+                {fetchState.status === FetchStatusEnum.failure && <CustomStatusBox type="danger">{fetchState.fetchError}</CustomStatusBox>}
                 {order
                     && <div className={styles['order-information-wrapper']}>
                         <div className={styles['info-card']}>

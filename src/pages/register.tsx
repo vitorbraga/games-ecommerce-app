@@ -11,7 +11,7 @@ import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { checkPasswordComplexity } from '../utils/validators';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './register.module.scss';
 
@@ -84,7 +84,7 @@ class RegisterPage extends React.PureComponent<{}, State> {
         }
 
         if (submitStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{registerError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{registerError}</CustomStatusBox>;
         }
 
         return null;

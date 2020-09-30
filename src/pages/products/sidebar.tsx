@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { getFullTreeOfCategories } from '../../modules/category/api';
 import { Category } from '../../modules/category/model';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 import { FetchState, FetchStatusEnum } from '../../utils/api-helper';
 
 import styles from './sidebar.module.scss';
@@ -61,7 +61,7 @@ export const Sidebar: React.FC<Props> = (props) => {
         if (fetchState.status === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (fetchState.status === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{fetchState.fetchError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{fetchState.fetchError}</CustomStatusBox>;
         } else {
             return renderCategories(fetchState.data);
         }

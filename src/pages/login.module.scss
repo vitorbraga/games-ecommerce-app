@@ -38,15 +38,11 @@
             width: 100%;
         }
 
-        .rememberme-wrapper {
+        .password-forgot-wrapper {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             width: 100%;
             margin-bottom: 8px;
-
-            .rememberme-group {
-                margin-bottom: 5px;
-            }
         }
 
         .register-wrapper {

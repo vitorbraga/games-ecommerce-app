@@ -13,7 +13,7 @@ import { Sidebar } from './sidebar';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 
 import styles from './search.module.scss';
-import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
 interface Props {
     query: ParsedUrlQuery;
@@ -55,7 +55,7 @@ function SearchPage({ query: { term, categories, sortType } }: Props) {
         if (productsFetch.searchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (productsFetch.searchStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>Failed searching products.</CustomErrorBox>;
+            return <CustomStatusBox type="danger">Failed searching products.</CustomStatusBox>;
         }
 
         return null;

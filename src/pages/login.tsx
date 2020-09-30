@@ -18,7 +18,7 @@ import { JwtAuthToken } from '../modules/authentication/helpers';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './login.module.scss';
 
@@ -99,7 +99,7 @@ class LoginPage extends React.PureComponent<Props, State> {
         }
 
         if (submitStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{loginError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{loginError}</CustomStatusBox>;
         }
 
         return null;
@@ -132,10 +132,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                                     onKeyUp={this.handleKeyUp}
                                 />
                             </Form.Group>
-                            <div className={styles['rememberme-wrapper']}>
-                                <Form.Group className={styles['rememberme-group']}>
-                                    <Form.Check type="checkbox" label="Remember me" />
-                                </Form.Group>
+                            <div className={styles['password-forgot-wrapper']}>
                                 <Link href="/password-recovery">Forgot password?</Link>
                             </div>
                             <CustomButton variant="primary" className={styles['submit-button']} onClick={this.handleSubmit}>Login</CustomButton>

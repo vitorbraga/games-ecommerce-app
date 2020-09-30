@@ -8,7 +8,7 @@ import { Layout } from '../components/layout/layout';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './password-recovery.module.scss';
 
@@ -56,11 +56,11 @@ export default class PasswordRecovery extends React.PureComponent<{}, State> {
         }
 
         if (submitStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{submitError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{submitError}</CustomStatusBox>;
         }
 
         if (submitStatus === FetchStatusEnum.success) {
-            return <Alert variant="success">We sent a password reset link to your email address, which allows you to reset your password.</Alert>;
+            return <CustomStatusBox type="success">We sent a password reset link to your email address, which allows you to reset your password.</CustomStatusBox>;
         }
 
         return null;

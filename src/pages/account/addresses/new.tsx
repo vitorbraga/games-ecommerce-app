@@ -18,7 +18,7 @@ import { Country } from '../../../modules/countries/model';
 import { CustomButton } from '../../../components/custom-buttom/custom-button';
 import { getErrorMessage } from '../../../utils/messages-mapper';
 import { CustomSpinner } from '../../../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../../../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../../../components/custom-status-box/custom-status-box';
 
 import styles from './new.module.scss';
 
@@ -107,7 +107,7 @@ class NewAddressPage extends React.PureComponent<Props, State> {
         if (fetchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (fetchStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox style={{ marginTop: '12px' }}>{fetchError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger" style={{ marginTop: '12px' }}>{fetchError}</CustomStatusBox>;
         }
 
         return null;

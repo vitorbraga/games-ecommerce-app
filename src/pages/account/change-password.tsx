@@ -12,7 +12,7 @@ import { errorMapper } from '../../utils/messages-mapper';
 import { checkPasswordComplexity } from '../../utils/validators';
 import * as AuthenticationApi from '../../modules/authentication/api';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
 import styles from './change-password.module.scss';
 
@@ -79,9 +79,9 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
         if (submitStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (submitStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{submitError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{submitError}</CustomStatusBox>;
         } else if (submitStatus === FetchStatusEnum.success) {
-            return <CustomErrorBox>Password changed successfully.</CustomErrorBox>;
+            return <CustomStatusBox type="success">Password changed successfully.</CustomStatusBox>;
         }
 
         return null;

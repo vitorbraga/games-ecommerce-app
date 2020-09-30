@@ -7,7 +7,7 @@ import { FetchStatusEnum, FetchStatus } from '../utils/api-helper';
 import { Product } from '../modules/products/model';
 import { ProductList } from '../components/products/product-list';
 import { SearchBar } from '../components/search-bar/search-bar';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './index.module.scss';
 
@@ -61,7 +61,7 @@ export default class Index extends React.PureComponent<{}, State> {
         if (searchStatus === FetchStatusEnum.loading) {
             return <CustomSpinner />;
         } else if (searchStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox style={{ marginTop: '10px' }}>Failed getting featured products.</CustomErrorBox>;
+            return <CustomStatusBox type="danger" style={{ marginTop: '10px' }}>Failed getting featured products.</CustomStatusBox>;
         }
 
         return null;

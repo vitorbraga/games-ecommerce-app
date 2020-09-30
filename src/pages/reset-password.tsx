@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import * as Yup from 'yup';
-import Alert from 'react-bootstrap/Alert';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { errorMapper } from '../utils/messages-mapper';
 import * as AuthenticationApi from '../modules/authentication/api';
@@ -10,7 +9,7 @@ import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
 import { checkPasswordComplexity } from '../utils/validators';
 import { CustomButton } from '../components/custom-buttom/custom-button';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
-import { CustomErrorBox } from '../components/custom-error-box/custom-error-box';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './reset-password.module.scss';
 
@@ -91,11 +90,11 @@ export default class ChangePasswordWithToken extends React.PureComponent<Props, 
         }
 
         if (fetchStatus === FetchStatusEnum.failure) {
-            return <CustomErrorBox>{fetchError}</CustomErrorBox>;
+            return <CustomStatusBox type="danger">{fetchError}</CustomStatusBox>;
         }
 
         if (fetchStatus === FetchStatusEnum.success) {
-            return <Alert variant="success">You password was reseted successfully!</Alert>;
+            return <CustomStatusBox type="success">You password was reseted successfully!</CustomStatusBox>;
         }
 
         return null;
@@ -150,7 +149,7 @@ export default class ChangePasswordWithToken extends React.PureComponent<Props, 
         } else {
             return (
                 <div className={styles['invalid-info']}>
-                    {tokenCheckError && <CustomErrorBox>{tokenCheckError}</CustomErrorBox>}
+                    {tokenCheckError && <CustomStatusBox type="danger">{tokenCheckError}</CustomStatusBox>}
                     <div>We cannot perform the password reset because the needed information is invalid.</div>
                 </div>
             );
