@@ -1,6 +1,6 @@
 /* eslint-disable no-sequences */
-export const serverBaseUrl = process.env.SERVER_BASE_URL || 'http://localhost:4000';
-export const appBaseUrl = process.env.APP_BASE_URL || 'http://localhost:3000';
+export const serverBaseUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL || 'http://localhost:4000';
+export const appBaseUrl = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000';
 
 export enum FetchStatusEnum {
     initial = 'initial',
