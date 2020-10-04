@@ -29,6 +29,7 @@ import * as CustomValidators from '../utils/validators';
 import { CreateOrderBody } from '../modules/orders/model';
 import { emptyCart } from '../modules/cart/actions';
 import { CustomSpinner } from '../components/custom-spinner/custom-spinner';
+import { CustomStatusBox } from '../components/custom-status-box/custom-status-box';
 
 import styles from './checkout.module.scss';
 
@@ -338,7 +339,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
             <Layout title="Checkout" showNav>
                 <div className={styles['checkout-container']}>
                     {this.state.fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
-                    {this.state.fetchError && <CustomErrorBox>{this.state.fetchError}</CustomErrorBox>}
+                    {this.state.fetchError && <CustomStatusBox type="danger">{this.state.fetchError}</CustomStatusBox>}
                     <div className={styles['content-container']}>
                         <div className={styles['left-box']}>
                             <div className={styles['delivery-address-box']}>

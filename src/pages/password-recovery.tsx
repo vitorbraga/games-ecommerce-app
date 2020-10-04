@@ -1,7 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import * as Yup from 'yup';
-import Alert from 'react-bootstrap/Alert';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as AuthenticationApi from '../modules/authentication/api';
 import { Layout } from '../components/layout/layout';
