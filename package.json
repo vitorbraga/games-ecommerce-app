@@ -8,7 +8,8 @@
     "lint": "eslint \"src/**/*.tsx\"",
     "start:dev": "npm run lint && next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
