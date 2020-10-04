@@ -9,11 +9,11 @@ import { Product } from '../../modules/products/model';
 import { ProductList } from '../../components/products/product-list';
 import * as ProductApi from '../../modules/products/api';
 import { SearchBar } from '../../components/search-bar/search-bar';
-import { Sidebar } from './sidebar';
+import { Sidebar } from '../../components/sidebar/sidebar';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
 import styles from './search.module.scss';
-import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
 interface Props {
     query: ParsedUrlQuery;

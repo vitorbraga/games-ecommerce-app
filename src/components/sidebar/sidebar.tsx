@@ -2,8 +2,8 @@ import * as React from 'react';
 import Form from 'react-bootstrap/Form';
 import { getFullTreeOfCategories } from '../../modules/category/api';
 import { Category } from '../../modules/category/model';
-import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
-import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
+import { CustomSpinner } from '../custom-spinner/custom-spinner';
+import { CustomStatusBox } from '../custom-status-box/custom-status-box';
 import { FetchState, FetchStatusEnum } from '../../utils/api-helper';
 
 import styles from './sidebar.module.scss';
