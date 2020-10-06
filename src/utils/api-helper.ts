@@ -1,6 +1,7 @@
 /* eslint-disable no-sequences */
 export const serverBaseUrl = process.env.NEXT_PUBLIC_SERVER_BASE_URL || 'http://localhost:4000';
 export const appBaseUrl = process.env.NEXT_PUBLIC_APP_BASE_URL || 'http://localhost:3000';
+export const s3BucketProductPictures = process.env.NEXT_PUBLIC_S3_BUCKET_PRODUCT_PICTURES || 'games-ecommerce-dev';
 
 export enum FetchStatusEnum {
     initial = 'initial',
@@ -35,7 +36,7 @@ export function headersBuilder() {
 }
 
 export function generatePictureURL(fileName: string) {
-    return `${serverBaseUrl}/public/product-pictures/${fileName}`;
+    return `https://${s3BucketProductPictures}.s3-eu-west-1.amazonaws.com/${fileName}`;
 }
 
 export interface FieldWithError {
