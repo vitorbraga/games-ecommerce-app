@@ -374,4 +374,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     onEmptyCart: () => dispatch(emptyCart())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationCheck(CheckoutPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthenticationCheck(CheckoutPage, '/checkout'));

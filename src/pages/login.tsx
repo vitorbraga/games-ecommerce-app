@@ -72,9 +72,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                     this.props.onSetAuthenticationToken(authenticationToken);
                     this.props.onSetUserSession(decoded.userSession);
 
-                    console.log(this.props.query.redirectTo);
                     const redirectTo = this.props.query.redirectTo || '/';
-                    console.log('redirectTo', redirectTo);
                     Router.push(redirectTo);
                 } catch (error) {
                     this.setState({ submitStatus: FetchStatusEnum.failure, loginError: error.message });
