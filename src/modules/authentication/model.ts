@@ -1,5 +1,3 @@
-import { User } from '../user/model';
-
 export const SET_AUTH_TOKEN = 'SET_AUTH_TOKEN';
 export const USER_LOGOUT = 'USER_LOGOUT';
 
@@ -19,14 +17,6 @@ export type BaseResponse = {
 };
 
 // TODO maybe try to create a common typescript type for these responses
-export type ChangePasswordResponse = {
-    success: true;
-    user: User;
-} | {
-    success: false;
-    error: string;
-};
-
 export type PasswordRecoveryResponse = BaseResponse;
 
 export type ChangePasswordTokenResponse = BaseResponse;

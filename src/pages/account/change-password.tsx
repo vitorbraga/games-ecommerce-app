@@ -10,7 +10,7 @@ import { withAuthenticationCheck } from '../../utils/authentication-wrapper';
 import { CustomButton } from '../../components/custom-buttom/custom-button';
 import { errorMapper } from '../../utils/messages-mapper';
 import { checkPasswordComplexity } from '../../utils/validators';
-import * as AuthenticationApi from '../../modules/authentication/api';
+import * as UserApi from '../../modules/user/api';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
 
@@ -62,7 +62,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
                 const { currentPassword, newPassword } = formData;
                 const { authToken } = this.props;
 
-                await AuthenticationApi.changePassword(currentPassword, newPassword, authToken);
+                await UserApi.changePassword(currentPassword, newPassword, authToken);
 
                 this.setState({ submitStatus: FetchStatusEnum.success }, () => {
                     resetForm();

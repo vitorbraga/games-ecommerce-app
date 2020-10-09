@@ -63,6 +63,14 @@ export type GetUserResponse = {
     error: string;
 };
 
+export type ChangePasswordResponse = {
+    success: true;
+    user: User;
+} | {
+    success: false;
+    error: string;
+};
+
 interface SetUserSessionAction { type: typeof SET_USER_SESSION, payload: UserSession | null }
 
 export interface UserState {

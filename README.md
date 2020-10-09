@@ -1,16 +1,23 @@
 # Games Ecommerce App
 This repository is part of a long-term project of mine, called *Games Ecommerce*.
-Like the name says, it is an ecommerce focused on Games, to sell physical games and consoles.
+As the name says, it is an e-commerce focused on Games, to sell physical games and consoles.
 All the products and transactions are fake, so in case of a user making order, this user won't be charged and also won't receive the product.
 
 This repository is the frontend for the Games Ecommerce Store. It is responsible for all the interactions a user can make, such as register, login, view products and make an order.
 
-There are other two repositories that complement *games-ecommerce-app:
+There are other two repositories that complement *games-ecommerce-app*:
 
 - [games-ecommerce-server](https://github.com/vitorbraga/games-ecommerce-server): backend of the whole project, which handles the database access and all the requests users can make
 - [games-ecommerce-admin](https://github.com/vitorbraga/games-ecommerce-admin): Admin Portal, so administrators can handle the management of products, orders and users.
 
 The project is in an MVP state. It has a basic ecommerce functionality. It still has lot of features and improvements to make and I plan to implement them over time.
+
+
+
+## Current State
+
+The project is in an MVP state. It has a basic e-commerce functionality. I still have a lot of features and improvements to make and I plan to implement them over time.
+There are no tests implemented yet. I focused on features, like it is in a real-world company. Stakeholders want features, especially in the early stages when we are building a MVP. As this project is still a MVP, I decided to focus on fast delivering of the core features first.
 
 
 

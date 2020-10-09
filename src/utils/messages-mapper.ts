@@ -26,7 +26,7 @@ export const errorMapper: UserMessage = {
     PASSWORD_RESET_BAD_USER_ID: 'Invalid user ID.',
     PASSWORD_RESET_TOKEN_AND_ID_NOT_MATCH: 'Token and user ID do not match.', // TODO fix this message
     PASSWORD_RESET_MISSING_TOKEN_USERID: 'Missing token and/or user ID.',
-    PASSWORD_RESET_TOKEN_USER_NOT_FOUND: 'We could not find a user with the provided token.',
+    PASSWORD_RESET_TOKEN_NOT_FOUND: 'We could not find a user with the provided token.',
     PASSWORD_RESET_ONGOING_RECOVERY_PROCESS: 'There is an ongoing password recovery process. You can start a new password recovery process each 5 hours.',
     PROFILE_ERROR_FETCHING_USER_DATA: 'Error fetching user data. Please try again.',
     UPDATE_USER_NOT_FOUND: 'User not found.',

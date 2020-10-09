@@ -1,7 +1,6 @@
 import * as Model from './model';
 import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
 import { getErrorMessage } from '../../utils/messages-mapper';
-import { User } from '../user/model';
 
 export const authenticate = async (username: string, password: string): Promise<string> => {
     const options = {
@@ -50,33 +49,12 @@ export const resetPasswordWithToken = async (newPassword: string, token: string,
     }
 };
 
-export const changePassword = async (currentPassword: string, newPassword: string, authToken: string): Promise<User> => {
-    const options = {
-        headers: headersBuilder()
-            .with('Content-Type', 'application/json')
-            .with('Accept', 'application/json')
-            .withJwt(authToken)
-            .build(),
-        method: 'POST',
-        body: JSON.stringify({ currentPassword, newPassword })
-    };
-
-    const response = await fetch(`${serverBaseUrl}/auth/change-password`, options);
-    const changePasswordResponse: Model.ChangePasswordResponse = await response.json();
-
-    if (changePasswordResponse.success) {
-        return changePasswordResponse.user;
-    } else {
-        throw new Error(getErrorMessage(changePasswordResponse.error));
-    }
-};
-
 export const checkValidPasswordResetToken = async (token: string, userId: string): Promise<void> => {
     const options = {
         headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').build()
     };
 
-    const response = await fetch(`${serverBaseUrl}/auth/check-password-token/${token}/${userId}`, options);
+    const response = await fetch(`${serverBaseUrl}/auth/check-password-token?token=${token}&userId=${userId}`, options);
     const checkPasswordResponse: Model.CheckPasswordTokenResponse = await response.json();
 
     if (!checkPasswordResponse.success) {
