@@ -9,6 +9,7 @@
     border-radius: 0px;
 
     .image {
+        flex: 1;
         max-width: 170px;
         max-height: 217px;
         object-fit: contain;
@@ -19,8 +20,9 @@
     .custom-card-body {
         display: flex;
         flex-direction: column;
-        height: 100px;
+        max-height: 80px;
         padding: 10px;
+        justify-content: flex-end;
 
         .title {
             font-size: 14px;
@@ -33,6 +35,7 @@
         .subtitle {
             font-size: 15px;
             color: #C94B4C;
+            font-weight: bold;
         }
 
         .description {

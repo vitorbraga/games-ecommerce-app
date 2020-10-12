@@ -28,11 +28,11 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
         }
     };
 
-    const imagePath = generatePictureURL(product.pictures[0].filename);
+    const imagePath = generatePictureURL(product.pictures[0]?.filename);
 
     return (
         <Card className={styles['product-card']} onClick={handleRedirectClick} onMouseDown={handleMouseDown}>
-            <Card.Img variant="top" src={imagePath} className={styles.image} />
+            <Card.Img variant="top" src={imagePath} className={styles.image} alt={product.title} />
             <Card.Body className={styles['custom-card-body']}>
                 <Card.Title className={styles.title}>{product.title}</Card.Title>
                 <Card.Subtitle className={styles.subtitle}>{formatPrice(product.price)}</Card.Subtitle>

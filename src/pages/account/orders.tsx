@@ -140,7 +140,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
                                 <div className={styles['products-title']}>Products:</div>
                                 <div className={styles['pictures-wrapper']}>
                                     {order.orderItems.map(({ product, quantity }, index) => {
-                                        const imagePath = generatePictureURL(product.pictures[0].filename);
+                                        const imagePath = generatePictureURL(product.pictures[0]?.filename);
                                         return (
                                             <Image
                                                 key={`product-picture-${index}`}
@@ -149,6 +149,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
                                                 title={`${product.title} (${quantity})`}
                                                 onClick={this.handleClickProduct(product.id)}
                                                 onMouseDown={this.handleMouseDownProduct(product.id)}
+                                                alt={product.title}
                                             />
                                         );
                                     })}

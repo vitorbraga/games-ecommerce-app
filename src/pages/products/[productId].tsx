@@ -150,7 +150,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
         const { product, quantity } = this.state;
 
         if (product) {
-            const picturePath = generatePictureURL(product.pictures[0].filename);
+            const picturePath = generatePictureURL(product.pictures[0]?.filename);
 
             return (
                 <Toast
@@ -164,7 +164,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
                     <Toast.Body className={styles['toast-body']}>
                         <div>
                             <div className={styles['last-added-product']}>
-                                <Image className={styles['product-picture']} src={picturePath}/>
+                                <Image className={styles['product-picture']} src={picturePath} alt={product.title} />
                                 <div className={styles['product-title']}>
                                     {product.title}
                                 </div>

@@ -74,14 +74,14 @@ export const getUserFullData = async (userId: string, authToken: string): Promis
     }
 };
 
-export const changePassword = async (currentPassword: string, newPassword: string, authToken: string): Promise<Model.User> => {
+export const changePassword = async (userId: string, currentPassword: string, newPassword: string, authToken: string): Promise<Model.User> => {
     const options = {
         headers: headersBuilder().withJwt(authToken).build(),
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({ currentPassword, newPassword })
     };
 
-    const response = await fetch(`${serverBaseUrl}/users/change-password`, options);
+    const response = await fetch(`${serverBaseUrl}/users/${userId}/password`, options);
     const changePasswordResponse: Model.ChangePasswordResponse = await response.json();
 
     if (changePasswordResponse.success) {

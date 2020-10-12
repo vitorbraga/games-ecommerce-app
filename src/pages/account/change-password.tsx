@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Yup from 'yup';
 import classNames from 'classnames';
+import { connect } from 'react-redux';
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
 import { BaseStructure } from '../../components/account/base-structure';
 import { SideMenuItemEnum } from '../../components/account/side-menu';
@@ -13,11 +14,15 @@ import { checkPasswordComplexity } from '../../utils/validators';
 import * as UserApi from '../../modules/user/api';
 import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
 import { CustomStatusBox } from '../../components/custom-status-box/custom-status-box';
+import { UserSession } from '../../modules/user/model';
+import { AppState } from '../../store';
+import { getUserSession } from '../../modules/user/selector';
 
 import styles from './change-password.module.scss';
 
 interface Props {
     authToken: string;
+    userSession: UserSession;
 }
 
 interface State {
@@ -60,9 +65,9 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
         this.setState({ submitStatus: FetchStatusEnum.loading }, async () => {
             try {
                 const { currentPassword, newPassword } = formData;
-                const { authToken } = this.props;
+                const { authToken, userSession } = this.props;
 
-                await UserApi.changePassword(currentPassword, newPassword, authToken);
+                await UserApi.changePassword(userSession.id, currentPassword, newPassword, authToken);
 
                 this.setState({ submitStatus: FetchStatusEnum.success }, () => {
                     resetForm();
@@ -143,4 +148,8 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
     }
 };
 
-export default withAuthenticationCheck(ChangePasswordPage);
+const mapStateToProps = (state: AppState) => ({
+    userSession: getUserSession(state.user)
+});
+
+export default connect(mapStateToProps)(withAuthenticationCheck(ChangePasswordPage));

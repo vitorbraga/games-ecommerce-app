@@ -82,14 +82,14 @@ class CartPage extends React.PureComponent<Props, State> {
                         </tr>
                     }
                     {cartItems.map(({ product, quantity }, index) => {
-                        const imagePath = generatePictureURL(product.pictures[0].filename);
+                        const imagePath = generatePictureURL(product.pictures[0]?.filename);
                         const cartItemTotal = MoneyUtils.calculateCartItemTotal({ product, quantity });
 
                         return (
                             <tr key={`product-row-${index}`}>
                                 <td className={styles['td-product']}>
                                     <div className={styles['product-info']}>
-                                        <Image className={styles['product-picture']} src={imagePath} />
+                                        <Image className={styles['product-picture']} src={imagePath} alt={product.title} />
                                         <div className={styles['product-title']}>
                                             <div>{product.title}</div>
                                             <div><a className={styles.link} onClick={this.handleClickRemoveProduct(product)}>Remove</a></div>
