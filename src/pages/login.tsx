@@ -105,7 +105,7 @@ class LoginPage extends React.PureComponent<Props, State> {
 
     public render() {
         return (
-            <Layout title="Login" showNav={false} customContentClass={styles['custom-content']}>
+            <Layout title="Login" showNav showFooter>
                 <div className={styles['login-container']}>
                     <div className={styles['login-box']}>
                         <div className={styles['logo-wrapper']}>

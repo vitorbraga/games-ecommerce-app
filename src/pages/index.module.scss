@@ -11,12 +11,19 @@
     .products-container {
         display: flex;
         justify-content: center;
-        width: $container-size;
+        width: 100%;
         height: 100%;
 
         .section-title {
             margin-left: 20px;
             margin-top: 16px;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .section-title {
+                margin-left: 0;
+                text-align: center;
+            }
         }
 
         .products {

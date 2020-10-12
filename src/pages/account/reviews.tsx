@@ -8,7 +8,7 @@ import styles from './reviews.module.scss';
 
 const ReviewsPage: React.FC<{}> = () => {
     return (
-        <Layout title="My reviews" showNav customContentClass={styles['custom-layout-content']}>
+        <Layout title="My reviews" showNav>
             <BaseStructure activeMenuItem={SideMenuItemEnum.reviews}>
                 <div className={styles['reviews-container']}>
                     <h4>My reviews</h4>

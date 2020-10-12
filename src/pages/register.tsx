@@ -92,7 +92,7 @@ class RegisterPage extends React.PureComponent<{}, State> {
 
     public render() {
         return (
-            <Layout title="Register" showNav={false} customContentClass={styles['custom-content']}>
+            <Layout title="Register" showNav showFooter>
                 <div className={styles['register-container']}>
                     <div className={styles['register-box']}>
                         {this.renderStatus()}

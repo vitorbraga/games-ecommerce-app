@@ -12,7 +12,7 @@ const RegisterPage: React.FC<{}> = () => {
     };
 
     return (
-        <Layout title="Registration success" showNav showFooter customContentClass={styles['custom-content']}>
+        <Layout title="Registration success" showNav showFooter>
             <div className={styles['registration-success-container']}>
                 <Image src="/success.svg" className={styles.image} />
                 <h4 className={styles.title}>Registration success</h4>

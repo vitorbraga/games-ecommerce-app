@@ -8,6 +8,8 @@ import Badge from 'react-bootstrap/Badge';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
 import Toast from 'react-bootstrap/Toast';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import { Layout } from '../../components/layout/layout';
 import * as ProductApi from '../../modules/products/api';
 import { Product } from '../../modules/products/model';
@@ -86,49 +88,51 @@ class ProductDetails extends React.PureComponent<Props, State> {
         } else {
             return (
                 <div className={styles.product}>
-                    <div className={styles['product-view']}>
-                        <Carousel activeIndex={activeCarouselItem} onSelect={this.handleSelectCarousel}>
-                            {product.pictures.map((picture, index) => {
-                                const imagePath = generatePictureURL(picture.filename);
+                    <Row>
+                        <Col sm={8} className={styles['product-view']}>
+                            <Carousel activeIndex={activeCarouselItem} onSelect={this.handleSelectCarousel}>
+                                {product.pictures.map((picture, index) => {
+                                    const imagePath = generatePictureURL(picture.filename);
 
-                                return (
-                                    <Carousel.Item key={`carousel-item-${index}`} className="img-fluid">
-                                        <img
-                                            className={classNames('d-block', styles.image)}
-                                            src={imagePath}
-                                            alt={`Picture of ${product.title}`}
-                                        />
-                                    </Carousel.Item>
-                                );
-                            })}
-                        </Carousel>
-                    </div>
-                    <div className={styles['product-info']}>
-                        <div className={styles.title}>{product.title}</div>
-                        <div className={styles.price}>{formatPrice(product.price)}</div>
-                        <div className={styles.description}>{product.description}</div>
-                        <div className={styles['tags-wrapper']}>
-                            {product.tags.split(',').map((tag, index) => {
-                                return <Badge variant="primary" key={`tag-${index}`} className={styles.tag}>{tag}</Badge>;
-                            })}
-                        </div>
-                        <FormControl
-                            className={styles['quantity-input']}
-                            type="number"
-                            min="1"
-                            max={product.quantityInStock}
-                            value={quantity}
-                            onChange={this.handleChangeQuantity}
-                            placeholder="Quantity"
-                        />
-                        <CustomButton
-                            className={styles['add-product-button']}
-                            variant="primary"
-                            onClick={this.handleClickAddProduct}
-                        >
-                            Add to cart
-                        </CustomButton>
-                    </div>
+                                    return (
+                                        <Carousel.Item key={`carousel-item-${index}`} className="img-fluid">
+                                            <img
+                                                className={classNames('d-block', styles.image)}
+                                                src={imagePath}
+                                                alt={`Picture of ${product.title}`}
+                                            />
+                                        </Carousel.Item>
+                                    );
+                                })}
+                            </Carousel>
+                        </Col>
+                        <Col sm={4} className={styles['product-info']}>
+                            <div className={styles.title}>{product.title}</div>
+                            <div className={styles.price}>{formatPrice(product.price)}</div>
+                            <div className={styles.description}>{product.description}</div>
+                            <div className={styles['tags-wrapper']}>
+                                {product.tags.split(',').map((tag, index) => {
+                                    return <Badge variant="primary" key={`tag-${index}`} className={styles.tag}>{tag}</Badge>;
+                                })}
+                            </div>
+                            <FormControl
+                                className={styles['quantity-input']}
+                                type="number"
+                                min="1"
+                                max={product.quantityInStock}
+                                value={quantity}
+                                onChange={this.handleChangeQuantity}
+                                placeholder="Quantity"
+                            />
+                            <CustomButton
+                                className={styles['add-product-button']}
+                                variant="primary"
+                                onClick={this.handleClickAddProduct}
+                            >
+                                Add to cart
+                            </CustomButton>
+                        </Col>
+                    </Row>
                 </div>
             );
         }

@@ -10,14 +10,12 @@
 
     .product {
         display: flex;
-        width: $container-size;
 
         .product-view {
             display: flex;
             box-sizing: border-box;
             justify-content: center;
             padding: 10px; 
-            width: 850px;
             border-right: 1px solid $color-border;
 
             .image {
@@ -27,7 +25,6 @@
     
         .product-info {
             display: flex;
-            width: 350px;
             box-sizing: border-box;
             flex-direction: column;
             padding: 20px;
@@ -38,7 +35,7 @@
 
             .price {
                 margin-top: 16px;
-                font-size: 18px;
+                font-size: 22px;
             }
 
             .description {
@@ -112,5 +109,18 @@
     .view-cart-button {
         margin-top: 16px;
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .product {
+        display: flex;
+
+        .product-view {
+
+            .image {
+                width: 300px;
+            }
+        }
     }
 }

@@ -2,15 +2,16 @@
 
 .product-card {
     display: flex;
-    width: 190px;
+    width: 100%;
     height: 290px;
     cursor: pointer;
     border-color: $color-border;
     border-radius: 0px;
+    justify-content: center;
 
     .image {
         flex: 1;
-        max-width: 170px;
+        max-width: 179px;
         max-height: 217px;
         object-fit: contain;
         margin: auto;
@@ -37,12 +38,26 @@
             color: #C94B4C;
             font-weight: bold;
         }
-
-        .description {
-            height: 40px;
-            font-size: 13px;
-            flex: 1;
-        }
     }
 }
 
+@media only screen and (max-width: 600px) {
+    .product-card {
+        height: 400px;
+
+        .image {
+            max-width: 279px;
+            max-height: 320px;
+        }
+
+        .custom-card-body {
+            .title {
+                font-size: 18px;
+            }
+    
+            .subtitle {
+                font-size: 18px;
+            }
+        }
+    }
+}

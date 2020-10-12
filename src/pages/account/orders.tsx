@@ -164,7 +164,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
 
     public render() {
         return (
-            <Layout title="My orders" showNav customContentClass={styles['custom-layout-content']}>
+            <Layout title="My orders" showNav>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.orders}>
                     <div className={styles['orders-container']}>
                         <h4>My orders</h4>

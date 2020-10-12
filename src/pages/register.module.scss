@@ -1,22 +1,18 @@
 @import '../base';
 
-.custom-content {
-    height: 100%;
-    align-items: center;
-}
-
 .register-container {
+    position: absolute;
     display: flex;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    width: 380px;
-    margin-top: -40px;
     font-size: 13px;
-    border: 1px solid $color-border;
-
+    
     .register-box {
-        padding: 20px;
-        width: 350px;
+        padding: 24px;
+        width: 380px;
+        border: 1px solid $color-border;
 
         .submit-button {
             width: 100%;
@@ -26,6 +22,17 @@
             width: 100%;
             margin-top: 8px;
             text-align: center;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .register-container {
+        position: relative;
+
+        .register-box {
+            width: 280px;
+            margin-top: 40px;
         }
     }
 }

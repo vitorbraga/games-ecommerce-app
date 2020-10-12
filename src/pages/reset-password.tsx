@@ -158,7 +158,7 @@ export default class ChangePasswordWithToken extends React.PureComponent<Props, 
 
     public render() {
         return (
-            <Layout title="Password recovery" showNav showFooter customContentClass={styles['custom-content']}>
+            <Layout title="Password recovery" showNav showFooter>
                 <div className={styles['password-reset-container']}>
                     {this.renderContent()}
                 </div>

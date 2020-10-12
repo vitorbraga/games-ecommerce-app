@@ -67,7 +67,7 @@ export default class PasswordRecovery extends React.PureComponent<{}, State> {
 
     public render() {
         return (
-            <Layout title="Password recovery" showNav showFooter customContentClass={styles['custom-content']}>
+            <Layout title="Password recovery" showNav showFooter>
                 <div className={styles['password-recovery-container']}>
                     <div className={styles['password-recovery-box']}>
                         <h4>Password recovery</h4>

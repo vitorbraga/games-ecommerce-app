@@ -80,10 +80,10 @@ export default class Index extends React.PureComponent<{}, State> {
                     <div className={styles['products-container']}>
                         <div className={styles.products}>
                             {this.renderSearchStatus()}
-                            <h5 className={styles['section-title']}>Featured Games</h5>
+                            <h4 className={styles['section-title']}>Featured Games</h4>
                             <ProductList products={this.state.games} emptyStateMessage="No games found." />
                             <hr className={styles['custom-hr']} />
-                            <h5 className={styles['section-title']}>Featured Consoles</h5>
+                            <h4 className={styles['section-title']}>Featured Consoles</h4>
                             <ProductList products={this.state.consoles} emptyStateMessage="No consoles found." />
                         </div>
                     </div>
