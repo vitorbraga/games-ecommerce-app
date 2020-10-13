@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Router from 'next/router';
 import FormControl from 'react-bootstrap/FormControl';
 import Image from 'react-bootstrap/Image';
+import Table from 'react-bootstrap/Table';
 import { Layout } from '../components/layout/layout';
 import { CartItem } from '../modules/cart/model';
 import { AppState } from '../store';
@@ -64,7 +65,7 @@ class CartPage extends React.PureComponent<Props, State> {
         }
 
         return (
-            <table className={styles['products-table']}>
+            <Table responsive="md" className={styles['products-table']}>
                 <thead>
                     <tr>
                         <th className={styles['th-product']}>Product</th>
@@ -118,7 +119,7 @@ class CartPage extends React.PureComponent<Props, State> {
                         );
                     })}
                 </tbody>
-            </table>
+            </Table>
         );
     }
 

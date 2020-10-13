@@ -11,15 +11,15 @@
     @include font-standard;
 }
 
+.empty-state {
+    padding: 20px;
+    text-align: center;
+    @include font-standard;
+}
+
 @media only screen and (max-width: 600px) {
     .product-list {
         grid-template-columns: repeat(auto-fill, 300px);
         justify-content: center;
     }
-}
-
-.empty-state {
-    padding: 20px;
-    text-align: center;
-    @include font-standard;
 }

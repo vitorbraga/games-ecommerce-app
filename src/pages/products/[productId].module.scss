@@ -117,9 +117,14 @@
         display: flex;
 
         .product-view {
-
             .image {
                 width: 300px;
+            }
+        }
+
+        .product-info {
+            .quantity-input {
+                width: 100% !important;
             }
         }
     }

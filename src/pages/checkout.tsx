@@ -8,6 +8,8 @@ import Card from 'react-bootstrap/Card';
 import * as Yup from 'yup';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import Router from 'next/router';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { Layout } from '../components/layout/layout';
 import { User, UserSession } from '../modules/user/model';
 import { FetchStatus, FetchStatusEnum } from '../utils/api-helper';
@@ -340,8 +342,12 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                 <div className={styles['checkout-container']}>
                     {this.state.fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
                     {this.state.fetchError && <CustomStatusBox type="danger">{this.state.fetchError}</CustomStatusBox>}
-                    <div className={styles['content-container']}>
-                        <div className={styles['left-box']}>
+                    <Row className={styles['content-container']}>
+                        <Col sm={4} className={styles['overview-box']}>
+                            <h4>Overview</h4>
+                            {this.renderOverview()}
+                        </Col>
+                        <Col sm={8} className={styles['address-payment-box']}>
                             <div className={styles['delivery-address-box']}>
                                 <h4>Delivery address</h4>
                                 {this.renderDeliveryAddress()}
@@ -351,13 +357,8 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                                 <h4>Payment info</h4>
                                 {this.renderPaymentInfo()}
                             </div>
-                        </div>
-                        <div className={styles['right-box']}>
-                            <h4>Overview</h4>
-                            {this.renderOverview()}
-                        </div>
-
-                    </div>
+                        </Col>
+                    </Row>
                 </div>
             </Layout>
         );
