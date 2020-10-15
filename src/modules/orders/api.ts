@@ -35,7 +35,6 @@ export const getOrder = async (orderId: string): Promise<Model.Order> => {
 };
 
 export const getUserOrders = async (userId: string, authToken: string): Promise<Model.Order[]> => {
-    // TODO will replace this for using userId from authToken (or comparing both)
     const options = {
         headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').withJwt(authToken).build()
     };

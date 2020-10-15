@@ -157,7 +157,7 @@ class RegisterPage extends React.PureComponent<{}, State> {
                             }}
                         </Formik>
                         <div className={styles['login-wrapper']}>
-                            Already have an account? <Link href="/login">Sign in here</Link>
+                            Already have an account? <Link href="/login"><span className={styles.link}>Sign in here</span></Link>
                         </div>
                     </div>
                 </div>

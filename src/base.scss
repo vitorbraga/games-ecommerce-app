@@ -3,10 +3,11 @@ $container-size: 1200px;
 $color-primary: #3a3a3a;
 $color-border: #ebebeb;
 $color-primary-lighter: #747474;
+$color-green: #469200;
 
 .link {
     font-family: "Trebuchet MS";
-    color: $color-primary; // FIXME
+    color: $color-primary;
     text-decoration: underline;
     cursor: pointer;
 }

@@ -26,7 +26,7 @@
                 margin-right: 16px;
                 margin-top: 16px;
                 width: 240px;
-                height: 130px;
+                height: 150px;
                 border: 1px solid #ebebeb;
                 font-size: 13px;
                 padding: 8px;
@@ -72,5 +72,29 @@
 @media only screen and (max-width: 600px) {
     .title {
         text-align: center;
+    }
+
+    .overview-container {
+        .section-wrapper {
+            .orders-wrapper {
+                .order-item {
+                    width: 100%;
+                    margin-right: 0;
+                }
+            }
+
+            .info-wrapper {
+                .profile {
+                    font-size: 13px;
+                    margin-right: 0;
+                }
+
+            }
+
+            .custom-address-card {
+                width: 100%;
+                margin: 0;
+            }
+        }
     }
 }

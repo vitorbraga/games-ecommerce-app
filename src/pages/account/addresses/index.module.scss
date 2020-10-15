@@ -1,9 +1,5 @@
 @import '../../../base';
 
-.custom-layout-content {
-    min-height: 100%;
-}
-
 .addresses-container {
     padding: 20px;
     display: flex;
@@ -27,8 +23,24 @@
         justify-content: space-between;
         font-size: 13px;
 
+        .main-address {
+            font-weight: bold;
+            color: $color-green;
+        }
+
         .selected {
             font-weight: bold;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .addresses-container {
+        .current-addresses-wrapper {
+            .custom-address-card {
+                width: 100%;
+                margin-right: 0;
+            }
         }
     }
 }

@@ -102,6 +102,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
                             key={`address-${index}`}
                             isSelected={isMainAddress}
                             footer={footer}
+                            customClass={styles['custom-address-card']}
                         />
                     );
                 })}

@@ -32,7 +32,7 @@ export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
 
     return (
         <div className={styles['side-menu']}>
-            <ListGroup defaultActiveKey="orders" activeKey={activeKey.path}>
+            <ListGroup defaultActiveKey="orders" activeKey={activeKey.path} className={styles.list}>
                 {(Object.keys(SideMenuItemEnum) as SideMenuItemName[]).map((item) => {
                     const menuInfo = menuRouteMapper[item];
                     const isActive = activeKey.path === menuInfo.path;
@@ -41,11 +41,12 @@ export const AccountSideMenu: React.FC<Props> = ({ activeMenuItem }) => {
                         <ListGroup.Item
                             action
                             href={menuInfo.path}
+                            title={menuInfo.label}
                             className={classNames(styles['list-item'], { [styles.active]: isActive })}
                             key={`item-${item}`}
                         >
-                            <Image src={menuInfo.icon} className={styles.icon} />
-                            {menuInfo.label}
+                            <Image src={menuInfo.icon} className={styles.icon} alt={menuInfo.label} />
+                            <div className={styles.label}>{menuInfo.label}</div>
                         </ListGroup.Item>
                     );
                 })}

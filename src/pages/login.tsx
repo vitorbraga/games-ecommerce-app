@@ -131,12 +131,12 @@ class LoginPage extends React.PureComponent<Props, State> {
                                 />
                             </Form.Group>
                             <div className={styles['password-forgot-wrapper']}>
-                                <Link href="/password-recovery">Forgot password?</Link>
+                                <Link href="/password-recovery"><span className={styles.link}>Forgot password?</span></Link>
                             </div>
                             <CustomButton variant="primary" className={styles['submit-button']} onClick={this.handleSubmit}>Login</CustomButton>
                         </Form>
                         <div className={styles['register-wrapper']}>
-                            Are you new? <Link href="/register">Register here</Link>
+                            Are you new? <Link href="/register"><span className={styles.link}>Register here</span></Link>
                         </div>
                     </div>
                 </div>

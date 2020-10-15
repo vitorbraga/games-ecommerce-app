@@ -4,7 +4,6 @@ import { User } from '../user/model';
 import * as Model from './model';
 
 export const getUserAddresses = async (userId: string, authToken: string): Promise<Model.Address[]> => {
-    // TODO will replace this for using userId from authToken (or comparing both)
     const options = {
         headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').withJwt(authToken).build()
     };

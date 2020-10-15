@@ -130,21 +130,21 @@ class AccountPage extends React.PureComponent<Props, State> {
                                         <div className={styles.profile}>
                                             <div className={styles.line}>
                                                 <div>Full name</div>
-                                                <div>{userFullData.firstName} {userFullData.lastName}</div>
+                                                <div><strong>{userFullData.firstName} {userFullData.lastName}</strong></div>
                                             </div>
                                             <div className={styles.line}>
                                                 <div>Email</div>
-                                                <div>{userFullData.email}</div>
+                                                <div><strong>{userFullData.email}</strong></div>
                                             </div>
                                             <div className={styles.line}>
                                                 <div>Registered on</div>
-                                                <div>{DateUtils.formatDateFromMilliseconds(userFullData.createdAt)}</div>
+                                                <div><strong>{DateUtils.formatDateFromMilliseconds(userFullData.createdAt)}</strong></div>
                                             </div>
                                         </div>
                                     </div>
                                     <h5 style={{ marginTop: '20px' }}>Main address</h5>
                                     {userFullData.mainAddress
-                                        ? <AddressCard address={userFullData.mainAddress} isSelected={true} />
+                                        ? <AddressCard address={userFullData.mainAddress} isSelected={true} customClass={styles['custom-address-card']} />
                                         : <div className={styles['empty-text']}>You haven't registered a main address yet.</div>
                                     }
                                 </div>

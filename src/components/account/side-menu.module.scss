@@ -33,6 +33,41 @@
 
 @media only screen and (max-width: 600px) {
     .side-menu {
+        display: flex;
+        justify-content: center;
         width: 300px;
+        margin-top: 8px;
+
+        .list {
+            flex-direction: row !important;
+            
+            .list-item {
+                padding: 10px;
+                border-bottom: 1px solid $color-border;
+                border-right: 0;
+                width: fit-content;
+                height: fit-content;
+
+                .icon {
+                    margin-right: 0;
+                }
+
+                .label {
+                    display: none;
+                }
+
+                &.active {
+                    margin: 0;
+                }
+            }
+
+            .list-item:first-of-type {
+                border-top: 1px solid $color-border;
+            }
+
+            .list-item:last-of-type {
+                border-right: 1px solid $color-border;
+            }
+        }
     }
 }

@@ -10,12 +10,14 @@ interface Props {
     isSelected?: boolean;
     footer?: React.ReactNode;
     fullWidth?: boolean;
+    customClass?: string;
 }
 
-export const AddressCard: React.FC<Props> = ({ address, isSelected, footer, fullWidth }) => {
+export const AddressCard: React.FC<Props> = ({ address, isSelected, footer, fullWidth, customClass }) => {
     return (
         <Card
             className={classNames(styles['address-card'],
+                customClass,
                 { [styles.selected]: isSelected },
                 { [styles['full-width']]: fullWidth }
             )}
