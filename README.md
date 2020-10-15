@@ -59,12 +59,20 @@ OBS: As this is hosted in a Free Plan in Heroku, the machine where this project 
   - [x] Make order
   - [x] My orders page
 - [x] About page
+- [x] Layout Responsiveness
+
+
+
+## I'm currently working on....
+
+- [ ] 
+
+*Unit tests for the backend!!!*
 
 
 
 ## Next features in the backlog
 
-- [ ] Layout Responsiveness
 - [ ] Product Reviews
 - [ ] Product pagination
 - [ ] My Orders pagination
