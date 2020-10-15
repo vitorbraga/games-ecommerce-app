@@ -131,7 +131,7 @@ class AddressesPage extends React.PureComponent<Props, State> {
                 <BaseStructure activeMenuItem={SideMenuItemEnum.addresses}>
                     <div className={styles['addresses-container']}>
                         <div>
-                            <h4>My addresses</h4>
+                            <h3>My addresses</h3>
                             {this.renderFetchStatus()}
                             {this.renderUserAddresses()}
                         </div>

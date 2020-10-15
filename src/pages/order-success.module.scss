@@ -3,7 +3,6 @@
 .order-success-container {
     display: flex;
     flex-direction: column;
-    width: 1000px;
     height: 100%;
     @include font-standard;
     
@@ -33,7 +32,7 @@
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap;
-        width: 600px;
+        max-width: 600px;
         margin: auto;
 
         .info-card {
@@ -59,5 +58,11 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .order-success-container {
+        padding-bottom: 20px;
     }
 }

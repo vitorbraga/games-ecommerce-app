@@ -97,7 +97,7 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
             <Layout title="Change password" showNav>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.changePassword}>
                     <div className={styles['form-wrapper']}>
-                        <h3>Change your password</h3>
+                        <h3 className={styles.title}>Change your password</h3>
                         {this.renderSubmitStatus()}
                         <Formik
                             initialValues={this.formInitialValues}

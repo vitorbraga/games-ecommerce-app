@@ -6,13 +6,18 @@
     width: 100%;
     min-height: 100%;
 
-    .base-container {
-        display: flex;
-        width: $container-size;
+    .custom-row {
+        width: 100%;
+    }
 
-        .right-wrapper {
-            flex: 1;
-        }
+    .left-wrapper, .right-wrapper {
+        padding: 0;
     }
 }
 
+@media only screen and (max-width: 600px) {
+    .left-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+}

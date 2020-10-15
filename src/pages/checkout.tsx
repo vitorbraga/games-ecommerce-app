@@ -229,19 +229,28 @@ class CheckoutPage extends React.PureComponent<Props, State> {
     }
 
     private handleSubmit = (paymentInfo: FormData) => {
-        const createOrderBody = this.buildCreateOrderBody(paymentInfo);
+        try {
+            const createOrderBody = this.buildCreateOrderBody(paymentInfo);
 
-        this.setState({ orderStatus: FetchStatusEnum.loading }, async () => {
-            try {
-                const { authToken, onEmptyCart } = this.props;
-                const order = await OrderApi.createOrder(createOrderBody, authToken);
-                onEmptyCart();
-                Router.push(`/order-success?order=${order.id}`);
-            } catch (error) {
-                this.setState({ orderStatus: FetchStatusEnum.failure, fetchError: error.message });
-            }
-        });
+            this.setState({ orderStatus: FetchStatusEnum.loading }, async () => {
+                try {
+                    const { authToken, onEmptyCart } = this.props;
+                    const order = await OrderApi.createOrder(createOrderBody, authToken);
+                    onEmptyCart();
+                    Router.push(`/order-success?order=${order.id}`);
+                } catch (error) {
+                    console.log(error);
+                    this.setState({ orderStatus: FetchStatusEnum.failure, fetchError: error.message });
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
     };
+
+    private isCompleteOrderButtonDisabled(): boolean {
+        return this.state.selectedAddress === null;
+    }
 
     private renderPaymentInfo() {
         return (
@@ -300,6 +309,7 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                                 <CustomButton
                                     variant="primary"
                                     type="submit"
+                                    disabled={this.isCompleteOrderButtonDisabled()}
                                 >
                                     Complete order
                                 </CustomButton>

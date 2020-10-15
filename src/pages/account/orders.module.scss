@@ -1,9 +1,5 @@
 @import '../../base';
 
-.custom-layout-content {
-    min-height: 100%;
-}
-
 .orders-container {
     display: flex;
     flex-direction: column;
@@ -89,5 +85,15 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .title {
+        text-align: center;
+    }
+
+    .empty-state {
+        text-align: center;
     }
 }

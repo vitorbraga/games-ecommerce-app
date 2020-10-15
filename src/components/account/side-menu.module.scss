@@ -1,8 +1,6 @@
 @import '../../base';
 
 .side-menu {
-    width: 270px;
-
     .list-item {
         display: flex;
         align-items: center;
@@ -30,5 +28,11 @@
 
     .list-item:last-of-type {
         border-bottom: 1px solid $color-border;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .side-menu {
+        width: 300px;
     }
 }

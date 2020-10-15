@@ -11,7 +11,7 @@ const ReviewsPage: React.FC<{}> = () => {
         <Layout title="My reviews" showNav>
             <BaseStructure activeMenuItem={SideMenuItemEnum.reviews}>
                 <div className={styles['reviews-container']}>
-                    <h4>My reviews</h4>
+                    <h3 className={styles.title}>My reviews</h3>
                     <div>Not implemented yet :(</div>
                 </div>
             </BaseStructure>

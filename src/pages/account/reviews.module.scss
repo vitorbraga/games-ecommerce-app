@@ -1,10 +1,12 @@
 @import '../../base';
 
-.custom-layout-content {
-    min-height: 100%;
-}
-
 .reviews-container {
     padding: 20px;
     @include font-standard;
+}
+
+@media only screen and (max-width: 600px) {
+    .reviews-container {
+        text-align: center;
+    }
 }

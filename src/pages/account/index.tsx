@@ -111,7 +111,7 @@ class AccountPage extends React.PureComponent<Props, State> {
             <Layout title="Account overview" showNav>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.account}>
                     <div className={styles['overview-container']}>
-                        <h3>Account overview</h3>
+                        <h3 className={styles.title}>Account overview</h3>
                         {fetchStatus === FetchStatusEnum.loading && <CustomSpinner />}
                         {fetchError && <CustomStatusBox type="danger">{fetchError}</CustomStatusBox>}
                         {userFullData

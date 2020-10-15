@@ -82,7 +82,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
         const { orders } = this.state;
 
         if (orders.length === 0) {
-            return <div>You didn't make any orders yet.</div>;
+            return <div className={styles['empty-state']}>You didn't make any orders yet.</div>;
         }
 
         return (
@@ -167,7 +167,7 @@ class OrdersPage extends React.PureComponent<Props, State> {
             <Layout title="My orders" showNav>
                 <BaseStructure activeMenuItem={SideMenuItemEnum.orders}>
                     <div className={styles['orders-container']}>
-                        <h4>My orders</h4>
+                        <h3 className={styles.title}>My orders</h3>
                         {this.renderFetchStatus()}
                         {this.renderOrders()}
                     </div>
