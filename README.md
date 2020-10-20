@@ -65,9 +65,7 @@ OBS: As this is hosted in a Free Plan in Heroku, the machine where this project 
 
 ## I'm currently working on....
 
-- [ ] 
-
-*Unit tests for the backend!!!*
+- [ ] *Unit tests for the backend!!!*
 
 
 
