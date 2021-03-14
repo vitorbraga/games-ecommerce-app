@@ -76,7 +76,10 @@ export const getUserFullData = async (userId: string, authToken: string): Promis
 
 export const changePassword = async (userId: string, currentPassword: string, newPassword: string, authToken: string): Promise<Model.User> => {
     const options = {
-        headers: headersBuilder().withJwt(authToken).build(),
+        headers: headersBuilder()
+            .with('Content-Type', 'application/json')
+            .withJwt(authToken)
+            .build(),
         method: 'PATCH',
         body: JSON.stringify({ currentPassword, newPassword })
     };
