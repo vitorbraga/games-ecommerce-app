@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Router from 'next/router';
 import { Image } from 'react-bootstrap';
 import { Review } from '../../modules/reviews/model';
 import { generatePictureURL } from '../../utils/api-helper';
