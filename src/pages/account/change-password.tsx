@@ -72,8 +72,9 @@ class ChangePasswordPage extends React.PureComponent<Props, State> {
                 this.setState({ submitStatus: FetchStatusEnum.success }, () => {
                     resetForm();
                 });
-            } catch (error) {
-                this.setState({ submitStatus: FetchStatusEnum.failure, submitError: error.message });
+            } catch (error: unknown) {
+                const { message } = error as Error;
+                this.setState({ submitStatus: FetchStatusEnum.failure, submitError: message });
             }
         });
     };

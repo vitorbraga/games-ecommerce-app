@@ -1,4 +1,5 @@
 import { Category } from '../category/model';
+import { Review } from '../reviews/model';
 
 export interface Product {
     id: string;
@@ -15,11 +16,12 @@ export interface Product {
     pictures: Picture[];
 }
 
-export interface Review {
+export interface BasicProduct {
     id: string;
     title: string;
-    description: string;
+    price: number;
     rating: number;
+    picture: Picture;
 }
 
 export interface Picture {
@@ -49,6 +51,20 @@ export type FeaturedProductsResponse = {
         consoles: Product[];
         games: Product[];
     };
+} | {
+    success: false;
+    error: string;
+};
+
+export interface CreateReviewBody {
+    rating: number;
+    title: string;
+    description: string;
+}
+
+export type CreateReviewResponse = {
+    success: true;
+    product: Product;
 } | {
     success: false;
     error: string;

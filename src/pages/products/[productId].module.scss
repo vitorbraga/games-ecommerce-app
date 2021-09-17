@@ -33,6 +33,12 @@
                 font-size: 24px;
             }
 
+            .rating {
+                font-size: 14px;
+                font-style: italic;
+                color: $color-primary-lighter;
+            }
+
             .price {
                 margin-top: 16px;
                 font-size: 22px;
@@ -64,6 +70,28 @@
             }
         }
     }
+
+    .reviews-container {
+        padding-top: 16px;
+        border-top: 1px solid $color-border;
+        font-size: 14px;
+
+        .reviews-box {
+            display: flex;
+            flex-direction: column;
+
+            .top-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+.description-textarea {
+    height: 150px !important;
 }
 
 .added-to-cart-toast {

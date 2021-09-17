@@ -45,8 +45,9 @@ class OrdersPage extends React.PureComponent<Props, State> {
 
                 const orders = await OrdersApi.getUserOrders(userId, authToken);
                 this.setState({ fetchStatus: FetchStatusEnum.success, orders });
-            } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+            } catch (error: unknown) {
+                const { message } = error as Error;
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
             }
         });
     }

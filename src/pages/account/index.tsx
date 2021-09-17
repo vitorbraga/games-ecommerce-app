@@ -46,8 +46,9 @@ class AccountPage extends React.PureComponent<Props, State> {
 
                 const userFullData = await UserApi.getUserFullData(userId, authToken);
                 this.setState({ fetchStatus: FetchStatusEnum.success, userFullData });
-            } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+            } catch (error: unknown) {
+                const { message } = error as Error;
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
             }
         });
     }

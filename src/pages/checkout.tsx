@@ -105,7 +105,8 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                     const userFullData = await UserApi.getUserFullData(userId, authToken);
                     this.setState({ fetchStatus: FetchStatusEnum.success, userFullData, selectedAddress: userFullData.mainAddress || null });
                 } catch (error) {
-                    this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+                    const { message } = error as Error;
+                    this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
                 }
             });
         }
@@ -157,7 +158,8 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                 const allAddresses = await AddressApi.getUserAddresses(userId, authToken);
                 this.setState({ fetchStatus: FetchStatusEnum.success, addressModalOpen: true, allAddresses });
             } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+                const { message } = error as Error;
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
             }
         });
     };
@@ -239,8 +241,8 @@ class CheckoutPage extends React.PureComponent<Props, State> {
                     onEmptyCart();
                     Router.push(`/order-success?order=${order.id}`);
                 } catch (error) {
-                    console.log(error);
-                    this.setState({ orderStatus: FetchStatusEnum.failure, fetchError: error.message });
+                    const { message } = error as Error;
+                    this.setState({ orderStatus: FetchStatusEnum.failure, fetchError: message });
                 }
             });
         } catch (err) {

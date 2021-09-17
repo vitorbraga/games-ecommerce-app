@@ -59,8 +59,9 @@ class AddressesPage extends React.PureComponent<Props, State> {
             try {
                 await AddressApi.removeAddress(this.props.userSession.id, addressId, this.props.authToken);
                 Router.reload();
-            } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+            } catch (error: unknown) {
+                const { message } = error as Error;
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
             }
         });
     };
@@ -70,8 +71,9 @@ class AddressesPage extends React.PureComponent<Props, State> {
             try {
                 await AddressApi.setMainAddress(this.props.userSession.id, addressId, this.props.authToken);
                 Router.reload();
-            } catch (error) {
-                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: error.message });
+            } catch (error: unknown) {
+                const { message } = error as Error;
+                this.setState({ fetchStatus: FetchStatusEnum.failure, fetchError: message });
             }
         });
     };

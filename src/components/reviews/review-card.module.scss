@@ -1,0 +1,35 @@
+@import '../../base';
+
+.review-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px;
+    border: 1px solid  $color-border;
+    margin-top: 10px;
+
+    .data-box {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .picture-thumb {
+        width: 60px;
+    }
+
+    .rating {
+
+    }
+
+    .title {
+
+    }
+
+    .description {
+
+    }
+
+    .date {
+
+    }
+}

@@ -1,4 +1,4 @@
-import { serverBaseUrl } from '../../utils/api-helper';
+import { headersBuilder, serverBaseUrl } from '../../utils/api-helper';
 import { getErrorMessage } from '../../utils/messages-mapper';
 import * as Model from './model';
 
@@ -32,5 +32,26 @@ export const getProduct = async (productId: string): Promise<Model.Product> => {
         return productResponse.product;
     } else {
         throw new Error(getErrorMessage(productResponse.error));
+    }
+};
+
+export const createReviewForProduct = async (productId: string, createReviewBody: Model.CreateReviewBody, authToken: string): Promise<Model.Product> => {
+    const options = {
+        headers: headersBuilder()
+            .with('Content-Type', 'application/json')
+            .with('Accept', 'application/json')
+            .withJwt(authToken)
+            .build(),
+        method: 'POST',
+        body: JSON.stringify(createReviewBody)
+    };
+
+    const response = await fetch(`${serverBaseUrl}/products/${productId}/reviews`, options);
+    const createOrderResponse: Model.CreateReviewResponse = await response.json();
+
+    if (createOrderResponse.success) {
+        return createOrderResponse.product;
+    } else {
+        throw new Error(getErrorMessage(createOrderResponse.error));
     }
 };
