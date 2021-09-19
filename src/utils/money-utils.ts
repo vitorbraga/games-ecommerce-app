@@ -24,3 +24,7 @@ export function calculateAllItemsTotal<T extends OrderItemBase>(orderItems: T[])
         return Dinero({ amount: cur.product.price }).multiply(cur.quantity).add(Dinero({ amount: prev })).getAmount();
     }, 0);
 }
+
+export function roundRating(rating: number) {
+    return Math.round(rating * 100) / 100;
+}

@@ -17,3 +17,10 @@ export type GetUserReviewsResponse = {
     success: false;
     error: string;
 };
+
+export type DeleteReviewResponse = {
+    success: true;
+} | {
+    success: false;
+    error: string;
+};

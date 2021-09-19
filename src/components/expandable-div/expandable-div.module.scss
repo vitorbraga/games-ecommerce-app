@@ -1,0 +1,10 @@
+@import '../../base';
+
+.expandable-div {
+    display: flex;
+    flex-direction: column;
+
+    .more-link {
+        font-size: 12px;
+    }
+}

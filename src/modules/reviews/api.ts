@@ -16,3 +16,17 @@ export const getUserReviews = async (userId: string, authToken: string): Promise
         throw new Error(getErrorMessage(userReviewsResponse.error));
     }
 };
+
+export const deleteReview = async (reviewId: string, authToken: string): Promise<void> => {
+    const options = {
+        headers: headersBuilder().with('Content-Type', 'application/json').with('Accept', 'application/json').withJwt(authToken).build(),
+        method: 'DELETE'
+    };
+
+    const response: Response = await fetch(`${serverBaseUrl}/reviews/${reviewId}`, options);
+    const deleteReviewResponse: Model.DeleteReviewResponse = await response.json();
+
+    if (!deleteReviewResponse.success) {
+        throw new Error(getErrorMessage(deleteReviewResponse.error));
+    }
+};

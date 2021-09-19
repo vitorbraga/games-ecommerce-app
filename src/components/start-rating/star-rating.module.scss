@@ -1,0 +1,11 @@
+@import '../../base';
+
+.star-rating {
+    display: flex;
+
+    .icon {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
+    }
+}

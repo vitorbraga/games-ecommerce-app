@@ -15,7 +15,7 @@ import { Layout } from '../../components/layout/layout';
 import * as ProductApi from '../../modules/products/api';
 import * as Model from '../../modules/products/model';
 import { FetchStatus, FetchStatusEnum, generatePictureURL } from '../../utils/api-helper';
-import { formatPrice } from '../../utils/money-utils';
+import { formatPrice, roundRating } from '../../utils/money-utils';
 import { CustomButton } from '../../components/custom-buttom/custom-button';
 import { AppState } from '../../store';
 import { getTotalItems } from '../../modules/cart/selector';
@@ -132,7 +132,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
                             </Col>
                             <Col sm={4} className={styles['product-info']}>
                                 <div className={styles.title}>{product.title}</div>
-                                <div className={styles.rating}>{product.rating}/5 ({product.reviews.length} reviews)</div>
+                                <div className={styles.rating}>{roundRating(product.rating)}/5 ({product.reviews.length} reviews)</div>
                                 <div className={styles.price}>{formatPrice(product.price)}</div>
                                 <div className={styles.description}>{product.description}</div>
                                 <div className={styles['tags-wrapper']}>

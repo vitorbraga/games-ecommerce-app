@@ -5,6 +5,16 @@
     @include font-standard;
 }
 
+.buttons-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button:last-child {
+        margin-left: 8px;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .reviews-container {
         text-align: center;

@@ -2,18 +2,57 @@
 
 .review-card {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
     padding: 8px;
     border: 1px solid  $color-border;
     margin-top: 10px;
 
-    .data-box {
+    .top-line {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        .rating {
+            display: flex;
+            align-items: center;
+
+            .remove-link {
+                font-size: 12px;
+                margin-left: 8px;
+            }
+        }
+
+        .date {
+            font-size: 12px;
+            color: $color-primary-lighter;
+        }
     }
 
-    .picture-thumb {
-        width: 60px;
+    .bottom-line {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 10px;
+
+        .data-box {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+    
+            .title {
+                font-weight: bold;
+            }
+    
+            .description {
+                white-space: pre-line;
+            }
+        }
+    
+        .picture-thumb {
+            width: 60px;
+        }
     }
 }

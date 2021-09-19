@@ -12,7 +12,7 @@ interface Props {
 
 export const CustomModal: React.FC<Props> = ({ title, show, onClose, children, footer }) => {
     return (
-        <Modal show={show} onHide={onClose} className={styles['custom-modal']}>
+        <Modal show={show} onHide={onClose} className={styles['custom-modal']} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
