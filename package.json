@@ -8,6 +8,7 @@
     "lint": "eslint \"src/**/*.tsx\"",
     "start:dev": "npm run lint && next dev",
     "build": "next build",
+    "build-static": "next build && next export",
     "start": "next start -p $PORT",
     "heroku-postbuild": "npm run build"
   },

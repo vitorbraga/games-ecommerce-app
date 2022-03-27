@@ -1,0 +1,95 @@
+image: node:12
+
+# .deploy_s3: &deploy_s3
+#   image: cnc-webcomponents-docker.artifactory.prd.ss.aws.insim.biz/runner-image:latest
+#   script:
+#     - aws s3 sync ./dist/zakelijk-navbar s3://${APPLICATION_NAME}.${CI_ENVIRONMENT_SLUG}.${AWS_HOSTED_ZONE_SUFFIX}/zakelijk-navbar --exclude 'psdl/*' --delete
+#     - aws s3 cp ./dist/instructions.json s3://${APPLICATION_NAME}.${CI_ENVIRONMENT_SLUG}.${AWS_HOSTED_ZONE_SUFFIX}/zakelijk-navbar/instructions.json
+#   artifacts:
+#     paths:
+#       - "dist"
+#     expire_in: 30 days
+
+# variables:
+#   APPLICATION_NAME: "statics-mijn-nn-zakelijk-portal"
+#   ENVIRONMENT: ${CI_ENVIRONMENT_SLUG}
+#   AWS_HOSTED_ZONE_SUFFIX: "cnc.aws.insim.biz"
+
+stages:
+  - install
+  - lint
+  - build
+  # - deploy-tst
+
+cache: &global_cache
+  key: $CI_COMMIT_REF_SLUG
+  untracked: true
+  paths:
+    - .npm/
+
+install-dependencies:
+  stage: install
+  cache:
+    <<: *global_cache
+    policy: push
+  script:
+    - npm ci --cache .npm --prefer-offline
+  only:
+    changes:
+      - package-lock.json
+
+# terraform script to create bucket and set it as static website
+# npm run build-static
+# upload files to s3
+
+# we will need to set environment variables for test and prod
+# NEXT_PUBLIC_SERVER_BASE_URL https://games-ecommerce-server.herokuapp.com
+# NEXT_PUBLIC_APP_BASE_URL
+# NEXT_PUBLIC_S3_BUCKET_PRODUCT_PICTURES games-ecommerce-prod
+
+
+lint:
+  stage: lint
+  script:
+    - if [ ! -d ".npm" ]; then npm ci --cache .npm --prefer-offline; fi
+    - npm run lint
+
+build:
+  stage: build
+  script:
+    - if [ ! -d ".npm" ]; then npm ci --cache .npm --prefer-offline; fi
+    - npm run build-static
+  artifacts:
+    expire_in: 7 day
+    paths:
+      - "out"
+
+# deploy-tst:
+#   stage: deploy-tst
+#   <<: *deploy_s3
+#   environment:
+#     name: tst
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "master"'
+#       when: on_success
+#     - if: $CI_COMMIT_BRANCH
+#       when: manual
+
+# deploy-tst-manually:
+#   stage: deploy-tst
+#   <<: *deploy_s3
+#   environment:
+#     name: tst
+#   when: manual
+#   except:
+#     - master
+#     - tags
+
+# deploy-prd:
+#   stage: deploy-prd
+#   <<: *deploy_s3
+#   environment:
+#     name: prd
+#   only:
+#     - tags
+#   when: manual
