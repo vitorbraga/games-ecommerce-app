@@ -50,6 +50,21 @@ class LoginPage extends React.PureComponent<Props, State> {
         submitStatus: FetchStatusEnum.initial
     };
 
+    private handleRouteChange = (url: string) => {
+        // Go back twice if pressing back button and the latest page was /account
+        if (url === '/account' && this.props.query.redirectTo === '/account') {
+            window.history.go(-2);
+        }
+    };
+
+    public componentDidMount() {
+        Router.events.on('routeChangeStart', this.handleRouteChange);
+    }
+
+    public componentWillUnmount() {
+        Router.events.off('routeChangeStart', this.handleRouteChange);
+    }
+
     private isValidBeforeLogin(): boolean {
         const { email, password } = this.state;
         if (!(email && password)) {
@@ -122,7 +137,7 @@ class LoginPage extends React.PureComponent<Props, State> {
                                     onChange={this.handleInputChange('email')}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicEmail" style={{ marginBottom: '5px' }}>
+                            <Form.Group controlId="formBasicPassword" style={{ marginBottom: '5px' }}>
                                 <Form.Control
                                     type="password"
                                     placeholder="Password"

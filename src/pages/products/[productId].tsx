@@ -159,7 +159,7 @@ class ProductDetails extends React.PureComponent<Props, State> {
                             </Col>
                         </Row>
                         <Row className={styles['reviews-container']}>
-                            <Col sm={6}>
+                            <Col sm={8}>
                                 <div className={styles['reviews-box']}>
                                     <div className={styles['top-bar']}>
                                         <h5>Reviews</h5>
